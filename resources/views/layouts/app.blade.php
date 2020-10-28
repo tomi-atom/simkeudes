@@ -350,18 +350,18 @@ desired effect
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('rancangan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>
+           <!-- <li><a href="{{ route('rancangan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>-->
             <li><a href="{{ route('catatanharian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Catatan Harian</a></li>
             <li><a href="{{ route('laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
             <li><a href="{{ route('luarankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Kemajuan</a></li>
 
             <li><a href="{{ route('laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
-            <li><a href="{{ route('penggunaananggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
+           <!-- <li><a href="{{ route('penggunaananggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
             <li><a href="{{ route('tanggungjawab.index') }}"><i class="fa fa-circle-thin text-blue"></i>Tanggungjawab Belanja</a></li>
             <li><a href="{{ route('berkasseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>Berkas Seminar Hasil</a></li>
             <li><a href="{{ route('hasilpenilaian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian</a></li>
             <li><a href="{{ route('skseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>SK Seminar Hasil</a></li>
-            <li><a href="{{ route('pengembaliandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>
+            <li><a href="{{ route('pengembaliandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>-->
           </ul>
         </li>
         <li><a href="#"><i class="fa fa-database"></i>Riwayat Usulan</a></li>

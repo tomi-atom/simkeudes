@@ -64,11 +64,7 @@
                                                         <br>
                                                         &nbsp;&nbsp;<span class="text text-dark">Bidang Fokus : </span> {{$detail->fokus->fokus}}&nbsp; &nbsp;- <small class="label label-primary">Ketua Pengusul</small>
                                                         <br>
-                                                        @if ($detail->status == null)
-                                                            &nbsp;&nbsp;<span class="text bg-red text-dark">&nbsp; Belum Submit&nbsp;</span>
-                                                        @else
-                                                            &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; {{$status[$detail->status]->jenis}} &nbsp;</span>
-                                                        @endif
+                                                      
 
                                                         @if ($minat)
                                                             <span class="text bg-red text-dark">&nbsp; {{$minat}} Anggota Belum Menyetujui &nbsp;</span>
@@ -85,13 +81,8 @@
                                                     @else
 
                                                         @if($waktu >= $periodeterbaru->tm_laporanakhir && $waktu <= $periodeterbaru->ta_laporanakhir )
-                                                            @if($detail->aktif == 1 && $detail->upload == null )
-                                                                <a href="{{ route('laporanakhir.edit',base64_encode(mt_rand(10,99).$detail->prosalid) )}}"  class="btn btn-app btn-sm" ><i class="ion ion-ios-cloud-upload-outline text-blue"></i> Upload </a>
-                                                            @elseif ($detail->status > 0 && $detail->upload != null)
-                                                                <a  href="{{ route('laporanakhir.show',base64_encode(mt_rand(10,99).$detail->prosalid) )}}" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
-                                                                <a href="{{ route('laporanakhir.edit',base64_encode(mt_rand(10,99).$detail->prosalid) )}}" class="btn btn-app btn-xs" id="edit"><i class="ion ion-edit text-red"></i> Validasi </a>
-                                                                <a onclick="hapusProposal({{mt_rand(10,99).($detail->prosalid*3)}} )" class="btn btn-app btn-sm" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>
-                                                            @endif
+                                                        <a href="{{ route('validasilaporanakhir.show',base64_encode(mt_rand(10,99).$detail->prosalid*2+29) )}}"  class="btn btn-app btn-sm" ><i class="ion ion-edit  text-blue"></i> Lengkapi Laporan Akhir</a>
+
 
                                                         @elseif($waktu > $periodeterbaru->ta_laporanakhir)
                                                             @if ($detail->status > 0 && $detail->upload != null)
@@ -110,8 +101,7 @@
                                             </div>
                                         </li>
                                     @endforeach
-                                    <br>
-                                    <li></li>
+                                   
                                 </ul>
                             </div>
                         @endif

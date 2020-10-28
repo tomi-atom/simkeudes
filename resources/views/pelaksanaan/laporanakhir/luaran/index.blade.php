@@ -18,7 +18,7 @@
             <div class="panel-body">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>Luaran Kemajuan</strong> <small class="label label-success">{{$total}}</small>
+                        <strong>Catatan Harian</strong> <small class="label label-success">{{$total}}</small>
                     </div>
 
                     <div class="panel-body">

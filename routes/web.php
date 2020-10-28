@@ -143,6 +143,26 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
 
     
     Route::RESOURCE('laporanakhir', 'Pelaksanaan\LaporanAkhirController');
+    Route::RESOURCE('validasilaporanakhir', 'Pelaksanaan\LaporanAkhir\ValidasiController');
+ 
+    Route::RESOURCE('luaranakhir', 'Pelaksanaan\LaporanAkhir\LuaranAkhirController');
+   Route::GET('luaranakhir/showlainnya/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@showlainnya')->name('luaranakhir.showlainnya');
+   Route::POST('luaranakhir/datalainnya','Pelaksanaan\LaporanAkhir\LuaranAkhirController@datalainnya')->name('luaranakhir.datalainnya');
+
+   Route::GET('luaranakhir/showwajib/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@showwajib')->name('luaranakhir.showwajib');
+   Route::POST('luaranakhir/datawajib','Pelaksanaan\LaporanAkhir\LuaranAkhirController@datawajib')->name('luaranakhir.datawajib');
+
+   Route::GET('luaranakhir/showtambahan/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@showtambahan')->name('luaranakhir.showtambahan');
+   Route::POST('luaranakhir/datatambahana','Pelaksanaan\LaporanAkhir\LuaranAkhirController@datatambahan')->name('luaranakhir.datatambahan');
+    
+
+   Route::POST('luaranakhir/wajib','Pelaksanaan\LaporanAkhir\LuaranAkhirController@luaranwajib')->name('luaranakhir.wajib');
+   Route::POST('luaranakhir/tambah','Pelaksanaan\LaporanAkhir\LuaranAkhirController@luarantambah')->name('luaranakhir.tambah');
+   Route::POST('luaranakhir/target','Pelaksanaan\LaporanAkhir\LuaranAkhirController@loadtarget')->name('luaranakhir.target');
+   Route::GET('luaranakhir/baca/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@baca')->name('luaranakhir.baca');
+
+
+
     Route::RESOURCE('penggunaananggaran', 'Pelaksanaan\PenggunaanAnggaranController');
     Route::RESOURCE('tanggungjawab', 'Pelaksanaan\TanggungJawabController');
     Route::RESOURCE('berkasseminar', 'Pelaksanaan\BerkasSeminarController');
