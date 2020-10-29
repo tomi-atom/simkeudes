@@ -23,17 +23,27 @@
                     <div class="panel-heading">
                         <strong>Laporan Akhir</strong> <small class="label label-success">{{$total}}</small>
                     </div>
-                    @if($errors->first('error'))
+                    @if($errors->first('success'))
                         <script type="text/javascript">
 
                             "use strict";
                             swal(
-                                'Terjadi Kesalahan!',
-                                'Data Tidak di Temukan',
-                                'error'
+                                'Selamat!',
+                                'Data Berhasil diupload',
+                                'success'
                             );
                         </script>
-                    @else
+                    @elseif($errors->first('error'))
+                    <script type="text/javascript">
+
+                        "use strict";
+                        swal(
+                            'Terjadi Kesalahan!',
+                            'Data Tidak di Temukan',
+                            'error'
+                        );
+                    </script>
+                @else
                     @endif
                     <div class="panel-body">
                         @if($total == 0)
@@ -41,7 +51,7 @@
                         @else
                             <div class="box-header">
                                 <i class="ion ion-paper-airplane"></i>
-                                <h4 class="box-title">Periode: 2019 - Batch 1:</h4>
+                                <h4 class="box-title">Periode: 2020 - Batch 1:</h4>
                             </div>
 
                             <div class="box-body">

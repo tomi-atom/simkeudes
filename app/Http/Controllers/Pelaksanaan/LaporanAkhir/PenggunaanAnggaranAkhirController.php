@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Pelaksanaan;
+namespace App\Http\Controllers\Pelaksanaan\LaporanAkhir;
 
-use App\LaporanAkhir;
+use App\AnggaranAkhir;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +20,7 @@ use Auth;
 use Redirect;
 
 
-class LaporanAkhirController extends Controller
+class PenggunaanAnggaranAkhirController extends Controller
 {
     public function __construct()
     {
@@ -48,15 +48,15 @@ class LaporanAkhirController extends Controller
      */
     public function index()
     {
-        $person = LaporanAkhirController::countPersonil();
+        $person = PenggunaanAnggaranAkhirController::countPersonil();
 
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
         $periode  = Periode::where('aktif', '1')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
         $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->first();
-        $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','tb_rancangan_penelitian.status','tb_penelitian.prosalid','jenis','upload')
+        $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','tb_penggunaan_anggaran.status','tb_penelitian.prosalid','jenis','upload')
             ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->leftJoin('tb_rancangan_penelitian', 'tb_rancangan_penelitian.prosalid', 'tb_proposal.id')
-           // ->where('tb_proposal.periodeusul',$periode[0]->id)
+            ->leftJoin('tb_penggunaan_anggaran', 'tb_penggunaan_anggaran.prosalid', 'tb_proposal.id')
+          //  ->where('tb_proposal.periodeusul',$periode[0]->id)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
             ->where('tb_penelitian.status',  4)
             // ->where('tb_proposal.jenis', 1)
@@ -65,7 +65,7 @@ class LaporanAkhirController extends Controller
         $peserta = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','thnkerja','status','prosalid','peran','setuju')
             ->leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
             ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-           // ->where('tb_proposal.periodeusul',$periode[0]->id)
+          //  ->where('tb_proposal.periodeusul',$periode[0]->id)
             ->where('tb_keanggota.anggotaid', $peneliti->id)
             ->where('tb_penelitian.status',  4)
             ->where('tb_keanggota.setuju', '<', 2)
@@ -76,7 +76,7 @@ class LaporanAkhirController extends Controller
 
         $minat =  Proposal::leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
             ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-           // ->where('tb_proposal.periodeusul',$periode[0]->id)
+         //   ->where('tb_proposal.periodeusul',$periode[0]->id)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
             ->where('tb_penelitian.status', '>', 0)
             ->where('tb_keanggota.setuju', 0)
@@ -97,8 +97,7 @@ class LaporanAkhirController extends Controller
         $waktu = Carbon::now('Asia/Jakarta');
 
 
-
-        return view('pelaksanaan.laporanakhir.index', compact('person', 'peneliti','waktu', 'periode','periodeterbaru', 'proposal', 'total','ketua','peserta','member', 'status', 'minat','upload'));
+        return view('pelaksanaan.laporanakhir.penggunaananggaran.index', compact('person', 'peneliti','waktu', 'periode','periodeterbaru', 'proposal', 'total','ketua','peserta','member', 'status', 'minat','upload'));
     }
 
     /**
@@ -111,12 +110,12 @@ class LaporanAkhirController extends Controller
 
         $periode = $request['idtahun'];
 
-        $person = LaporanAkhirController::countPersonil();
+        $person = PenggunaanAnggaranAkhirController::countPersonil();
         $peneliti = Peneliti::find(Auth::user()->id);
        
         $program = Program::where('kategori', 1)->where('aktif', '1')->get();
 
-        return view('pelaksanaan.laporanakhir.create', compact('person', 'peneliti', 'program', 'periode'));
+        return view('pelaksanaan.laporanakhir.penggunaananggaran.create', compact('person', 'peneliti', 'program', 'periode'));
     }
 
     /**
@@ -142,7 +141,7 @@ class LaporanAkhirController extends Controller
         $idprop = (Integer)substr($temp, 2, strlen($temp));
 
 
-        $penelitian = LaporanAkhir::where('prosalid', $idprop)->first();
+        $penelitian = AnggaranAkhir::where('prosalid', $idprop)->first();
         $file_path = public_path('docs/pelaksanaan/laporanakhir/').$penelitian->upload;
         if($penelitian){
             $headers = array(
@@ -168,19 +167,19 @@ class LaporanAkhirController extends Controller
      */
     public function edit($id)
     {
-        $person = LaporanAkhirController::countPersonil();
+        $person = PenggunaanAnggaranAkhirController::countPersonil();
 
         $temp = base64_decode($id);
         $idprop = (Integer)substr($temp, 2, strlen($temp));
 
         $proposal = Proposal::select('tb_penelitian.prosalid','judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','tb_penelitian.status','jenis','upload')
             ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->leftJoin('tb_laporan_akhir', 'tb_laporan_akhir.prosalid', 'tb_proposal.id')
+            ->leftJoin('tb_penggunaan_anggaran', 'tb_penggunaan_anggaran.prosalid', 'tb_proposal.id')
             // ->where('tb_proposal.jenis', 1)
             ->find($idprop);
         if ($proposal) {
 
-            return view ('pelaksanaan.laporanakhir.unggahan', compact('person','proposal'));
+            return view ('pelaksanaan.laporanakhir.penggunaananggaran.unggahan', compact('person','proposal'));
         }
     }
 
@@ -206,8 +205,8 @@ class LaporanAkhirController extends Controller
 
                 }
                 else {
-                    if ($file->getSize() < 5197152) {
-                        $nama_file = "docs-a-".$proposal->periodeusul."-".$proposal->id."-".mt_rand(100,999).$proposal->id.mt_rand(10,99)."-".$proposal->idketua.".".$file->getClientOriginalExtension();
+                    if ($file->getSize() < 5147152) {
+                        $nama_file = "docs-aa".$proposal->periodeusul."-".$proposal->id."-".mt_rand(100,999).$proposal->id.mt_rand(10,99)."-".$proposal->idketua.".".$file->getClientOriginalExtension();
 
                         $lokasi = public_path('docs/pelaksanaan/laporanakhir');
 
@@ -224,7 +223,7 @@ class LaporanAkhirController extends Controller
                 }
             }
 
-            $subtansi = new LaporanAkhir();
+            $subtansi = new AnggaranAkhir();
 
             $subtansi->prosalid = $idprop;
             $subtansi->upload  = $nama_file;
@@ -249,7 +248,7 @@ class LaporanAkhirController extends Controller
         $idprop = (Integer)substr($temp, 2, strlen($temp));
         $idprop /= 3;
 
-        $penelitian = LaporanAkhir::where('prosalid', $idprop)->first();
+        $penelitian = AnggaranAkhir::where('prosalid', $idprop)->first();
         $filename = public_path('docs/pelaksanaan/laporanakhir/').$penelitian->upload;
         if ($penelitian) {
             $penelitian->delete();

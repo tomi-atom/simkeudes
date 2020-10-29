@@ -194,8 +194,8 @@ class LuaranAkhirController extends Controller
     {
         $person = LuaranAkhirController::countPersonil();
 
-        $idprop = base64_decode($id);
-        //$idprop = (Integer)substr($temp, 2, strlen($temp)) ;
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp)) ;
 
        
         $jenis = Keluaran::groupBy('jenis')->orderBy('id')->get();
@@ -206,8 +206,8 @@ class LuaranAkhirController extends Controller
     {
         $person = LuaranAkhirController::countPersonil();
 
-        $idprop = base64_decode($id);
-        //$idprop = (Integer)substr($temp, 2, strlen($temp)) ;
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp)) ;
 
        
         $jenis = Keluaran::groupBy('jenis')->orderBy('id')->get();
@@ -218,8 +218,8 @@ class LuaranAkhirController extends Controller
     {
         $person = LuaranAkhirController::countPersonil();
 
-        $idprop = base64_decode($id);
-        //$idprop = (Integer)substr($temp, 2, strlen($temp)) ;
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp)) ;
 
        
         $jenis = Keluaran::groupBy('jenis')->orderBy('id')->get();
@@ -295,6 +295,41 @@ class LuaranAkhirController extends Controller
                 ';
         }
         if ($output == '<tbody>')
+            $output .= '<tr><td width="25"></td><td colspan="2"><b>LUARAN KEGIATAN LAINNYA BELUM ADA</b></td></tr>';
+
+        $output .= '<tr><td></td><td></td><td></td></tr>
+                </tbody>';
+
+        echo $output;
+    }
+    public function datawajib(Request $request) 
+    {
+        $select = $request->get('select');
+        $_token = $request->get('_token');
+
+        $luaran = LuaranAkhir::where('idpenelitian', $select)->where('kategori', '1')->orderBy('id', 'asc')->get();
+
+        $output = '<tbody>';
+        $no = 0;
+        foreach ($luaran as $data) {
+            $no++;
+            $output .= 
+                '<tr>
+                    <td>'.$no.'</td>
+                    <td><b>'.$data->judul.'</b><br>';
+                    if ($data->publish) {
+                        $output .= '<code>'.$data->publish.'</code><br>';
+                    }
+                    $output .= '<span class="label label-success">'.$data->status.'</span>
+                    </td>
+                    
+                    <td align="right" style="widows: 80px">
+                    <a  href="'. route('luaranakhir.baca',base64_encode(mt_rand(10,99).$data->id) ).'" class="btn btn-app btn-sm" id="Unduh"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                     <a onclick="deleteData('.$data->id.')" class="btn btn-app btn-sm" id="hapus"><i class="ion ion-ios-trash-outline text-red"></i> Hapus </a>
+                    </td>
+                ';
+        }
+        if ($output == '<tbody>')
             $output .= '<tr><td width="25"></td><td colspan="2"><b>LUARAN KEGIATAN WAJIB BELUM ADA</b></td></tr>';
 
         $output .= '<tr><td></td><td></td><td></td></tr>
@@ -302,6 +337,41 @@ class LuaranAkhirController extends Controller
 
         echo $output;
     } 
+    public function datatambahan(Request $request) 
+    {
+        $select = $request->get('select');
+        $_token = $request->get('_token');
+
+        $luaran = LuaranAkhir::where('idpenelitian', $select)->where('kategori', '2')->orderBy('id', 'asc')->get();
+
+        $output = '<tbody>';
+        $no = 0;
+        foreach ($luaran as $data) {
+            $no++;
+            $output .= 
+                '<tr>
+                    <td>'.$no.'</td>
+                    <td><b>'.$data->judul.'</b><br>';
+                    if ($data->publish) {
+                        $output .= '<code>'.$data->publish.'</code><br>';
+                    }
+                    $output .= '<span class="label label-success">'.$data->status.'</span>
+                    </td>
+                    
+                    <td align="right" style="widows: 80px">
+                    <a  href="'. route('luaranakhir.baca',base64_encode(mt_rand(10,99).$data->id) ).'" class="btn btn-app btn-sm" id="Unduh"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                     <a onclick="deleteData('.$data->id.')" class="btn btn-app btn-sm" id="hapus"><i class="ion ion-ios-trash-outline text-red"></i> Hapus </a>
+                    </td>
+                ';
+        }
+        if ($output == '<tbody>')
+            $output .= '<tr><td width="25"></td><td colspan="2"><b>LUARAN KEGIATAN TAMBAHAN BELUM ADA</b></td></tr>';
+
+        $output .= '<tr><td></td><td></td><td></td></tr>
+                </tbody>';
+
+        echo $output;
+    }
     public function loadtarget(Request $request)
     {
         $ceklog = Keluaran::findOrFail($request->get('idtarget'));

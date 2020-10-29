@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li>Laporan Akhir</li>
+    <li>Penggunaan Anggaran</li>
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading"><strong>Ungahan Dokumen</strong></div>
-            <form action="{{ route('laporanakhir.update', $proposal->prosalid) }}" method="POST" class="form form-horizontal"  enctype="multipart/form-data" >
+            <form action="{{ route('penggunaananggaranakhir.update', $proposal->prosalid) }}" method="POST" class="form form-horizontal"  enctype="multipart/form-data" >
                 {{ csrf_field() }} {{method_field('PATCH')}}
 
                 @if($errors->first('kesalahan'))
@@ -28,23 +28,23 @@
 
             <div class="panel-body">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Dokumen Laporan Akhir: </strong></div>
+                    <div class="panel-heading"><strong>Dokumen Penggunaan Anggaran: </strong></div>
             
                     <div class="panel-body">
                         <div class="box-header">
                             <i class="fa fa-upload"></i>
-                            <h4 class="box-title">Unggah File Laporan Akhir</h4>
+                            <h4 class="box-title">Unggah File Penggunaan Anggaran</h4>
                         </div>
             
                         <div class="box-body">
                             <div class="row">
-                            <p class="margin" align="justify"><b>LAPORAN AKHIR</b> <br><code>Dokumen Laporan Akhir berupa file dokumen berbentuk PDF yang telah ditandatangani dengan ukuran (maks: 5 MB) sesuai panduan.</code></p>
+                            <p class="margin" align="justify"><b>PENGGUNAAN ANGGARAN</b> <br><code>Dokumen Penggunaan Anggaran berupa file dokumen berbentuk PDF yang telah ditandatangani dengan ukuran (maks: 5 MB) sesuai panduan.</code></p>
                             
                             <div class="col-sm-12">
                                 <input type="file" accept="application/pdf" name="upload" id="upload" class="form-control" required>
                                 <b>Max. 5 MB</b>
                                 <br> 
-                                
+                               
                             </div>
                             </div>
                         </div>

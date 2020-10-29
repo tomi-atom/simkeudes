@@ -8,10 +8,10 @@ use App\Proposal;
 use App\Periode;
 use App\Penelitian;
 use App\Keanggotaan;
-use App\Substansi;
-use App\Luaran;
+use App\LaporanAkhir;
+use App\AnggaranAkhir;
 use App\Anggaran;
-
+use App\LuaranAkhir;
 use App\Peneliti;
 use App\Skema;
 use App\Mataanggaran;
@@ -86,94 +86,38 @@ class ValidasiController extends Controller
         $idprop = ($idprop - 29) / 2;
 
         $err = 0;
+        $err2 = 0;
+        $err3 = 0;
+        $err4 = 0;
+        $err5 = 0;
         $proposal = Proposal::find($idprop);
         $periode  = Periode::where('id', $proposal->periodeusul)->first();
         $penelitian = Penelitian::find($idprop);
+       
+        $dsn = Peneliti::select('id','nama')->find(Auth::user()->id);
         if($proposal) {
             $judul = Proposal::select('judul')->where('judul', $proposal->judul)->count();
-            if($judul-1 > 0)
-                $err = 5;
-            $mtkt = 100;
-            $skema = Skema::select('minpeserta','maxpeserta','mintkt','minluaran','dana')->find($proposal->idskema);
-
-            if($proposal->tktawal < $skema->mintkt) {
-                $err++;
-                $mtkt = round($proposal->tktawal / $skema->mintkt * 100);
+          
+            $luaranlainnya = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',3)->get();
+            $luaranwajib = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',1)->get();
+            $luarantambahan = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',2)->get();
+            $err = count($luaranlainnya);
+            $err2 = count($luaranwajib);
+            $err3 = count($luarantambahan);
+            $laporanakhir = LaporanAkhir::where('prosalid', $proposal->id)->first();
+            if($laporanakhir != null ){
+                $err4 = 1;
             }
-
-            $err2 = 0;
-            $ttim = Keanggotaan::where('idpenelitian', $proposal->id)->where('setuju', '!=', 1)->count();
-            if ($ttim) {
-                $err2++;
+          
+            $anggaranakhir = AnggaranAkhir::where('prosalid', $proposal->id)->first();
+            if($anggaranakhir != null){
+                $err5 = 1;
             }
-
-            $tim  = Keanggotaan::select('nama','setuju')
-                                ->join('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
-                                ->where('tb_keanggota.idpenelitian', $proposal->id)
-                                ->orderBy('tb_keanggota.peran', 'asc')
-                                ->get();
-            if (count($tim) == 0)
-                $err2 = 99;
-
-            $err3 = 0;
-            $sub = Substansi::where('proposalid', $proposal->id)->first();
-            if (count($sub)== 0)
-                $err3 = 99;
-
-            $err4 = 0;
-            $wajib = 0;
-            $data = explode('/', $skema->minluaran);
-            $luar = Luaran::select('kategori')->where('idpenelitian', $proposal->id)->get();
-            if (count($luar) == 0){
-                $err4 = 99;
-            }
-            else {
-                foreach($luar as $list){
-                    if($list->kategori == 1)
-                        $wajib++;
-                }
-                if ($wajib < count($data))
-                    $err4++;
-            }
-
-            $hnr = 0;
-            $bhn = 0;
-            $jln = 0;
-            $brg = 0;
-            $biaya = Anggaran::where('proposalid', $proposal->id)
-                                ->orderBy('anggaranid', 'asc')
-                                ->orderBy('id', 'asc')
-                                ->get();
-            $err5 = 0;
-            if (count($biaya) == 0) {
-                $err5 = 99;
-            }
-
-            foreach($biaya as $list) {
-                if ($list->anggaranid == 1) 
-                    $hnr += $list->volume * $list->biaya;
-                elseif ($list->anggaranid == 2) 
-                    $bhn += $list->volume * $list->biaya;
-                elseif ($list->anggaranid == 3) 
-                    $jln += $list->volume * $list->biaya;
-                else
-                    $brg += $list->volume * $list->biaya;
-            }
-
-            $pagu = Mataanggaran::select('batas')->get();
-
-            $dsn = Peneliti::select('id','nama')->find(Auth::user()->id);
-
-            $err6 = 0;
-            if($proposal->pengesahan && $proposal->usulan)
-                $err6 = 0;
-            else if ($proposal->pengesahan || $proposal->usulan) 
-                $err6++;
-            else
-                $err6 = 99;
+          
 
 
-            return view('pelaksanaan.laporanakhir.validasi', compact('person', 'dsn', 'proposal','penelitian','periode', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
+
+            return view('pelaksanaan.laporanakhir.validasi', compact('person', 'dsn','luaranlainnya','luaranwajib','luarantambahan', 'proposal','penelitian','periode', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
         } 
     }
 

@@ -153,8 +153,9 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
    Route::POST('luaranakhir/datawajib','Pelaksanaan\LaporanAkhir\LuaranAkhirController@datawajib')->name('luaranakhir.datawajib');
 
    Route::GET('luaranakhir/showtambahan/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@showtambahan')->name('luaranakhir.showtambahan');
-   Route::POST('luaranakhir/datatambahana','Pelaksanaan\LaporanAkhir\LuaranAkhirController@datatambahan')->name('luaranakhir.datatambahan');
-    
+   Route::POST('luaranakhir/datatambahan','Pelaksanaan\LaporanAkhir\LuaranAkhirController@datatambahan')->name('luaranakhir.datatambahan');
+   Route::RESOURCE('penggunaananggaranakhir', 'Pelaksanaan\LaporanAkhir\PenggunaanAnggaranAkhirController');
+
 
    Route::POST('luaranakhir/wajib','Pelaksanaan\LaporanAkhir\LuaranAkhirController@luaranwajib')->name('luaranakhir.wajib');
    Route::POST('luaranakhir/tambah','Pelaksanaan\LaporanAkhir\LuaranAkhirController@luarantambah')->name('luaranakhir.tambah');

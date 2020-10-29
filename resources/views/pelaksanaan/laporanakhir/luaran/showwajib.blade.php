@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('title')
-    Luaran Kemajuan
+    Luaran Wajib
 @endsection
 
 @section('breadcrumb')
     @parent
 
-    <li>Pengusul</li>
-    <li>Luaran</li>
+    <li>Laporan Akhir</li>
+    <li>Luaran Wajib</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
@@ -16,11 +16,17 @@
 @endsection
 
 @section('content')
-
+@if($errors->first('error'))
+<br>
+<div class="row">
+    <div class="col col-sm-2">.</div>
+    <div class="alert alert-info col-sm-8"><b>{{{ $errors->first('error') }}}</b></div>
+</div>
+@endif
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary">
-            <div class="panel-heading"><strong>Luaran dan Target Capaian</strong> <div class="pull-right"><strong></strong></div></div>
+            <div class="panel-heading"><strong>Luaran Wajib dan Capaian</strong> <div class="pull-right"><strong></strong></div></div>
             
             <div class="panel-body">
                 <div class="box-header with-border">
@@ -37,36 +43,30 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" onclick="goBack()"" class="btn btn-default pull-left" ><i class="fa  fa-reply fa-fw"></i> Kembali</button>
+
+                    </div>
+                </div>
+        
+
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Luaran Tambahan: </strong></div>
-            
-                    <div class="panel-body">
-                        <br>
-                        <table class="table table-condensed tabel-bawah" id="tbbawah">                       
-                        </table>    
-                    </div>
-                </div>
-            </div>
-        </div>
-        
     </div>
 </div>
-@include('pelaksanaan.luarankemajuan.formluaran')
+@include('pelaksanaan.laporanakhir.luaran.formluaran')
 @endsection
 
 @section('script')
 <script type="text/javascript">
-    function tampilLuarWajib() {
+    function tampilLuaran() {
         var select = $("#id").val();
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-             url: "{{ route('luarankemajuan.wajib') }}",
+             url: "{{ route('luaranakhir.datawajib') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -75,25 +75,13 @@
             }
         });
     }
-
-    function tampilLuarTambah() {
-        var select = $("#id").val();
-        var _token = $('input[name = "_token"]').val();
-
-        $.ajax({
-            url: "{{ route('luarankemajuan.tambah') }}",
-            method: "POST",
-            data: {select: select, _token: _token},
-            success: function(result)
-            {
-                $('#tbbawah').html(result);
-            }
-        });
+    function goBack() 
+    {
+    window.history.back()
     }
 
     $(document).ready(function() {
-        tampilLuarWajib();
-        tampilLuarTambah();
+        tampilLuaran();
 
         $("#lanjut").click(function() {
             var oRows = document.getElementById('tbatas').getElementsByTagName('tr');
@@ -116,7 +104,7 @@
                     confirmButtonText: 'OK!',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('validasipenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29))) }}";
+                            window.location = "{{ route('validasilaporanakhir.show', base64_encode(mt_rand(10,99).($idprop*2+29))) }}";
                         }
                     }
                 );
@@ -129,7 +117,7 @@
         var idtarget = $("#jenis").val();
         var _token   = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('luarankemajuan.target') }}",
+            url: "{{ route('luaranakhir.target') }}",
             method: "POST",
             data: {idtarget: idtarget, _token: _token},
             success: function(result)
@@ -140,7 +128,7 @@
     }
 
     function showLuaran() {
-        $('#kategori').prop('selectedIndex',0);
+        $('#kategori').prop('selectedIndex',1);
         $('#jenis').prop('selectedIndex',0);
         $('#target').prop('selectedIndex',0);
         $('#status').prop('selectedIndex',0);
@@ -210,7 +198,7 @@
             var jenis = $('#kategori').val();
             
             $.ajax ({
-                url : "{{ route('luarankemajuan.store', $idprop) }}",
+                url : "{{ route('luaranakhir.store', $idprop) }}",
                 type : "POST",
                 data:new FormData(this),
                 contentType: false,
@@ -223,12 +211,8 @@
                         'success'
                     );
                     $('#modal-luaran').modal('hide');
-                    if (jenis == 1) {
-                        tampilLuarWajib().load();
-                    }
-                    else if (jenis == 2) {
-                        tampilLuarTambah().load();
-                    }
+                    tampilLuaran().load();
+
 
                 },
                 error : function() {
@@ -257,7 +241,7 @@
                 if (isConfirm) {
 
                     $.ajax({
-                        url  : "{{ route('luarankemajuan.destroy','') }}/"+id,
+                        url  : "{{ route('luaranakhir.destroy','') }}/"+id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {
@@ -268,8 +252,7 @@
                                 'success'
                             );
                           
-                            tampilLuarWajib().load();
-                            tampilLuarTambah().load();
+                            tampilLuaran().load();
                            
                         },
                         error : function() {

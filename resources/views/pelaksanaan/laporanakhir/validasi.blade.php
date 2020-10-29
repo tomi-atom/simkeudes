@@ -52,9 +52,11 @@
                         <div class="">
                             <div class="box-header">
                                 <i class="ion ion-clipboard"></i>
-                                <h4 class="box-title">Pengusul: {{$dsn->nama}}</h4>
+                                <h4 class="box-title">Pengusul: {{$dsn->nama}}</h4><br>
+                                <i class="ion ion-clipboard"></i>
+                                <h4 class="box-title">Judul: {{$proposal->judul}}</h4>
                             </div>
-                            Halaman ini merupakan lembaran untuk Input data Laporan Akhir, setiap item pemeriksaan harus memiliki status "Lengkap" .
+                            Halaman ini merupakan lembaran untuk Input data Laporan Akhir. Status harus lengkap, Data  di input secara berurutan dari A - B - C - D - E
 
                             <hr>
                             <table class="table table-bordered">
@@ -72,22 +74,17 @@
                                     <tr>
                                         <td class="text-center">A</td>
                                         <td class="text-left" colspan="6">LUARAN LAINNYA</td>
-                                        @if($err == 0)
+                                        @if($err > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
                                         <a onclick="editLuaranLainnya({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
 
                                         </td>
-                                        @elseif($err < 99)
-                                        <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a onclick="editLuaranLainnya({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-
-                                        </td>
+                                       
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a onclick="editLuaranLainnya({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                        <a onclick="editLuaranLainnya({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Lengkapi</a>
                                     
                                         </td>
                                         @endif
@@ -98,114 +95,16 @@
                                     <tr>
                                         <td colspan="12">
                                         <tbody id="accordionproposal" class="collapse table-bordered">
+                                            @foreach($luaranlainnya as $list)
                                             <tr>
-                                                <td class="text-right">1</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Kesamaan Judul</td>
-                                                @if(!($judul-1))
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                      <div class="progress-bar progress-bar-success" style="width: 0%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">0%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                      <div class="progress-bar progress-bar-danger" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-danger">Bermasalah</span></td>
-                                                @endif
+                                                <td class="text-right">{{++$no}}</td>
+                                                <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->judul}}</td>
+                                                <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->publish}}</td>
+                                               
+                                                <td class="text-center"><span class="label label-success">{{$list->judul}}</span></td>
+                                               
                                             </tr>
-                                            <tr>
-                                                <td class="text-right">2</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;TKT</td>
-                                                @if($mtkt < 100)
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                      <div class="progress-bar progress-bar-danger" style="width: {{$mtkt}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{$mtkt}}%</td>
-                                                <td class="text-center"><span class="label label-danger">Bermasalah</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                      <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @endif
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">3</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Program Penelitian: {{$proposal->program->program}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 2%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">2%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">4</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Skema: {{ $proposal->skema->skema}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 30%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">30%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">5</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Rumpun Bidang Ilmu: {{$proposal->rumpun->ilmu3}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 50%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">50%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">6</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Bidang Fokus: {{$proposal->fokus->fokus}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 35%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">35%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">7</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Tema Penelitian: {{$proposal->tema->tema}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 35%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">35%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">8</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Topik Penelitian: {{$proposal->topik->topik}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 35%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">35%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
+                                            @endforeach
                                             <tr>
                                                 <td colspan="12"></td>
                                             </tr>
@@ -216,23 +115,25 @@
                                         <td colspan="12"></td>
                                     </tr>
                                
-                                    <tr>
+                                    <tr> 
                                         <td class="text-center">B</td>
                                         <td class="text-left" colspan="6">LUARAN WAJIB</td>
-                                        @if($err2 == 0)
+                                        @if($err2 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
                                         <a onclick="editLuaranWajib({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
                                         </td>
-                                        @elseif($err2 < 99)
-                                        <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a onclick="editLuaranWajib({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-                                        </td>
+                                       
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                            <a onclick="editLuaranWajib({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                            @if($err > 0)
+                                            <a onclick="editLuaranWajib({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Lengkapi</a>
+                                            @else 
+                                            <a onclick="editLuaranWajib({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center disabled"><i class="fa fa-edit"></i> Lengkapi</a>
+
+                                            @endif  
+                                            
                                         </td>
                                         @endif
 
@@ -243,60 +144,16 @@
                                     <tr>
                                         <td colspan="12">
                                         <tbody id="accordionanggota" class="collapse table-bordered">
+                                            @foreach($luaranwajib as $list)
                                             <tr>
-                                                <td class="text-right">1</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Jumlah Anggota: {{count($tim)}}</td>
-
-                                                @if((count($tim) - $ttim) >= $skema->minpeserta)
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: {{round((count($tim) - $ttim) / $skema->minpeserta * 100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round((count($tim) - $ttim) / $skema->minpeserta * 100)}}%</td>
-                                                <td class="text-center"><span class="label label-danger">Tidak Terpenuhi</span></td>
-                                                @endif
-                                            </tr {{$no=1}}>
-                                            @foreach($tim as $list)
-                                            <tr>
-                                                <td class="text-right">{{++$no}}</td>
-                                                <td class="text-left"  colspan="6">&nbsp;&nbsp;&nbsp;{{$list->nama}}</td>
-                                                @if($list->setuju == 0)
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: 50%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">50%</td>
-                                                <td class="text-center"><span class="label label-danger">Belum Setuju</span></td>
-                                                @elseif($list->setuju == 1)
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Setuju</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: 0%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">0%</td>
-                                                <td class="text-center"><span class="label label-danger">Tidak Setuju</span></td>
-                                                @endif
+                                                <td class="text-right">{{++$no1}}</td>
+                                                <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->judul}}</td>
+                                                <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->publish}}</td>
+                                               
+                                                <td class="text-center"><span class="label label-success">{{$list->judul}}</span></td>
+                                               
                                             </tr>
                                             @endforeach
-            
                                             <tr>
                                                 <td colspan="12"></td>
                                             </tr>
@@ -310,20 +167,21 @@
                                     <tr>
                                         <td class="text-center">C</td>
                                         <td class="text-left" colspan="6">LUARAN TAMBAHAN</td>
-                                        @if($err3 == 0)
+                                        @if($err3 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a onclick="editLuaranTambahan({{$proposal->id}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                        <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
                                         </td>
-                                        @elseif($err3 < 99)
-                                        <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a onclick="editLuaranTambahan({{$proposal->id}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-                                        </td>
+                                       
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a onclick="editLuaranTambahan({{$proposal->id}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                            @if($err2 > 0)
+                                            <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                            @else 
+                                            <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center disabled"><i class="fa fa-pencil"></i> Lengkapi</a>
+
+                                            @endif  
                                         </td>
                                         @endif
                                         <td data-toggle="collapse" data-target="#accordionsubtansi" class="clickable text-center">
@@ -333,73 +191,16 @@
                                     <tr>
                                         <td colspan="12">
                                         <tbody id="accordionsubtansi" class="collapse table-bordered">
+                                            @foreach($luarantambahan as $list)
                                             <tr>
-                                                <td class="text-right">1</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Ringkasan</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 45%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">45%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
+                                                <td class="text-right">{{++$no2}}</td>
+                                                <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->judul}}</td>
+                                                <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->publish}}</td>
+                                               
+                                                <td class="text-center"><span class="label label-success">{{$list->judul}}</span></td>
+                                               
                                             </tr>
-                                            <tr>
-                                                <td class="text-right">2</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Kata Kunci</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 50%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">40%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">3</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Latar Belakang</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 85%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">85%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">4</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Tinjauan Pustaka</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">90%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">5</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Metode</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 82%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">82%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">6</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Daftar Pustaka</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                    
+                                            @endforeach
                                             <tr>
                                                 <td colspan="12"></td>
                                             </tr>
@@ -412,21 +213,23 @@
 
                                     <tr>
                                         <td class="text-center">D</td>
-                                        <td class="text-left" colspan="6">LAPORAN AKHIR</td>
-                                        @if($err4 == 0)
+                                    <td class="text-left" colspan="6">LAPORAN AKHIR</td>
+                                        @if($err4 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a onclick="editLuaran({{mt_rand(10,99).($proposal->id*2)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                            <a onclick="hapusLaporan({{mt_rand(10,99).($proposal->id*3)}} )"  class="btn btn-sm btn-default btn-flat center" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>
+
                                         </td>
-                                        @elseif($err4 < 99)
-                                        <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a onclick="editLuaran({{mt_rand(10,99).($proposal->id*2)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-                                        </td>
+                                       
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{route('penelitianng.luaran.index', base64_encode(mt_rand(1,9).($proposal->id +$dsn->id)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                            @if($err3 > 0)
+                                            <a href="{{ route('laporanakhir.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                            @else 
+                                            <a href="{{ route('laporanakhir.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center disabled"><i class="fa fa-pencil"></i> Lengkapi</a>
+
+                                            @endif  
                                         </td>
                                         @endif
                                         <td data-toggle="collapse" data-target="#accordionluaran" class="clickable text-center">
@@ -436,60 +239,7 @@
                                     <tr>
                                         <td colspan="12">
                                         <tbody id="accordionluaran" class="collapse table-bordered">
-                                            <tr>
-                                                <td class="text-right">1</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Luaran: {{count($luar)}}</td>
-                                                @if($wajib < count($data))
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: {{round($wajib/count($data)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round($wajib/count($data)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-danger">Tidak Terpenuhi</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @endif
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">2</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Luaran Wajib: {{$wajib}}</td>
-                                                @if($wajib < count($data))
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: {{round($wajib/count($data)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round($wajib/count($data)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-danger">Tidak Terpenuhi</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @endif
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">3</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Luaran Tambahan: {{count($luar) - $wajib}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: {{round((count($luar) - $wajib)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round((count($luar) - $wajib)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-      
+                                           
                                             <tr>
                                                 <td colspan="12"></td>
                                             </tr>
@@ -502,21 +252,24 @@
 
                                     <tr>
                                         <td class="text-center">E</td>
-                                        <td class="text-left" colspan="6">PENGGUNAAN ANGGARAN</td>
-                                        @if($err5 == 0)
+                                    <td class="text-left" colspan="6">PENGGUNAAN ANGGARAN</td>
+                                        @if($err5 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a onclick="editAnggaran({{mt_rand(10,99).($proposal->id*2)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                        <a onclick="hapusAnggaran({{mt_rand(10,99).($proposal->id*3)}} )" class="btn btn-sm btn-default btn-flat center" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>
+
+
                                         </td>
-                                        @elseif($err5 < 99)
-                                        <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a onclick="editAnggaran({{mt_rand(10,99).($proposal->id*2)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-                                        </td>
+                                      
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{route('penelitianng.anggaran.index', base64_encode($proposal->id+15))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                            @if($err4 > 0)
+                                            <a href="{{ route('penggunaananggaranakhir.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Lengkapi</a>
+                                            @else 
+                                            <a href="{{ route('penggunaananggaranakhir.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center disabled"><i class="fa fa-edit"></i> Lengkapi</a>
+
+                                            @endif  
                                         </td>
                                         @endif
                                         <td data-toggle="collapse" data-target="#accordionanggaran" class="clickable text-center">
@@ -526,67 +279,7 @@
                                     <tr>
                                         <td colspan="12">
                                         <tbody id="accordionanggaran" class="collapse table-bordered">
-                                            @if($hnr || $bhn || $jln || $brg )
-                                            <tr>
-                                                <td class="text-right">1</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Total Anggaran: Rp {{format_uang($hnr+$bhn+$jln+$brg)}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: {{round(($hnr+$bhn+$jln+$brg) / $skema->dana * 100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round(($hnr+$bhn+$jln+$brg) / $skema->dana * 100)}}%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">2</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Belanja Honor: Rp {{format_uang($hnr)}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: {{round($hnr / ($pagu[0]->batas*$skema->dana/100)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round($hnr / ($pagu[0]->batas*$skema->dana/100)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">3</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Belanja Bahan: Rp {{format_uang($bhn)}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: {{round($bhn / ($pagu[1]->batas*$skema->dana/100)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round($bhn / ($pagu[1]->batas*$skema->dana/100)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">4</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Belanja Perjalanan: Rp {{format_uang($jln)}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: {{round($jln / ($pagu[2]->batas*$skema->dana/100)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round($jln / ($pagu[2]->batas*$skema->dana/100)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">5</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Belanja Barang Non-Operasional: Rp {{format_uang($brg)}}</td>
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: {{round($brg / ($pagu[3]->batas*$skema->dana/100)*100)}}%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">{{round($brg / ($pagu[3]->batas*$skema->dana/100)*100)}}%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                            </tr>
-      
-                                            <tr>
-                                                <td colspan="12"></td>
-                                            </tr>
-                                            @endif
+                                           
                                         </tbody>
                                        </td>
                                     </tr>
@@ -631,101 +324,10 @@
                                         <td colspan="12"></td>
                                     </tr>
                                 -->
-                                    <tr>
-                                        <td class="text-center">F</td>
-                                        <td class="text-left" colspan="6">UNGGAH DOKUMENTASI</td>
-
-                                        @if($err6 == 0)
-                                        <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                         <a href="{{ route('validasipenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-                                        </td>
-                                        @elseif($err6 < 99)
-                                        <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a href="{{ route('validasipenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
-                                        </td>
-                                        @else
-                                        <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
-                                        <td class="text-center" colspan="2">
-                                        <a href="{{ route('validasipenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
-                                        </td>
-                                        @endif
-                                        <td data-toggle="collapse" data-target="#accordionunggah" class="clickable text-center">
-                                        <a onclick="#" class="btn btn-sm btn-info btn-flat center"><i class="fa  fa-folder-open-o"></i> Rincikan</a>  
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="12">
-                                        <tbody id="accordionunggah" class="collapse table-bordered">  
-                                            <tr>
-                                                <td class="text-right">1</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Lembar Pengesahan</td>
-                                                @if($proposal->pengesahan)
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @else
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: 0%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">0%</td>
-                                                <td class="text-center"><span class="label label-danger">Belum</span></td>
-                                                @endif
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">2</td>
-                                                <td class="text-left"   colspan="6">&nbsp;&nbsp;&nbsp;Proposal Lengkap</td>
-                                                @if($proposal->usulan)
-                                                <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">100%</td>
-                                                <td class="text-center"><span class="label label-success">Terpenuhi</span></td>
-                                                @else
-                                                 <td class="text-center" colspan="2">
-                                                    <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-danger" style="width: 0%"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center" colspan="2">0%</td>
-                                                <td class="text-center"><span class="label label-danger">Belum</span></td>
-                                                @endif
-                                            </tr>
-      
-                                            <tr>
-                                                <td colspan="12"></td>
-                                            </tr>
-                                        </tbody>
-                                       </td>
-                                    </tr>
-     
-                                    <tr>
-                                        <td class="text-center" width="4%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="8%"></td>
-                                        <td class="text-center" width="16%"></td>
-                                    </tr> 
+                                   
                                 </tbody>
                             </table>
                         </div>
-                        Setelah melakukan validasi, maka usulan akan diverifikasi oleh Admin untuk tahapan selanjutnya. Jangan lakukan validasi jika masih terdapat beberap item pemeriksaan yang belum diperbaiki atau dilengkapi, karena setelah melakukan validasi usulan maka sistem akan mematikan fitur modifikasi dan pengelolaan dan usulan akan diteruskan oleh admin pada tahap selanjutnya dengan segala kekurangannya. 
 
                     </div>
                 </div>  
@@ -764,18 +366,62 @@
 @section('script')
 <script type="text/javascript">
 
+    function hapusAnggaran(id) {
+            if (confirm("Apakah yakin data dari kegiatan ini akan dihapus?")) {
+                $.ajax({
+                    url  : "{{route('penggunaananggaranakhir.destroy','')}}/"+id,
+                    type : "POST",
+                    data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
+                    success : function(data) {
+                        swal(
+                                            'Dihapus!',
+                                            'Data berhasil dihapus.',
+                                            'success'
+                                        );
+                        location.reload(true);
+                    },
+                    error : function() {
+                        alert("Tidak dapat menghapus data");
+                    }
+
+                });
+            }
+        }
+        function hapusLaporan(id) {
+            if (confirm("Apakah yakin data laporan ini akan dihapus?")) {
+                $.ajax({
+                    url  : "{{route('laporanakhir.destroy','')}}/"+id,
+                    type : "POST",
+                    data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
+                    success : function(data) {
+                        swal(
+                                            'Dihapus!',
+                                            'Data berhasil dihapus.',
+                                            'success'
+                                        );
+                        location.reload(true);
+                    },
+                    error : function() {
+                        alert("Tidak dapat menghapus data");
+                    }
+
+                });
+            }
+        }
+
+
     function goBack() 
     {
     window.history.back()
     }
     function editLuaranLainnya(id) {
-        window.location = "{{route('luaranakhir.showlainnya', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id) ;
+        window.location = "{{route('luaranakhir.showlainnya', '')}}/"+btoa(id) ;
     }
     function editLuaranTambahan(id) {
-        window.location = "{{route('luaranakhir.showtambahan', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id) ;
+        window.location = "{{route('luaranakhir.showtambahan', '')}}/"+btoa(id) ;
     }
     function editLuaranWajib(id) {
-        window.location = "{{route('luaranakhir.showwajib', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id) ;
+        window.location = "{{route('luaranakhir.showwajib','')}}/"+btoa(id) ;
     }
 
 
