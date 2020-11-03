@@ -198,7 +198,7 @@ class LuaranAkhirController extends Controller
         $idprop = (Integer)substr($temp, 2, strlen($temp)) ;
 
        
-        $jenis = Keluaran::groupBy('jenis')->orderBy('id')->get();
+        $jenis = Keluaran::whereIn('jenis', ['Protopype', 'Desain', 'Teknologi Tepat Guna','Model','Kebijakan','Rekayasa Sosial'])->groupBy('jenis')->orderBy('id')->get();
         return view('pelaksanaan.laporanakhir.luaran.showlainnya', compact( 'person', 'jenis', 'idprop'));
     
     }

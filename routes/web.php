@@ -268,10 +268,24 @@ Route::group(['middleware' => ['web', 'cekuser:2']], function(){
     Route::GET('rn_laporankemajuan/resumeberkas/{id}','Reviewer\Penilaian\PenilaianLaporanKemajuanController@resumeberkas')->name('rn_laporankemajuan.resumeberkas');
     Route::POST('rn_laporankemajuan/get/{id}','Reviewer\Penilaian\PenilaianLaporanKemajuanController@getnilai')->name('rn_laporankemajuan.nilai');
     Route::GET('rn_laporankemajuan/baca/{id}','Reviewer\Penilaian\PenilaianLaporanKemajuanController@baca')->name('rn_luarankemajuan.baca');
-    
-    
     Route::resource('rn2_laporankemajuan', 'Reviewer\Penilaian\Penilaian2LaporanKemajuanController');
     Route::POST('rn2_laporankemajuan/get/{id}','Reviewer\Penilaian\Penilaian2LaporanKemajuanController@getnilai')->name('rn2_laporankemajuan.nilai');
+
+
+    Route::resource('rn_laporanakhir', 'Reviewer\Penilaian\PenilaianLaporanAkhirController');
+    Route::get('rn_laporanakhir/get_data', 'Reviewer\Penilaian\PenilaianLaporanAkhirController@show');
+    Route::GET('rn_laporanakhir/resume/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@resume')->name('rn_laporanakhir.resume');
+    Route::GET('rn_laporanakhir/resumenilai/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@resumenilai')->name('rn_laporanakhir.resumenilai');
+    Route::GET('rn_laporanakhir/resumenilai2/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@resumenilai2')->name('rn_laporanakhir.resumenilai2');
+    Route::GET('rn_laporanakhir/resumeberkas/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@resumeberkas')->name('rn_laporanakhir.resumeberkas');
+    Route::POST('rn_laporanakhir/get/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@getnilai')->name('rn_laporanakhir.nilai');
+    Route::GET('rn_laporanakhir/baca/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@baca')->name('rn_luaranakhir.baca');
+    Route::GET('rn_laporanakhir/bacalaporan/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacalaporan')->name('rn_laporanakhir.bacalaporan');
+    Route::GET('rn_laporanakhir/bacaangaran/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaanggaran')->name('rn_laporanakhir.bacaanggaran');
+    Route::GET('rn_laporanakhir/bacaproposal/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaproposal')->name('rn_laporanakhir.bacaproposal');
+    Route::resource('rn2_laporanakhir', 'Reviewer\Penilaian\Penilaian2LaporanAkhirController');
+    Route::POST('rn2_laporanakhir/get/{id}','Reviewer\Penilaian\Penilaian2LaporanAkhirController@getnilai')->name('rn2_laporanakhir.nilai');
+
 
 
 

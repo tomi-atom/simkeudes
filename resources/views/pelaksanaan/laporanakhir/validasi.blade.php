@@ -57,8 +57,16 @@
                                 <h4 class="box-title">Judul: {{$proposal->judul}}</h4>
                             </div>
                             Halaman ini merupakan lembaran untuk Input data Laporan Akhir. Status harus lengkap, Data  di input secara berurutan dari A - B - C - D - E
-
+                            <div class="form-group row">
+                                <div class="col-md-12 ">
+                                    <br>
+                                    <button type="button" onclick="goLoad()"" class="btn btn-default pull-left" ><i class="fa  fa-refresh fa-fw"></i> Refresh</button>
+                                      Refresh Halaman jika belum ada perubahan pada status setelah input data laporan
+                                </div>
+            
+                            </div>
                             <hr>
+                           
                             <table class="table table-bordered">
                                 <thead>
                                     
@@ -413,6 +421,10 @@
     function goBack() 
     {
     window.history.back()
+    }
+    function goLoad() 
+    {
+        location.reload()
     }
     function editLuaranLainnya(id) {
         window.location = "{{route('luaranakhir.showlainnya', '')}}/"+btoa(id) ;
