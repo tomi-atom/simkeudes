@@ -653,12 +653,54 @@ class PenilaianLaporanAkhirController extends Controller
 
                 })
                 ->addColumn('upload', function ($proposal) {
-                    if ($proposal->upload == null){
-                        return '<small class="label label-danger">Belum</small>';
-
-                    }else{
-                        return '<small class="label label-success">Sudah</small>';
+                    $luaranlainnya = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',3)->first();
+                    $luaranwajib = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',1)->first();
+                    $luarantambahan = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',2)->first();
+                    $laporanakhir = LaporanAkhir::where('prosalid', $proposal->id)->first();
+                    $anggaranakhir = AnggaranAkhir::where('prosalid', $proposal->id)->first();
+                    
+                    $data = '';
+                    if ($luaranlainnya){
+                        $data .= ' <small class="label label-primary">Luaran Lainnya </small>:<small class="label label-success">sudah</small><br>';
                     }
+                    else{
+                        $data .= ' <small class="label label-primary">Luaran Lainnya </small>:<small class="label label-danger">belum </small><br>';
+                       
+
+                    }
+                    if ($luaranwajib){
+                        $data .= ' <small class="label label-primary">Luaran Wajib </small>:<small class="label label-success">sudah</small><br>';
+                    }
+                    else{
+                        $data .= ' <small class="label label-primary">Luaran Wajib </small>:<small class="label label-danger">belum </small><br>';
+                       
+
+                    }
+                    if ($luarantambahan){
+                        $data .= ' <small class="label label-primary">Luaran Tambahan </small>:<small class="label label-success">sudah</small><br>';
+                    }
+                    else{
+                        $data .= ' <small class="label label-primary">Luaran Tambahan </small>:<small class="label label-danger">belum </small><br>';
+                       
+
+                    }
+                    if ($laporanakhir){
+                        $data .= ' <small class="label label-primary">Laporan Akhir </small>:<small class="label label-success">sudah</small><br>';
+                    }
+                    else{
+                        $data .= ' <small class="label label-primary">Laporan Akhir </small>:<small class="label label-danger">belum </small><br>';
+                       
+
+                    }
+                    if ($anggaranakhir){
+                        $data .= ' <small class="label label-primary">Penggunaan Anggaran</small>:<small class="label label-success">sudah</small><br>';
+                    }
+                    else{
+                        $data .= ' <small class="label label-primary">Penggunaan Anggaran</small>:<small class="label label-danger">belum </small><br>';
+                       
+
+                    }
+                    return $data;
                 })
                 ->addColumn('action', function ($proposal) {
                     if ($proposal->upload == null){

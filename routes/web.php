@@ -337,6 +337,20 @@ Route::group(['middleware' => ['web', 'cekuser:3']], function(){
     Route::POST('hasilmonev2/get/{id}','Admin\Penilaian\HasilMonev2Controller@getnilai')->name('hasilmonev2.nilai');
 
 
+    Route::resource('hasilakhir', 'Admin\Penilaian\HasilAkhirController');
+    Route::resource('hasilakhir2', 'Admin\Penilaian\HasilAkhir2Controller');
+    Route::get('hasilakhir/get_data', 'Admin\Penilaian\HasilAkhirController@show');
+    Route::GET('hasilakhir/resume/{id}','Admin\Penilaian\HasilAkhirController@resume')->name('hasilakhir.resume');
+    Route::GET('hasilakhir/resumenilai/{id}','Admin\Penilaian\HasilAkhirController@resumenilai')->name('hasilakhir.resumenilai');
+    Route::GET('hasilakhir/resumenilai2/{id}','Admin\Penilaian\HasilAkhirController@resumenilai2')->name('hasilakhir.resumenilai2');
+    Route::GET('hasilakhir/resumeberkas/{id}','Admin\Penilaian\HasilAkhirController@resumeberkas')->name('hasilakhir.resumeberkas');
+    Route::POST('hasilakhir/get/{id}','Admin\Penilaian\HasilAkhirController@getnilai')->name('hasilakhir.nilai');
+    Route::POST('hasilakhir2/get/{id}','Admin\Penilaian\HasilAkhir2Controller@getnilai')->name('hasilakhir2.nilai');
+    Route::GET('rn_laporanakhir/baca/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@baca')->name('rn_luaranakhir.baca');
+    Route::GET('rn_laporanakhir/bacalaporan/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacalaporan')->name('rn_laporanakhir.bacalaporan');
+    Route::GET('rn_laporanakhir/bacaangaran/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaanggaran')->name('rn_laporanakhir.bacaanggaran');
+    Route::GET('rn_laporanakhir/bacaproposal/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaproposal')->name('rn_laporanakhir.bacaproposal');
+    
    
 
     //PEMANTAUAN
