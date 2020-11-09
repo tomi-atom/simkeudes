@@ -59,7 +59,8 @@ class HomeController extends Controller
             return view('home.reviewer');
         elseif (Auth::user()->level == 3)
             return view('home.admin');
-        
+        elseif (Auth::user()->level == 4)
+            return view('home.operator');
 
         //return view('home');
     }
@@ -74,6 +75,8 @@ class HomeController extends Controller
             return view('home.reviewer');
         elseif (Auth::user()->level == 3)
             return view('home.admin');
+        elseif (Auth::user()->level == 4)
+            return view('home.operator');
 
     }
     public function error() 

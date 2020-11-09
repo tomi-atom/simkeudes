@@ -275,7 +275,7 @@ Pertanyaan yang Wajib diisi Reviewer
     function getLatar() {
         var _token     = $('input[name = "_token"]').val();
          $.ajax({
-            url: "{{ route('rn2_laporankemajuan.nilai', $prop->id) }}",
+            url: "{{ route('rn2_laporanakhir.nilai', $prop->id) }}",
             method: "POST",
             dataType: "json",
             data: {_token: _token},
@@ -320,7 +320,7 @@ Pertanyaan yang Wajib diisi Reviewer
         var _token     = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('rn2_laporankemajuan.store') }}",
+            url: "{{ route('rn2_laporanakhir.store') }}",
             method: "POST",
             data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,  _token: _token},
             success: function(result)

@@ -541,6 +541,51 @@ desired effect
             {{ csrf_field() }}
           </form>
         </li>
+        @elseif(Auth::user()->level == 4)
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-book"></i> <span>Penilaian</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+ 
+           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Desk Evaluasi</a></li>
+            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev</a></li>
+            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Hasil</a></li>
+
+           <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-eye"></i> <span>Pemantauan Kegiatan</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ route('p_rancangan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>
+            <li><a href="{{ route('p_catatan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Catatan Harian</a></li>
+            <li><a href="{{ route('p_luarankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Kemajuan</a></li>
+
+            <li><a href="{{ route('p_laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
+            <li><a href="{{ route('p_laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
+            <li><a href="{{ route('p_anggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
+            <li><a href="{{ route('p_tanggungjawab.index') }}"><i class="fa fa-circle-thin text-blue"></i>Tanggungjawab Belanja</a></li>
+            <li><a href="{{ route('p_berkasseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>Berkas Seminar Hasil</a></li>
+            <li><a href="{{ route('p_hasilpenilaian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian</a></li>
+            <li><a href="{{ route('p_skseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>SK Seminar Hasil</a></li>
+            <li><a href="{{ route('p_pengembaliandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>
+          </ul>
+        </li>
+     
+      
+        <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit(); "><i class="fa fa-power-off text-red"></i>Sign out</a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+          </form>
+        </li>
 
         @endif
       </ul>

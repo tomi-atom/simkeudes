@@ -292,7 +292,7 @@ Route::group(['middleware' => ['web', 'cekuser:2']], function(){
 
 });
 
-Route::group(['middleware' => ['web', 'cekuser:3']], function(){
+Route::group(['middleware' => ['cekuser:3']], function(){
 
     //PENILAIAN
     Route::resource('p_reviewer', 'Admin\Penilaian\ReviewerController');
@@ -318,87 +318,6 @@ Route::group(['middleware' => ['web', 'cekuser:3']], function(){
     Route::GET('plotingreviewer/destroyreviewer/{id}','Admin\Penilaian\PlotingReviewerController@destroyreviewer')->name('plotingreviewer.destroyreviewer');
 
  
-    Route::resource('hasilreviewer', 'Admin\Penilaian\HasilReviewerController');
-    Route::get('hasilreviewer/get_data', 'Admin\Penilaian\HasilReviewerController@show');
-    Route::get('hasilpenelitian/get_data', 'Admin\Penilaian\HasilReviewerController@showpenelitian');
-    Route::get('hasilpengabdian/get_data', 'Admin\Penilaian\HasilReviewerController@showpengabdian');
-    Route::GET('hasilreviewer/resume/{id}','Admin\Penilaian\HasilReviewerController@resume')->name('hasilreviewer.resume');
-    Route::GET('hasilreviewer/resumenilai/{id}','Admin\Penilaian\HasilReviewerController@resumenilai')->name('hasilreviewer.resumenilai');
-    Route::GET('hasilreviewer/resumeberkas/{id}','Admin\Penilaian\HasilReviewerController@resumeberkas')->name('hasilreviewer.resumeberkas');
-    Route::POST('hasilreviewer/get/{id}','Admin\Penilaian\HasilReviewerController@getnilai')->name('hasilreviewer.nilai');
-    
-      Route::resource('hasilmonev', 'Admin\Penilaian\HasilMonevController');
-    Route::resource('hasilmonev2', 'Admin\Penilaian\HasilMonev2Controller');
-    Route::get('hasilmonev/get_data', 'Admin\Penilaian\HasilMonevController@show');
-    Route::GET('hasilmonev/resumenilai/{id}','Admin\Penilaian\HasilMonevController@resumenilai')->name('hasilmonev.resumenilai');
-    Route::GET('hasilmonev/resumenilai2/{id}','Admin\Penilaian\HasilMonevController@resumenilai2')->name('hasilmonev.resumenilai2');
-    Route::GET('hasilmonev/resumeberkas/{id}','Admin\Penilaian\HasilMonevController@resumeberkas')->name('hasilmonev.resumeberkas');
-    Route::POST('hasilmonev/get/{id}','Admin\Penilaian\HasilMonevController@getnilai')->name('hasilmonev.nilai');
-    Route::POST('hasilmonev2/get/{id}','Admin\Penilaian\HasilMonev2Controller@getnilai')->name('hasilmonev2.nilai');
-
-
-    Route::resource('hasilakhir', 'Admin\Penilaian\HasilAkhirController');
-    Route::resource('hasilakhir2', 'Admin\Penilaian\HasilAkhir2Controller');
-    Route::get('hasilakhir/get_data', 'Admin\Penilaian\HasilAkhirController@show');
-    Route::GET('hasilakhir/resume/{id}','Admin\Penilaian\HasilAkhirController@resume')->name('hasilakhir.resume');
-    Route::GET('hasilakhir/resumenilai/{id}','Admin\Penilaian\HasilAkhirController@resumenilai')->name('hasilakhir.resumenilai');
-    Route::GET('hasilakhir/resumenilai2/{id}','Admin\Penilaian\HasilAkhirController@resumenilai2')->name('hasilakhir.resumenilai2');
-    Route::GET('hasilakhir/resumeberkas/{id}','Admin\Penilaian\HasilAkhirController@resumeberkas')->name('hasilakhir.resumeberkas');
-    Route::POST('hasilakhir/get/{id}','Admin\Penilaian\HasilAkhirController@getnilai')->name('hasilakhir.nilai');
-    Route::POST('hasilakhir2/get/{id}','Admin\Penilaian\HasilAkhir2Controller@getnilai')->name('hasilakhir2.nilai');
-    Route::GET('rn_laporanakhir/baca/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@baca')->name('rn_luaranakhir.baca');
-    Route::GET('rn_laporanakhir/bacalaporan/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacalaporan')->name('rn_laporanakhir.bacalaporan');
-    Route::GET('rn_laporanakhir/bacaangaran/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaanggaran')->name('rn_laporanakhir.bacaanggaran');
-    Route::GET('rn_laporanakhir/bacaproposal/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaproposal')->name('rn_laporanakhir.bacaproposal');
-    
-   
-
-    //PEMANTAUAN
-    Route::resource('p_rancangan', 'Admin\Pemantauan\RancanganController');
-    Route::get('p_rancangan/get_data', 'Admin\Pemantauan\RancanganController@showtambah');
-    Route::GET('p_rancangan/resume/{id}','Admin\Pemantauan\RancanganController@resume')->name('p_rancangan.resume');
-
-    Route::resource('p_catatan', 'Admin\Pemantauan\CatatanHarianController');
-    Route::get('p_catatan/get_data', 'Admin\Pemantauan\CatatanHarianController@show');
-    Route::GET('p_catatan/resume/{id}','Admin\Pemantauan\CatatanHarianController@resume')->name('p_catatan.resume');
-    Route::DELETE('p_catatan/verifikasi/{id}','Admin\Pemantauan\CatatanHarianController@verifikasi')->name('p_catatan.verifikasi');
-
-
-    Route::resource('p_luarankemajuan', 'Admin\Pemantauan\LuaranKemajuanController');
-    Route::get('p_luarankemajuan/get_data', 'Admin\Pemantauan\LuaranKemajuanController@show');
-    Route::GET('p_luarankemajuan/resume/{id}','Admin\Pemantauan\LuaranKemajuanController@resume')->name('p_luarankemajuan.resume');
-
-    Route::resource('p_laporankemajuan', 'Admin\Pemantauan\LaporanKemajuanController');
-    Route::get('p_laporankemajuan/get_data', 'Admin\Pemantauan\LaporanKemajuanController@show');
-    Route::GET('p_laporankemajuan/resume/{id}','Admin\Pemantauan\LaporanKemajuanController@resume')->name('p_laporankemajuan.resume');
-
-    Route::resource('p_laporanakhir', 'Admin\Pemantauan\LaporanAkhirController');
-    Route::get('p_laporanakhir/get_data', 'Admin\Pemantauan\LaporanAkhirController@show');
-    Route::GET('p_laporanakhir/resume/{id}','Admin\Pemantauan\LaporanAkhirController@resume')->name('p_laporanakhir.resume');
-
-    Route::resource('p_anggaran', 'Admin\Pemantauan\PenggunaanAnggaranController');
-    Route::get('p_anggaran/get_data', 'Admin\Pemantauan\PenggunaanAnggaranController@show');
-    Route::GET('p_anggaran/resume/{id}','Admin\Pemantauan\PenggunaanAnggaranController@resume')->name('p_anggaran.resume');
-
-    Route::resource('p_tanggungjawab', 'Admin\Pemantauan\TanggungJawabController');
-    Route::get('p_tanggungjawab/get_data', 'Admin\Pemantauan\TanggungJawabController@show');
-    Route::GET('p_tanggungjawab/resume/{id}','Admin\Pemantauan\TanggungJawabController@resume')->name('p_tanggungjawab.resume');
-
-    Route::resource('p_berkasseminar', 'Admin\Pemantauan\BerkasSeminarController');
-    Route::get('p_berkasseminar/get_data', 'Admin\Pemantauan\BerkasSeminarController@show');
-    Route::GET('p_berkasseminar/resume/{id}','Admin\Pemantauan\BerkasSeminarController@resume')->name('p_berkasseminar.resume');
-
-    Route::resource('p_hasilpenilaian', 'Admin\Pemantauan\HasilPenilaianController');
-    Route::get('p_hasilpenilaian/get_data', 'Admin\Pemantauan\HasilPenilaianController@show');
-    Route::GET('p_hasilpenilaian/resume/{id}','Admin\Pemantauan\HasilPenilaianController@resume')->name('p_hasilpenilaian.resume');
-
-    Route::resource('p_skseminar', 'Admin\Pemantauan\SkSeminarController');
-    Route::get('p_skseminar/get_data', 'Admin\Pemantauan\SkSeminarController@show');
-    Route::GET('p_skseminar/resume/{id}','Admin\Pemantauan\SkSeminarController@resume')->name('p_skseminar.resume');
-
-    Route::resource('p_pengembaliandana', 'Admin\Pemantauan\PengembalianDanaController');
-    Route::get('p_pengembaliandana/get_data', 'Admin\Pemantauan\PengembalianDanaController@show');
-    Route::GET('p_pengembaliandana/resume/{id}','Admin\Pemantauan\PengembalianDanaController@resume')->name('p_pengembaliandana.resume');
 
 
     //USULAN
@@ -536,6 +455,93 @@ Route::group(['middleware' => ['web', 'cekuser:3']], function(){
     Route::get('topik/get_data', 'Master\TopikController@show');
 
 
+
+
+
+});
+Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
+
+    Route::resource('hasilreviewer', 'Admin\Penilaian\HasilReviewerController');
+    Route::get('hasilreviewer/get_data', 'Admin\Penilaian\HasilReviewerController@show');
+    Route::get('hasilpenelitian/get_data', 'Admin\Penilaian\HasilReviewerController@showpenelitian');
+    Route::get('hasilpengabdian/get_data', 'Admin\Penilaian\HasilReviewerController@showpengabdian');
+    Route::GET('hasilreviewer/resume/{id}','Admin\Penilaian\HasilReviewerController@resume')->name('hasilreviewer.resume');
+    Route::GET('hasilreviewer/resumenilai/{id}','Admin\Penilaian\HasilReviewerController@resumenilai')->name('hasilreviewer.resumenilai');
+    Route::GET('hasilreviewer/resumeberkas/{id}','Admin\Penilaian\HasilReviewerController@resumeberkas')->name('hasilreviewer.resumeberkas');
+    Route::POST('hasilreviewer/get/{id}','Admin\Penilaian\HasilReviewerController@getnilai')->name('hasilreviewer.nilai');
+    
+      Route::resource('hasilmonev', 'Admin\Penilaian\HasilMonevController');
+    Route::resource('hasilmonev2', 'Admin\Penilaian\HasilMonev2Controller');
+    Route::get('hasilmonev/get_data', 'Admin\Penilaian\HasilMonevController@show');
+    Route::GET('hasilmonev/resumenilai/{id}','Admin\Penilaian\HasilMonevController@resumenilai')->name('hasilmonev.resumenilai');
+    Route::GET('hasilmonev/resumenilai2/{id}','Admin\Penilaian\HasilMonevController@resumenilai2')->name('hasilmonev.resumenilai2');
+    Route::GET('hasilmonev/resumeberkas/{id}','Admin\Penilaian\HasilMonevController@resumeberkas')->name('hasilmonev.resumeberkas');
+    Route::POST('hasilmonev/get/{id}','Admin\Penilaian\HasilMonevController@getnilai')->name('hasilmonev.nilai');
+    Route::POST('hasilmonev2/get/{id}','Admin\Penilaian\HasilMonev2Controller@getnilai')->name('hasilmonev2.nilai');
+
+
+    Route::resource('hasilakhir', 'Admin\Penilaian\HasilAkhirController');
+    Route::resource('hasilakhir2', 'Admin\Penilaian\HasilAkhir2Controller');
+    Route::get('hasilakhir/get_data', 'Admin\Penilaian\HasilAkhirController@show');
+    Route::GET('hasilakhir/resume/{id}','Admin\Penilaian\HasilAkhirController@resume')->name('hasilakhir.resume');
+    Route::GET('hasilakhir/resumenilai/{id}','Admin\Penilaian\HasilAkhirController@resumenilai')->name('hasilakhir.resumenilai');
+    Route::GET('hasilakhir/resumenilai2/{id}','Admin\Penilaian\HasilAkhirController@resumenilai2')->name('hasilakhir.resumenilai2');
+    Route::GET('hasilakhir/resumeberkas/{id}','Admin\Penilaian\HasilAkhirController@resumeberkas')->name('hasilakhir.resumeberkas');
+    Route::POST('hasilakhir/get/{id}','Admin\Penilaian\HasilAkhirController@getnilai')->name('hasilakhir.nilai');
+    Route::POST('hasilakhir2/get/{id}','Admin\Penilaian\HasilAkhir2Controller@getnilai')->name('hasilakhir2.nilai');
+    Route::GET('rn_laporanakhir/baca/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@baca')->name('rn_luaranakhir.baca');
+    Route::GET('rn_laporanakhir/bacalaporan/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacalaporan')->name('rn_laporanakhir.bacalaporan');
+    Route::GET('rn_laporanakhir/bacaangaran/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaanggaran')->name('rn_laporanakhir.bacaanggaran');
+    Route::GET('rn_laporanakhir/bacaproposal/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaproposal')->name('rn_laporanakhir.bacaproposal');
+    
+   
+
+    //PEMANTAUAN
+    Route::resource('p_rancangan', 'Admin\Pemantauan\RancanganController');
+    Route::get('p_rancangan/get_data', 'Admin\Pemantauan\RancanganController@showtambah');
+    Route::GET('p_rancangan/resume/{id}','Admin\Pemantauan\RancanganController@resume')->name('p_rancangan.resume');
+
+    Route::resource('p_catatan', 'Admin\Pemantauan\CatatanHarianController');
+    Route::get('p_catatan/get_data', 'Admin\Pemantauan\CatatanHarianController@show');
+    Route::GET('p_catatan/resume/{id}','Admin\Pemantauan\CatatanHarianController@resume')->name('p_catatan.resume');
+    Route::DELETE('p_catatan/verifikasi/{id}','Admin\Pemantauan\CatatanHarianController@verifikasi')->name('p_catatan.verifikasi');
+
+
+    Route::resource('p_luarankemajuan', 'Admin\Pemantauan\LuaranKemajuanController');
+    Route::get('p_luarankemajuan/get_data', 'Admin\Pemantauan\LuaranKemajuanController@show');
+    Route::GET('p_luarankemajuan/resume/{id}','Admin\Pemantauan\LuaranKemajuanController@resume')->name('p_luarankemajuan.resume');
+
+    Route::resource('p_laporankemajuan', 'Admin\Pemantauan\LaporanKemajuanController');
+    Route::get('p_laporankemajuan/get_data', 'Admin\Pemantauan\LaporanKemajuanController@show');
+    Route::GET('p_laporankemajuan/resume/{id}','Admin\Pemantauan\LaporanKemajuanController@resume')->name('p_laporankemajuan.resume');
+
+    Route::resource('p_laporanakhir', 'Admin\Pemantauan\LaporanAkhirController');
+    Route::get('p_laporanakhir/get_data', 'Admin\Pemantauan\LaporanAkhirController@show');
+    Route::GET('p_laporanakhir/resume/{id}','Admin\Pemantauan\LaporanAkhirController@resume')->name('p_laporanakhir.resume');
+
+    Route::resource('p_anggaran', 'Admin\Pemantauan\PenggunaanAnggaranController');
+    Route::get('p_anggaran/get_data', 'Admin\Pemantauan\PenggunaanAnggaranController@show');
+    Route::GET('p_anggaran/resume/{id}','Admin\Pemantauan\PenggunaanAnggaranController@resume')->name('p_anggaran.resume');
+
+    Route::resource('p_tanggungjawab', 'Admin\Pemantauan\TanggungJawabController');
+    Route::get('p_tanggungjawab/get_data', 'Admin\Pemantauan\TanggungJawabController@show');
+    Route::GET('p_tanggungjawab/resume/{id}','Admin\Pemantauan\TanggungJawabController@resume')->name('p_tanggungjawab.resume');
+
+    Route::resource('p_berkasseminar', 'Admin\Pemantauan\BerkasSeminarController');
+    Route::get('p_berkasseminar/get_data', 'Admin\Pemantauan\BerkasSeminarController@show');
+    Route::GET('p_berkasseminar/resume/{id}','Admin\Pemantauan\BerkasSeminarController@resume')->name('p_berkasseminar.resume');
+
+    Route::resource('p_hasilpenilaian', 'Admin\Pemantauan\HasilPenilaianController');
+    Route::get('p_hasilpenilaian/get_data', 'Admin\Pemantauan\HasilPenilaianController@show');
+    Route::GET('p_hasilpenilaian/resume/{id}','Admin\Pemantauan\HasilPenilaianController@resume')->name('p_hasilpenilaian.resume');
+
+    Route::resource('p_skseminar', 'Admin\Pemantauan\SkSeminarController');
+    Route::get('p_skseminar/get_data', 'Admin\Pemantauan\SkSeminarController@show');
+    Route::GET('p_skseminar/resume/{id}','Admin\Pemantauan\SkSeminarController@resume')->name('p_skseminar.resume');
+
+    Route::resource('p_pengembaliandana', 'Admin\Pemantauan\PengembalianDanaController');
+    Route::get('p_pengembaliandana/get_data', 'Admin\Pemantauan\PengembalianDanaController@show');
+    Route::GET('p_pengembaliandana/resume/{id}','Admin\Pemantauan\PengembalianDanaController@resume')->name('p_pengembaliandana.resume');
 
 
 
