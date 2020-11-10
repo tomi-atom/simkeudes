@@ -475,6 +475,9 @@ class HasilAkhirController extends Controller
         }elseif($prop->idskema==7){
             return view('admin.penilaian.hasilakhir.resumedosenmuda', compact('person','idprop','nilai','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }
+        elseif($prop->idskema==9){
+            return view('admin.penilaian.hasilakhir.resumekolaborasi', compact('person','idprop','nilai','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+        }
 
     }
     public function resumenilai2($id)
@@ -648,8 +651,7 @@ class HasilAkhirController extends Controller
             ->orderBy('kategori', 'asc')
             ->orderBy('id', 'asc')
             ->get();
-            $luarkemajuan = LuaranAkhir::select('id','judul','kategori','idluaran','publish','urllink','upload')
-            ->where('idpenelitian', $idprop)
+        $luarkemajuan = LuaranAkhir::where('idpenelitian', $idprop)
             ->orderBy('kategori', 'asc')
             ->orderBy('id', 'asc')
             ->get();

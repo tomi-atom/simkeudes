@@ -48,7 +48,7 @@
                                         <td colspan="8"></td> 
                                     </tr> 
                                     <tr>
-                                        <td class="text-center" colspan="2">No</td>
+                                        <td class="text-center" colspan="2">Jenis Luaran</td>
                                         <td class="text-center" colspan="3">Judul</i>)</td>
                                         <td class="text-center" colspan="3">Keterangan (<i>Status, url dan nama jurnal, penerbit, url paten, keterangan sejenis lainnya</i>)</td>
                                         <td class="text-center" colspan="2">File</td>
@@ -73,7 +73,7 @@
                                         <td colspan="8"></td> 
                                     </tr> 
                                     <tr>
-                                        <td class="text-center" colspan="2">No</td>
+                                        <td class="text-center" colspan="2">Jenis Luaran</td>
                                         <td class="text-center" colspan="3">Judul</i>)</td>
                                         <td class="text-center" colspan="3">Keterangan (<i>Status, url dan nama jurnal, penerbit, url paten, keterangan sejenis lainnya</i>)</td>
                                         <td class="text-center" colspan="2">File</td>
@@ -98,7 +98,7 @@
                                         <td colspan="8">Luaran  Tambahan : <small class="label label-success">Tahun ke-{{$thn}}</small> dari {{$prop->lama}} tahun</td> 
                                     </tr> 
                                     <tr>
-                                        <td class="text-center" colspan="2">No</td>
+                                        <td class="text-center" colspan="2">Jenis Luaran</td>
                                         <td class="text-center" colspan="3">Judul</i>)</td>
                                         <td class="text-center" colspan="3">Keterangan (<i>Status, url dan nama jurnal, penerbit, url paten, keterangan sejenis lainnya</i>)</td>
                                         <td class="text-center" colspan="2">File</td>

@@ -109,12 +109,7 @@
                                     {{ csrf_field() }} {{ method_field('PUT') }}
                                         <input type="hidden" name="id" id="id" value="{{ $prop->id }}" readonly>
                             
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span> </button>
-                                            <h3 class="modal-title"><a  href=" {{route('rn_laporanakhir.resumeberkas',base64_encode(mt_rand(10,99). $prop->id))}}" class="btn btn-primary " title="Proposal"><i class="glyphicon glyphicon-file"></i>Lihat Laporan Kemajuan </a>                       
-                                            </h3>
-                                        </div>
-                                        <br>
+                                      
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-1">
@@ -138,7 +133,7 @@
                                                 <label class="control-label col-sm-offset-2">1 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Keterkaitan antara proposal penelitian dengan Renstra Penelitian Perguruan Tinggi</label>
+                                                <label> Keterkaitan antara proposal penelitian dengan  tema Unggulan Universitas Riau</label>
                                             </div>
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2"> 10</label>
@@ -198,10 +193,10 @@
                                                 <label class="control-label col-sm-offset-2">3 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Proyeksi/Potensi luaran penelitian: HKI, Teknologi Tepat Guna/Buku ISBN</label>
+                                                <label> Proyeksi/Potensi luaran tambahan penelitian: Teknologi Tepat Guna/kebijakan/model/rekayasa/desain/prototipe</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
+                                                <label class="control-label col-sm-offset-2"> 5</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
@@ -258,10 +253,10 @@
                                                 <label class="control-label col-sm-offset-2">5 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Proyeksi/Potensi Publikasi Ilmiah minimal SINTA 3</label>
+                                                <label>Proyeksi/Potensi Publikasi Ilmiah Jurnal Internasional minimal Q3 atau WoS (minimal SJR 0,15 atau minimal JIF WoS 0,05)</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 15</label>
+                                                <label class="control-label col-sm-offset-2"> 25</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
@@ -288,7 +283,7 @@
                                                 <label class="control-label col-sm-offset-2">6 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Proyeksi/Potensi minimal materi ajar/bahan ajar/buku ajar/buku referensi</label>
+                                                <label> Proyeksi/Potensi luaran penelitian: Paten, Hak Cipta, Merek dsbnya minimal terdaftar</label>
                                             </div>
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2"> 10</label>
@@ -318,18 +313,19 @@
                                                 <label class="control-label col-sm-offset-2">7 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Proyeksi/Potensi minimal prosiding berskala regional</label>
+                                                <label>Kemutakhiran literatur (kekinian dan pustaka primer)</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
+                                                <label class="control-label col-sm-offset-2"> 5</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
                                                     <select class="form-control" id="kriteria7" name="kriteria7" required>
                                                         <option value=""> -  </option>
-                                                        <option value="3"> Proseding Berskala Regional </option>
-                                                        <option value="5"> Proseding Berskala Nasional </option>
-                                                        <option value="7"> Proseding Berskala Internasional</option>
+                                                        <option value="1"> Tidak ada pustaka primer (Buruk)</option>
+                                                        <option value="3"> Pustaka tergolong primer dan mutakhir < 50% (Kurang)</option>
+                                                        <option value="5"> Pustaka tergolong primer dan mutakhir sejumlah 51-80% (Cukup)</option>
+                                                        <option value="7"> Pustaka tergolong primer dan mutakhir >80% (Sangat Baik)</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -345,7 +341,7 @@
                                                 <label class="control-label col-sm-offset-2">8 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Kemutakhiran literatur (kekinian dan pustaka primer)</label>
+                                                <label> Surat Keterangan Mitra Internasional (LN)</label>
                                             </div>
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2"> 5</label>
@@ -354,10 +350,12 @@
                                                 <div class="col-sm-12 input-group input-group-sm">
                                                     <select class="form-control" id="kriteria8" name="kriteria8" required>
                                                         <option value=""> -  </option>
-                                                        <option value="1"> Tidak ada pustaka primer (Buruk) </option>
-                                                        <option value="3">Pustaka tergolong primer dan mutakhir {{'<'}} 50% (Kurang) </option>
-                                                        <option value="5">Pustaka tergolong primer dan mutakhir sejumlah 51-80% (Cukup)</option>
-                                                        <option value="7"> Pustaka tergolong primer dan mutakhir >80% (7 = Sangat baik)</option>
+                                                        <option value="1"> Buruk  </option>
+                                                        <option value="2"> Sangat Kurang  </option>
+                                                        <option value="3"> Kurang  </option>
+                                                        <option value="5"> Cukup </option>
+                                                        <option value="6"> Baik </option>
+                                                        <option value="7"> Sangat Baik</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -400,16 +398,16 @@
                                                 <label class="control-label col-sm-offset-2">10 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Target TKT (1-9)</label>
+                                                <label>Target TKT (1-6)</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 5</label>
+                                                <label class="control-label col-sm-offset-2"> 10</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
                                                     <select class="form-control" id="kriteria10" name="kriteria10" required>
                                                         <option value=""> -  </option>
-                                                        <option value="1">  TKT tidak ada  </option>
+                                                        <option value="1"> TKT tidak ada  </option>
                                                         <option value="5"> TKT ada tetapi tidak sesuai </option>
                                                         <option value="7"> TKT ada dan sesuai</option>
                                                     </select>
@@ -485,13 +483,12 @@
                         <label class="control-label pull-left"> Keterangan: </label><br>
                         <h6>
                         <br>- Nilai = Bobot x Skor
-                        <br>- Nomor 1-6  berlaku skor: 1, 2, 3, 5, 6, 7 (1 = Buruk; 2 = Sangat kurang; 3 = Kurang; 5 = Cukup; 6 = Baik; 7 = Sangat baik)
-                        <br>- Nomor 7 berlaku skor: 3,5,7 (3 = Prosiding berskala regional, 5 = Prosiding berskala nasional, 7 = Prosiding berskala internasional)
-                        <br>- Nomor 8 berlaku skor Kemutakhiran literatur (5 tahun terakhir): Tidak ada pustaka primer (1 = Buruk); Pustaka tergolong primer dan mutakhir <50% (3 = Kurang); Pustaka tergolong primer dan mutakhir sejumlah 51-80% (5 = Cukup); Pustaka tergolong primer dan mutakhir >80% (7 = Sangat baik)
-                        <br>- Nomor 9 berlaku skor: 1,5,7 Keterlibatan Mahasiswa (1 = tidak  ada mhs; 5 = 1 mhs; dan 7 = ≥ 2 mhs)
+                        <br>- Nomor 1-6,8 berlaku skor : 1, 2, 3, 5, 6, 7 (1 = Buruk; 2 = Sangat kurang; 3 = Kurang; 5 = Cukup; 6 = Baik; 7 = Sangat baik); 
+                        <br>- Nomor 7 berlaku skor: Kemutakhiran literatur (5 tahun terakhir): Tidak ada pustaka primer (1 = Buruk); Pustaka tergolong primer dan mutakhir <50% (3 = Kurang); Pustaka tergolong primer dan mutakhir sejumlah 51-80% (5 = Cukup); Pustaka tergolong primer dan mutakhir >80% (7 = Sangat baik)
+                        <br>- Nomor 9 berlaku skor : 1,5,7 Keterlibatan Mahasiswa  (1= tidak  ada mhs; 5= 1 mhs; dan 7= ≥ 2 mhs)
                         <br>- Nomor 10 berlaku skor: 1,5,7 untuk TKT (1 = TKT tidak ada, 5 = TKT ada tetapi tidak sesuai, 7 = TKT ada dan sesuai)
-                        <br>- Tema Riset: Mohon dilingkari 1. Kemandirian Pangan dan Sumberdaya Alam 2. Energi Baru, Terbarukan, Material Maju, Teknologi Informasi dan Komunikasi, 3.  Pengembangan Teknologi Kesehatan dan Obat, 4. Kemaritiman dan Pengembangan Wilayah Pesisir Dan Perikanan, 5. Pengelolaan Lahan Gambut, 6. Manajemen Pencegahan dan Penanggulangan Bencanaan 7. Sosial Humaniora Seni Budaya, Pendidikan dan Hukum.- Tema Riset: Mohon dilingkari 1. Kemandirian Pangan dan Sumberdaya Alam 2. Energi Baru, Terbarukan, Material Maju, Teknologi Informasi dan Komunikasi, 3.  Pengembangan Teknologi Kesehatan dan Obat, 4. Kemaritiman dan Pengembangan Wilayah Pesisir dan Perikanan, 5. Pengelolaan Lahan Gambut, 6. Manajemen Pencegahan dan Penanggulangan Bencanaan 7. Sosial Humaniora Seni Budaya, Pendidikan dan Hukum.
-                        </h6>
+                        <br>- Tema Riset: Mohon dilingkari Tema Unggulan UNRI: 1. Pengembangan Wilayah Wetlands; 2. Pengembangan Perkebunan dan Peningkatan Ketahanan Pangan di Wilayah Wetlands; 3. Pengelolaan Sumberdaya Alam dan Lingkungan di Wilayah Wetlands,  4. Pengembangan Pariwisata dan Ekonomi Kreatif di Wilayah Wetlands.
+                                                </h6>
                     </div>
                 </div>
                 <br>
@@ -669,7 +666,7 @@
                 hitung();
             });
             $("#kriteria3").change(function() {
-                total3 = $("#kriteria3").val()*10;
+                total3 = $("#kriteria3").val()*5;
                 $("#nilai3").val(total3);
                 hitung();
             });
@@ -679,7 +676,7 @@
                 hitung();
             });
             $("#kriteria5").change(function() {
-                total5 = $("#kriteria5").val()*10;
+                total5 = $("#kriteria5").val()*25;
                 $("#nilai5").val(total5);
                 hitung();
             });
@@ -689,12 +686,12 @@
                 hitung();
             });
             $("#kriteria7").change(function() {
-                total7 = $("#kriteria7").val()*10;
+                total7 = $("#kriteria7").val()*5;
                 $("#nilai7").val(total7);
                 hitung();
             });
             $("#kriteria8").change(function() {
-                total8 = $("#kriteria8").val()*10;
+                total8 = $("#kriteria8").val()*5;
                 $("#nilai8").val(total8);
                 hitung();
             });
@@ -704,7 +701,7 @@
                 hitung();
             });
             $("#kriteria10").change(function() {
-                total10 = $("#kriteria10").val()*5;
+                total10 = $("#kriteria10").val()*10;
                 $("#nilai10").val(total10);
                 hitung();
             });

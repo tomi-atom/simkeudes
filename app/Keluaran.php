@@ -13,4 +13,7 @@ class Keluaran extends Model
     public function luaran() {
     	return $this->hasMany('App\Luaran', 'id');
     }
+    public function luaranakhir() {
+    	return $this->hasMany('App\LuaranAkhir', 'id');
+    }
 }

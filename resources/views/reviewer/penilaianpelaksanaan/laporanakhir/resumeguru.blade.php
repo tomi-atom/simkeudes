@@ -109,12 +109,7 @@
                                     {{ csrf_field() }} {{ method_field('PUT') }}
                                         <input type="hidden" name="id" id="id" value="{{ $prop->id }}" readonly>
                             
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span> </button>
-                                            <h3 class="modal-title"><a  href=" {{route('rn_laporanakhir.resumeberkas',base64_encode(mt_rand(10,99). $prop->id))}}" class="btn btn-primary " title="Proposl"><i class="glyphicon glyphicon-file"></i>Lihat Laporan Kemajuan </a>                       
-                                            </h3>
-                                        </div>
-                                        <br>
+                                       
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-1">
@@ -162,6 +157,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="row">
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2">2 </label>

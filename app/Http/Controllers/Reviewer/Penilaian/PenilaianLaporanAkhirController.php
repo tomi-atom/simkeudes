@@ -233,7 +233,7 @@ class PenilaianLaporanAkhirController extends Controller
         
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
-            }elseif($skema->idskema==3){//bidangilmu 10
+            }elseif($skema->idskema==3 or $skema->idskema==9 ){//bidangilmu 10 or kolaborasi
                 $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
 
                 if($cek){
@@ -938,6 +938,8 @@ class PenilaianLaporanAkhirController extends Controller
             return view('reviewer.penilaianpelaksanaan.laporanakhir.resumemasyarakat', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }elseif($prop->idskema==7){
             return view('reviewer.penilaianpelaksanaan.laporanakhir.resumedosenmuda', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+        }elseif($prop->idskema==9){
+            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumekolaborasi', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }
 
     }
