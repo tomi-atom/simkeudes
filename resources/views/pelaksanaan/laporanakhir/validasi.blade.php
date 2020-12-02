@@ -46,6 +46,17 @@
                                 'error'
                             );
                         </script>
+                    @elseif($errors->first('errornf'))
+                    <script type="text/javascript">
+
+                        "use strict";
+                        swal(
+                            'Terjadi Kesalahan!',
+                            'Data Tidak ditemukan',
+                            'error'
+                        );
+                    </script>
+                        
                     @else
                     @endif
                     <div class="panel-body">
@@ -225,6 +236,7 @@
                                         @if($err4 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
+                                            <a  href="{{ route('validasilaporanakhir.bacalaporan',base64_encode(mt_rand(10,99).$laporanakhir->id) )}}" class="btn btn-sm btn-default btn-flat center" id="Unduh"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a><br><br>
                                             <a onclick="hapusLaporan({{mt_rand(10,99).($proposal->id*3)}} )"  class="btn btn-sm btn-default btn-flat center" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>
 
                                         </td>
@@ -264,8 +276,9 @@
                                         @if($err5 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a onclick="hapusAnggaran({{mt_rand(10,99).($proposal->id*3)}} )" class="btn btn-sm btn-default btn-flat center" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>
+                                         <a  href="{{ route('validasilaporanakhir.bacaanggaran',base64_encode(mt_rand(10,99).$anggaranakhir->id) )}}" class="btn btn-sm btn-default btn-flat center" id="Unduh"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a><br><br>
 
+                                        <a onclick="hapusAnggaran({{mt_rand(10,99).($proposal->id*3)}} )" class="btn btn-sm btn-default btn-flat center" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>
 
                                         </td>
                                       

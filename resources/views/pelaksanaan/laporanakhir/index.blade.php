@@ -91,7 +91,7 @@
                                                     @else
 
                                                         @if($waktu >= $periodeterbaru->tm_laporanakhir && $waktu <= $periodeterbaru->ta_laporanakhir )
-                                                        <a href="{{ route('validasilaporanakhir.show',base64_encode(mt_rand(10,99).$detail->prosalid*2+29) )}}"  class="btn btn-app btn-sm" ><i class="ion ion-edit  text-blue"></i> Lengkapi Laporan Akhir</a>
+                                                        <a href="{{ route('validasilaporanakhir.show',base64_encode(mt_rand(10,99).$detail->prosalid) )}}"  class="btn btn-app btn-sm" ><i class="ion ion-edit  text-blue"></i> Lengkapi Laporan Akhir</a>
 
 
                                                         @elseif($waktu > $periodeterbaru->ta_laporanakhir)

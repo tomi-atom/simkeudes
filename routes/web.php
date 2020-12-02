@@ -144,6 +144,9 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
     
     Route::RESOURCE('laporanakhir', 'Pelaksanaan\LaporanAkhirController');
     Route::RESOURCE('validasilaporanakhir', 'Pelaksanaan\LaporanAkhir\ValidasiController');
+    Route::GET('validasilaporanakhir/bacalaporan/{id}','Pelaksanaan\LaporanAkhir\ValidasiController@bacalaporan')->name('validasilaporanakhir.bacalaporan');
+    Route::GET('validasilaporanakhir/bacaanggaran/{id}','Pelaksanaan\LaporanAkhir\ValidasiController@bacaanggaran')->name('validasilaporanakhir.bacaanggaran');
+   
  
     Route::RESOURCE('luaranakhir', 'Pelaksanaan\LaporanAkhir\LuaranAkhirController');
    Route::GET('luaranakhir/showlainnya/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@showlainnya')->name('luaranakhir.showlainnya');

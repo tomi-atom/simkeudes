@@ -83,7 +83,7 @@ class ValidasiController extends Controller
 
         $temp = base64_decode($id);
         $idprop = (Integer)substr($temp, 2, strlen($temp));
-        $idprop = ($idprop - 29) / 2;
+      //  $idprop = ($idprop - 29) / 2;
 
         $err = 0;
         $err2 = 0;
@@ -117,7 +117,7 @@ class ValidasiController extends Controller
 
 
 
-            return view('pelaksanaan.laporanakhir.validasi', compact('person', 'dsn','luaranlainnya','luaranwajib','luarantambahan', 'proposal','penelitian','periode', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
+            return view('pelaksanaan.laporanakhir.validasi', compact('person','laporanakhir','anggaranakhir', 'dsn','luaranlainnya','luaranwajib','luarantambahan', 'proposal','penelitian','periode', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
         } 
     }
 
@@ -235,5 +235,52 @@ class ValidasiController extends Controller
             $penelitian->update();
         }
         return Redirect::route('penelitianng.index');
+    }
+
+    public function bacalaporan($id)
+    {
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp));
+
+
+        $penelitian = LaporanAkhir::where('id', $idprop)->first();
+        $file_path = public_path('docs/pelaksanaan/laporanakhir/').$penelitian->upload;
+        if($penelitian){
+            $headers = array(
+                'Content-Type: pdf',
+                'Content-Disposition: attachment; filename='.$penelitian->upload,
+            );
+            if ( file_exists( $file_path ) ) {
+                // Show pdf
+                return response()->file( $file_path, $headers );
+            } else {
+                // Error
+                return Redirect::back()->withInput()->withErrors(array('errornf' => 'errornf'));
+            }
+        }
+
+    }
+    public function bacaanggaran($id)
+    {
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp));
+
+
+        $penelitian = AnggaranAkhir::where('id', $idprop)->first();
+        $file_path = public_path('docs/pelaksanaan/laporanakhir/').$penelitian->upload;
+        if($penelitian){
+            $headers = array(
+                'Content-Type: pdf',
+                'Content-Disposition: attachment; filename='.$penelitian->upload,
+            );
+            if ( file_exists( $file_path ) ) {
+                // Show pdf
+                return response()->file( $file_path, $headers );
+            } else {
+                // Error
+                return Redirect::back()->withInput()->withErrors(array('errornf' => 'errornf'));
+            }
+        }
+
     }
 }
