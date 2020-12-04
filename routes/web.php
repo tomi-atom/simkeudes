@@ -289,8 +289,18 @@ Route::group(['middleware' => ['web', 'cekuser:2']], function(){
     Route::resource('rn2_laporanakhir', 'Reviewer\Penilaian\Penilaian2LaporanAkhirController');
     Route::POST('rn2_laporanakhir/get/{id}','Reviewer\Penilaian\Penilaian2LaporanAkhirController@getnilai')->name('rn2_laporanakhir.nilai');
 
-
-
+    Route::resource('rn_luaranlainnya', 'Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController');
+    Route::get('rn_luaranlainnya/get_data', 'Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@show');
+    Route::GET('rn_luaranlainnya/resume/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@resume')->name('rn_luaranlainnya.resume');
+    Route::GET('rn_luaranlainnya/resumenilai/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@resumenilai')->name('rn_luaranlainnya.resumenilai');
+    Route::GET('rn_luaranlainnya/resumenilai2/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@resumenilai2')->name('rn_luaranlainnya.resumenilai2');
+    Route::GET('rn_luaranlainnya/resumeberkas/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@resumeberkas')->name('rn_luaranlainnya.resumeberkas');
+    Route::POST('rn_luaranlainnya/get/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@getnilai')->name('rn_luaranlainnya.nilai');
+    Route::GET('rn_luaranlainnya/baca/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@baca')->name('rn_luaranakhir.baca');
+    Route::GET('rn_luaranlainnya/bacalaporan/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@bacalaporan')->name('rn_luaranlainnya.bacalaporan');
+    Route::GET('rn_luaranlainnya/bacaangaran/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@bacaanggaran')->name('rn_luaranlainnya.bacaanggaran');
+    Route::GET('rn_luaranlainnya/bacaproposal/{id}','Reviewer\Penilaian\PenilaianAkhirLuaranLainnyaController@bacaproposal')->name('rn_luaranlainnya.bacaproposal');
+  
 
 
 });

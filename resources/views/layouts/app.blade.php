@@ -421,6 +421,7 @@ desired effect
           <ul class="treeview-menu">
             <li><a href="{{ route('rn_laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
             <li><a href="{{ route('rn_laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
+            <li><a href="{{ route('rn_luaranlainnya.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Lainnya</a></li>
          
           </ul>
 
