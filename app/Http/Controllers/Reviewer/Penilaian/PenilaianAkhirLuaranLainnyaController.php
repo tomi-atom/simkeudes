@@ -12,6 +12,7 @@ use App\NilaiLaporanAkhir;
 use App\NilaiLaporanKemajuan;
 use App\Nilai2LaporanAkhir;
 use App\Nilai2LaporanKemajuan;
+use App\NilaiAkhirLuaranLainnya;
 use App\Periode;
 use App\Posisi;
 use App\LaporanAkhir;
@@ -139,323 +140,31 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
         $_token = $request->get('_token');
        try
         {
-            $skema = Proposal::find( $request->prosalid);
+            $cek = NilaiAkhirLuaranLainnya::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
 
-            if($skema->idskema == 1 ){//unggulan 9
-                $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
-
-                if($cek){
-                    $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-                    $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-                    $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-                    $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-                    $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-                    $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-                    $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-                    $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-                    $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
-                    $cek->update();
-    
-               
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
-                }else{
-    
-                    $nilai = new NilaiLaporanAkhir();
-        
-                    $nilai->prosalid = $request->prosalid;
-                    $nilai->iddosen = Auth::user()->id;
-                    $nilai->jenis = 1;
-                    $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-                    $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-                    $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-                    $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-                    $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-                    $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-                    $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-                    $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-                    $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
-                    $nilai->save();
-        
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-                }
-    
-            }elseif($skema->idskema==2){//inovasi 11
-
-                $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
-                if($cek){
+            if($cek){
+                $cek->kategori = $request->kategori;
+                $cek->komentar  = $request->komentar;
+                $cek->update();
                 
-                    $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-                    $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-                    $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-                    $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-                    $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-                    $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-                    $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-                    $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-                    $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                    $cek->kriteria10 = $request->kriteria10; $cek->nilai10 = $request->nilai10;
-                    $cek->kriteria11 = $request->kriteria11; $cek->nilai11 = $request->nilai11;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
-                    $cek->update();
-    
-               
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
-                }else{
-    
-                    $nilai = new NilaiLaporanAkhir();
-        
-                    $nilai->prosalid = $request->prosalid;
-                    $nilai->iddosen = Auth::user()->id;
-                    $nilai->jenis = 1;
-                    $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-                    $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-                    $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-                    $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-                    $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-                    $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-                    $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-                    $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-                    $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                    $nilai->kriteria10 = $request->kriteria10; $nilai->nilai10 = $request->nilai10;
-                    $nilai->kriteria11 = $request->kriteria11; $nilai->nilai11 = $request->nilai11;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
-                    $nilai->save();
-        
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-                }
-            }elseif($skema->idskema==3 or $skema->idskema==9 ){//bidangilmu 10 or kolaborasi
-                $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
+                return response()->json(['success' ,'data berhasil ditambahkan'], 200);
 
-                if($cek){
-                    $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-                    $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-                    $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-                    $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-                    $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-                    $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-                    $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-                    $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-                    $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                    $cek->kriteria10 = $request->kriteria10; $cek->nilai10 = $request->nilai10;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
-                    $cek->update();
-                    
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
     
-        
-                }else{
-    
-                    $nilai = new NilaiLaporanAkhir();
-        
-                    $nilai->prosalid = $request->prosalid;
-                    $nilai->iddosen = Auth::user()->id;
-                    $nilai->jenis = 1;
-                    $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-                    $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-                    $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-                    $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-                    $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-                    $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-                    $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-                    $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-                    $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                    $nilai->kriteria10 = $request->kriteria10; $nilai->nilai10 = $request->nilai10;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
-                    $nilai->save();
-        
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-                }
-            }elseif($skema->idskema==4){//guru 9
-                $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
+            }else{
 
-                
-                if($cek){
-                    $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-                    $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-                    $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-                    $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-                    $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-                    $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-                    $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-                    $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-                    $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
-                    $cek->update();
+                $nilai = new  NilaiAkhirLuaranLainnya();
     
-               
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
-                }else{
-    
-                    $nilai = new NilaiLaporanAkhir();
-        
-                    $nilai->prosalid = $request->prosalid;
-                    $nilai->iddosen = Auth::user()->id;
-                    $nilai->jenis = 1;
-                    $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-                    $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-                    $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-                    $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-                    $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-                    $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-                    $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-                    $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-                    $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
-                    $nilai->save();
-        
-                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-                }
-            }  elseif($skema->idskema == 5 ){//masyarakat
-                $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->where('jenis',2)->first();
-
-               if($cek){
-                   $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-                   $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-                   $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-                   $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-                   $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-                   $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-                   $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-                   $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-                   $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                   $cek->komentar  = $request->komentar;
-                  // $cek->skema  = $skema->idskema;
-                   $cek->update();
-   
+                $nilai->prosalid = $request->prosalid;
+                $nilai->iddosen = Auth::user()->id;
+                $nilai->kategori = $request->kategori;
+                $nilai->komentar  = $request->komentar;
               
-                   return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-   
-       
-               }else{
-   
-                   $nilai = new NilaiLaporanAkhir();
-       
-                   $nilai->prosalid = $request->prosalid;
-                   $nilai->iddosen = Auth::user()->id;
-                   $nilai->jenis = 2;
-                   $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-                   $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-                   $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-                   $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-                   $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-                   $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-                   $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-                   $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-                   $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                   $nilai->komentar  = $request->komentar;
-                   $nilai->skema  = $skema->idskema;
-                   $nilai->save();
-       
-                   return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-               }
-   
-           }
-            elseif($skema->idskema == 6 ){//desa 9
-                $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->where('jenis',2)->first();
+                $nilai->save();
+    
+                return response()->json(['success' ,'data berhasil ditambahkan'], 200);
+            }
 
-               if($cek){
-                   $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-                   $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-                   $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-                   $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-                   $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-                   $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-                   $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-                   $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-                   $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                   $cek->kriteria10 = $request->kriteria10; $cek->nilai10 = $request->nilai10;
-                   $cek->komentar  = $request->komentar;
-                  // $cek->skema  = $skema->idskema;
-                   $cek->update();
-   
-              
-                   return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-   
        
-               }else{
-   
-                   $nilai = new NilaiLaporanAkhir();
-       
-                   $nilai->prosalid = $request->prosalid;
-                   $nilai->iddosen = Auth::user()->id;
-                   $nilai->jenis = 2;
-                   $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-                   $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-                   $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-                   $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-                   $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-                   $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-                   $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-                   $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-                   $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                   $nilai->kriteria10 = $request->kriteria10; $nilai->nilai10 = $request->nilai10;
-                   $nilai->komentar  = $request->komentar;
-                   $nilai->skema  = $skema->idskema;
-                   $nilai->save();
-       
-                   return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-               }
-   
-           }
-           elseif($skema->idskema == 7 ){//masyarakat
-            $cek = NilaiLaporanAkhir::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->where('jenis',1)->first();
-
-           if($cek){
-               $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
-               $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
-               $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
-               $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
-               $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
-               $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
-               $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
-               $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
-               $cek->komentar  = $request->komentar;
-              // $cek->skema  = $skema->idskema;
-               $cek->update();
-
-          
-               return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-
-   
-           }else{
-
-               $nilai = new NilaiLaporanAkhir();
-   
-               $nilai->prosalid = $request->prosalid;
-               $nilai->iddosen = Auth::user()->id;
-               $nilai->jenis = 1;
-               $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
-               $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
-               $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
-               $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
-               $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
-               $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
-               $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
-               $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
-               $nilai->komentar  = $request->komentar;
-               $nilai->skema  = $skema->idskema;
-               $nilai->save();
-   
-               return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-           }
-
-       }
 
                  } catch (\Exception $e) {
             dd($e->getMessage());
@@ -463,36 +172,14 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
     }
     public function getnilai($id)
     {
-        $nilai = NilaiLaporanAkhir::where('prosalid', $id)->where('iddosen',Auth::user()->id)->first();
+        $nilai = NilaiAkhirLuaranLainnya::where('prosalid', $id)->where('iddosen',Auth::user()->id)->first();
 
         if($nilai) {
             $output = array();
 
             $output[] = $nilai->komentar;
-            $output[] = $nilai->kriteria1;
-            $output[] = $nilai->kriteria2;
-            $output[] = $nilai->kriteria3;
-            $output[] = $nilai->kriteria4;
-            $output[] = $nilai->kriteria5;
-            $output[] = $nilai->kriteria6;
-            $output[] = $nilai->kriteria7;
-            $output[] = $nilai->kriteria8;
-            $output[] = $nilai->kriteria9;
-            $output[] = $nilai->kriteria10;
-            $output[] = $nilai->kriteria11;
+            $output[] = $nilai->kategori;
             
-            $output[] = $nilai->nilai1; //12
-            $output[] = $nilai->nilai2; //13
-            $output[] = $nilai->nilai3; //14
-            $output[] = $nilai->nilai4; //15
-            $output[] = $nilai->nilai5; //16
-            $output[] = $nilai->nilai6; //17
-            $output[] = $nilai->nilai7; //18
-            $output[] = $nilai->nilai8; //19
-            $output[] = $nilai->nilai9; //20
-            $output[] = $nilai->nilai10; //21
-            $output[] = $nilai->nilai11; //22
-            $output[] = $nilai->rekomdana; //23
             
         
             return json_encode($output);
@@ -524,7 +211,7 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
                 ->leftJoin('tb_laporan_akhir', 'tb_laporan_akhir.prosalid', 'tb_proposal.id')
                 ->leftJoin('adm_status', 'tb_laporan_akhir.status', 'adm_status.id')
                 ->where('tb_ploting_reviewer.iddosen', Auth::user()->id)
-                ->where('tb_ploting_reviewer.jenis', 53)
+                ->where('tb_ploting_reviewer.jenis', 54)
                 ->where('tb_penelitian.status', 4)
                 // ->where('tb_proposal.jenis', 1)
                 ->groupBy('tb_proposal.id')
@@ -567,7 +254,7 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
                        return $skema->skema;
                   
                })
-               ->addColumn('reviewer', function($proposal) {
+               ->addColumn('monev1', function($proposal) {
                 $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','tb_ploting_reviewer.iddosen','nama','adm_status.jenis')
                     ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
                     ->leftJoin('adm_status','adm_status.id','tb_ploting_reviewer.jenis' )
@@ -613,6 +300,52 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
 
 
             })
+            ->addColumn('monevhasil', function($proposal) {
+                $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','tb_ploting_reviewer.iddosen','nama','adm_status.jenis')
+                    ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
+                    ->leftJoin('adm_status','adm_status.id','tb_ploting_reviewer.jenis' )
+                    ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
+                    ->where('tb_ploting_reviewer.jenis', 52)
+                    ->orderBy('tb_ploting_reviewer.iddosen','ASC')
+                    ->orderBy('tb_ploting_reviewer.jenis','ASC')
+                    ->get();
+                $data = '';
+                $temp = '';
+                $rata = array();
+                // here we prepare the options
+                 foreach ($ploting as $list) {
+                    $nilai = NilaiLaporanAkhir::where('prosalid',$proposal->id)
+                    ->where('iddosen',$list->iddosen)->first();
+                   
+                    $nilai2 = Nilai2LaporanAkhir::where('prosalid',$proposal->id)
+                    ->where('iddosen',$list->iddosen)->first();
+                    $totalnilai = $nilai->nilai1 + $nilai->nilai2 + $nilai->nilai3 + $nilai->nilai4 + $nilai->nilai5 + $nilai->nilai6 + $nilai->nilai7 + $nilai->nilai8 + $nilai->nilai9 + $nilai->nilai10 + $nilai->nilai11  ;
+                    
+                    $rata[] = $totalnilai;
+                     if ($temp != $list->nama){
+                        $data .= '
+                        '
+                        ;
+                        $temp = $list->nama;
+                    }else{
+                        $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
+                        '
+                        ;
+                    }
+
+                }
+                $return =
+                    '<td class="text-left">' .$data . '</td><br>
+                    <td class="text-left">Rata-Rata : <small class="label label-primary"> '  . array_sum($rata)/count($rata) . '</small></td>
+                       ';
+                if ($data == null){
+                    return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
+                }else{
+                    return $return;
+                }
+
+
+            })
                 ->addColumn('status', function ($proposal) {
                     $ploting = PlotingReviwer::select('tb_ploting_reviewer.iddosen','nama')
                     ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
@@ -621,18 +354,9 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
                 $data = '';
                 // here we prepare the options
                 foreach ($ploting as $list) {
-                    $nilai = NilaiLaporanAkhir::where('prosalid',$proposal->id)->where('iddosen',Auth::user()->id)->first();
-                    $nilai2 = Nilai2LaporanAkhir::where('prosalid',$proposal->id)->where('iddosen',Auth::user()->id)->first();
-                    if ($nilai && $nilai2){
-                        $data = '<span class="label label-success">Penilaian Monev Hasil Selesai</span><br><span class="label label-success">Tanggapan Reviewer Selesai</span>'
-                        ;
-                    }
-                    else if ($nilai){
-                        $data = '<span class="label label-success">Penilaian Monev Hasil Selesai </span><br> <span class="label label-danger">Lanjutkan Tanggapan Reviewer </span>'
-                        ;
-                    }
-                    else if ($nilai2){
-                        $data = '<span class="label label-success">Tanggapan Reviewer Selesai </span><br> <span class="label label-danger">Lanjutkan Penilaian Monev Hasil</span>'
+                    $nilai = NilaiAkhirLuaranLainnya::where('prosalid',$proposal->id)->where('iddosen',Auth::user()->id)->first();
+                    if ($nilai){
+                        $data = '<span class="label label-success">Sudah di Nilai </span>'
                         ;
                     }
                     else{
@@ -708,13 +432,12 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
                     }
                     else {
                         return '
-                        <a  href="' . route('rn_laporanakhir.resume', base64_encode(mt_rand(10, 99) . $proposal->prosalid)) . '" class="btn btn-xs edit btn-warning" title="Luaran Penelitian"><i class="glyphicon glyphicon-file"></i> </a>
-                        <a  href="'. route('rn_laporanakhir.resumenilai',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Penilaian Monev"><i class="glyphicon glyphicon-edit"></i> </a>
-                        <a  href="'. route('rn_laporanakhir.resumenilai2',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-primary" title="Tanggapan Reviewer"><i class="glyphicon glyphicon-edit"></i> </a>
+                        <a  href="' . route('rn_luaranlainnya.resume', base64_encode(mt_rand(10, 99) . $proposal->prosalid)) . '" class="btn btn-xs edit btn-warning" title="Luaran Penelitian"><i class="glyphicon glyphicon-file"></i> </a>
+                        <a  href="'. route('rn_luaranlainnya.resumenilai',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Luaran Lainnya"><i class="glyphicon glyphicon-edit"></i> </a>
                         ';
                     }
                 })
-                ->rawColumns(['judul','jenis','skema','status','reviewer','upload', 'action'])
+                ->rawColumns(['judul','jenis','skema','status','monev1','monevhasil','upload', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -779,7 +502,7 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
         $anggaranakhir = AnggaranAkhir::where('prosalid', $prop->id)->first();
 
 
-        return view('reviewer.penilaianpelaksanaan.laporanakhir.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','luarkemajuan','biaya','thnr','tbhn','tjln','tbrg','mata','laporanakhir','anggaranakhir'));
+        return view('reviewer.penilaianpelaksanaan.luaranlainnya.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','luarkemajuan','biaya','thnr','tbhn','tjln','tbrg','mata','laporanakhir','anggaranakhir'));
     }
      public function baca($id)
     {
@@ -925,22 +648,8 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
         $mata = Mataanggaran::select('batas')->get();
 
         if($prop->idskema == 1 ){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumeunggulan', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema==2){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumeinovasi', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema==3){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumebidangilmu', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema==4){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumeguru', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema == 6 ){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumedesa', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema==5){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumemasyarakat', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema==7){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumedosenmuda', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }elseif($prop->idskema==9){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumekolaborasi', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
-        }
+        }            return view('reviewer.penilaianpelaksanaan.luaranlainnya.resumenilai', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+
 
     }
     public function resumenilai2($id)
@@ -994,9 +703,9 @@ class PenilaianAkhirLuaranLainnyaController extends Controller
         $mata = Mataanggaran::select('batas')->get();
 
         if($prop->jenis == 1 ){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumepenelitian', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+            return view('reviewer.penilaianpelaksanaan.luaranlainnya.resumepenelitian', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }elseif($prop->jenis==2){
-            return view('reviewer.penilaianpelaksanaan.laporanakhir.resumepengabdian', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+            return view('reviewer.penilaianpelaksanaan.luaranlainnya.resumepengabdian', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }
 
     }

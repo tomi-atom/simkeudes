@@ -507,6 +507,15 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
     Route::GET('rn_laporanakhir/bacaangaran/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaanggaran')->name('rn_laporanakhir.bacaanggaran');
     Route::GET('rn_laporanakhir/bacaproposal/{id}','Reviewer\Penilaian\PenilaianLaporanAkhirController@bacaproposal')->name('rn_laporanakhir.bacaproposal');
     
+
+    Route::resource('hasilakhirluaran', 'Admin\Penilaian\HasilAkhirLuaranController');
+    Route::get('hasilakhirluaran/get_data', 'Admin\Penilaian\HasilAkhirLuaranController@show');
+    Route::GET('hasilakhirluaran/resume/{id}','Admin\Penilaian\HasilAkhirLuaranController@resume')->name('hasilakhirluaran.resume');
+    Route::GET('hasilakhirluaran/resumenilai/{id}','Admin\Penilaian\HasilAkhirLuaranController@resumenilai')->name('hasilakhirluaran.resumenilai');
+    Route::GET('hasilakhirluaran/resumeberkas/{id}','Admin\Penilaian\HasilAkhirLuaranController@resumeberkas')->name('hasilakhirluaran.resumeberkas');
+    Route::POST('hasilakhirluaran/get/{id}','Admin\Penilaian\HasilAkhirLuaranController@getnilai')->name('hasilakhir.nilai');
+   
+
    
 
     //PEMANTAUAN

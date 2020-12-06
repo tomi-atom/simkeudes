@@ -47,9 +47,9 @@
                                         <th scope="col" class="text-center" width="30%">Judul</th>
                                         <th scope="col" class="text-left" width="10%">Jenis</th>
                                         <th scope="col" class="text-left" width="10%">Skema</th>
-                                        <th scope="col" class="text-left" width="10%">Status</th>
                                         <th scope="col" class="text-left" width="10%">Nilai Monev 1</th>
-                                        <th scope="col" class="text-left" width="10%">Nilai Luaran Lainnya</th>
+                                        <th scope="col" class="text-left" width="10%">Nilai Monev Hasil</th>
+                                        <th scope="col" class="text-left" width="10%">Status</th>
                                         <th scope="col" class="text-left" width="10%">Upload</th>
 
                                         <th scope="col" class="text-left" width="10%">Aksi</th>
@@ -115,7 +115,7 @@
             $('#mytable').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: 'rn_laporanakhir/get_data',
+                    ajax: 'rn_luaranlainnya/get_data',
                     columns: [{
                         data: 'rownum',
                         orderable: false,
@@ -142,14 +142,15 @@
                         {
                             data: 'skema',
                         },
+                        
+                        {
+                            data: 'monev1',
+                        },
+                        {
+                            data: 'monevhasil',
+                        },
                         {
                             data: 'status',
-                        },
-                        {
-                            data: 'reviewer',
-                        },
-                        {
-                            data: 'upload',
                         },
                         {
                             data: 'upload',
@@ -181,7 +182,7 @@
                 };
 
                 $.ajax({
-                    url: "rn_laporanakhir/" + id,
+                    url: "rn_luaranlainnya/" + id,
                     method: 'PUT',
                     data: data,
                     success: function (result) {
@@ -315,7 +316,7 @@
                             token();
 
                             $.ajax({
-                                url: 'rn_laporanakhir/' + id,
+                                url: 'rn_luaranlainnya/' + id,
                                 method: 'DELETE',
                                 dataType: 'json',
                                 data: {id:id,"_token": "{{ csrf_token() }}"},

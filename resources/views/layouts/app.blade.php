@@ -461,6 +461,7 @@ desired effect
            <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Desk Evaluasi</a></li>
             <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev</a></li>
             <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Hasil</a></li>
+            <li><a href="{{ route('hasilakhirluaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Luaran Lainnya</a></li>
 
            <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->
           </ul>
