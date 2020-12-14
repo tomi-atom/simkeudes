@@ -154,6 +154,7 @@ Pertanyaan yang Wajib diisi Reviewer
                                                 <div class="col-sm-12 input-group input-group-sm">
                                                     <select class="form-control" id="kriteria4" name="kriteria4" required>
                                                         <option value=""> -  </option>
+                                                        <option value="0"> Tidak Ada</option>
                                                         <option value="1"> TTG </option>
                                                         <option value="2"> Model  </option>
                                                         <option value="3"> Prototipe  </option>

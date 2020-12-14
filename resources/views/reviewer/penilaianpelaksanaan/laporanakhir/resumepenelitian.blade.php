@@ -126,6 +126,7 @@ Pertanyaan yang Wajib diisi Reviewer
                                                 <div class="col-sm-12 input-group input-group-sm">
                                                     <select class="form-control" id="kriteria3" name="kriteria3" required>
                                                         <option value=""> -  </option>
+                                                        <option value="0"> Tidak Ada  </option>
                                                         <option value="1"> Model  </option>
                                                         <option value="2"> Teknologi Tepat Guna  </option>
                                                         <option value="3"> Desain  </option>
