@@ -519,6 +519,7 @@ desired effect
               </span>
             </a>
             <ul class="treeview-menu">
+              <li><a href="{{ route('datapenelitian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Data Penelitian Pengabdian</a></li>
               <li><a href="{{ route('dosen.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Dosen</a></li>
               <li><a href="{{ route('mataanggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Anggaran</a></li>
               <li><a href="{{ route('bidangtkt.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Bidang TKT</a></li>

@@ -382,8 +382,17 @@ Route::group(['middleware' => ['cekuser:3']], function(){
     Route::RESOURCE('pengabdianbarudana.subtansi', 'Admin\UsulanDana\SubtansiController');
     Route::POST('pengabdianbarudana.subtansi/get/{id}','Admin\UsulanDana\SubtansiController@getusulan')->name('pengabdianbarudana.usulan');
 
+    //Data Penelitian
+    Route::resource('datapenelitian', 'Admin\Data\DataPenelitianController');
+    Route::get('datapenelitian/get_data', 'Admin\Data\DataPenelitianController@show');
+    Route::GET('datapenelitian/resume/{id}','Admin\Data\DataPenelitianController@resume')->name('datapenelitian.resume');
 
-
+    Route::RESOURCE('dataproposal',   'Admin\Data\ProposalController');
+    Route::POST('dataproposal/fetch','Admin\Data\ProposalController@fetchilmu')->name('dataproposal.fetch');
+    Route::POST('dataproposal/tkt',  'Admin\Data\ProposalController@loadtkt')->name('dataproposal.reloadtkt');
+    Route::POST('dataproposal/topik','Admin\Data\ProposalController@loadtpk') ->name('dataproposal.reloadtpk');
+    Route::POST('dataproposal/bidang','Admin\Data\ProposalController@loadbdg')->name('dataproposal.reloadbdg');
+ 
 
 
     //DataPendukung
