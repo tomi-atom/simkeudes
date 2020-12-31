@@ -91,13 +91,7 @@
                         </div>
                         <div class="form-group">
                             <label for="skema">Skema</label>
-                            <select name="skema" id="skema" class="form-control" required>
-                                <option value="">Pilih Skema</option>
-                                @foreach($skema as $listskema)
-                                    <option value="{{ $listskema->id }}">{{ $listskema->skema}}</option>
-
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control skema" name="skema" placeholder="Skema" required>
                         </div>
                         <div class="form-group">
                             <label for="minpeserta">Min Peserta</label>

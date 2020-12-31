@@ -109,6 +109,84 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
 
    Route::RESOURCE('validasipengabdian', 'Pengabdian\ValidasiController');
 
+////Perbaikan
+Route::RESOURCE('perbaikanpenelitianng', 'PerbaikanPenelitian\PenelitianngController');
+   Route::GET('perbaikanpenelitianng/resume/{id}','PerbaikanPenelitian\PenelitianngController@resume')->name('perbaikanpenelitianng.resume');
+   Route::GET('perbaikanpenelitianng/unduh/{id}','PerbaikanPenelitian\PenelitianngController@unduh')->name('perbaikanpenelitianng.unduh');
+   Route::GET('perbaikanpenelitianng/penyetujuan/{id}', 'PerbaikanPenelitian\PenelitianngController@setuju')->name('perbaikanpenelitianng.setuju');
+   Route::GET('perbaikanpenelitianng/response/{id}','PerbaikanPenelitian\PenelitianngController@response')->name('perbaikanpenelitianng.response');
+   Route::GET('perbaikanpenelitianng/catatan/{id}','PerbaikanPenelitian\PenelitianngController@baca')->name('perbaikanpenelitianng.baca');
+
+   Route::RESOURCE('perbaikanpenelitianng.proposal',   'PerbaikanPenelitian\ProposalController');
+   Route::POST('perbaikanpenelitianng.proposal/fetch','PerbaikanPenelitian\ProposalController@fetchilmu')->name('perbaikanpenelitianng.fetch');
+   Route::POST('perbaikanpenelitianng.proposal/tkt',   'PerbaikanPenelitian\ProposalController@loadtkt')->name('perbaikanpenelitianng.reloadtkt');
+   Route::POST('perbaikanpenelitianng.proposal/topik','PerbaikanPenelitian\ProposalController@loadtpk') ->name('perbaikanpenelitianng.reloadtpk');
+   Route::POST('perbaikanpenelitianng.proposal/bidang','PerbaikanPenelitian\ProposalController@loadbdg')->name('perbaikanpenelitianng.reloadbdg');
+
+   Route::RESOURCE('perbaikanpenelitianng.anggota', 'PerbaikanPenelitian\AnggotaController');
+   Route::POST('perbaikanpenelitianng.anggota/data/{id}','PerbaikanPenelitian\AnggotaController@loadanggota')->name('perbaikanpenelitianng.list');
+   Route::POST('perbaikanpenelitianng.anggota/peserta','PerbaikanPenelitian\AnggotaController@reloadpeserta')->name('perbaikanpenelitianng.data');
+   Route::POST('perbaikanpenelitianng.anggota/rincian','PerbaikanPenelitian\AnggotaController@rincipeserta')->name('perbaikanpenelitianng.detail');
+
+   Route::RESOURCE('perbaikanpenelitianng.subtansi', 'PerbaikanPenelitian\SubtansiController');
+   Route::POST('perbaikanpenelitianng.subtansi/get/{id}','PerbaikanPenelitian\SubtansiController@getusulan')->name('perbaikanpenelitianng.usulan');
+   Route::POST('perbaikanpenelitianng.subtansi/update/{id}','PerbaikanPenelitian\SubtansiController@perbaru')->name('perbaikanpenelitianng.ganti');
+
+   Route::RESOURCE('perbaikanpenelitianng.luaran', 'PerbaikanPenelitian\LuaranController');
+   Route::POST('perbaikanpenelitianng.luaran/wajib','PerbaikanPenelitian\LuaranController@luaranwajib')->name('perbaikanpenelitianng.wajib');
+   Route::POST('perbaikanpenelitianng.luaran/tambah','PerbaikanPenelitian\LuaranController@luarantambah')->name('perbaikanpenelitianng.tambah');
+   Route::POST('perbaikanpenelitianng.luaran/target','PerbaikanPenelitian\LuaranController@loadtarget')->name('perbaikanpenelitianng.target');
+
+   Route::RESOURCE('perbaikanpenelitianng.anggaran',   'PerbaikanPenelitian\AnggaranController');
+    Route::GET('perbaikanpenelitianng.anggaran/edit/{id}','PerbaikanPenelitian\AnggaranController@edit')->name('penelitiananggaran.edit');
+    Route::POST('perbaikanpenelitianng.anggaran/total', 'PerbaikanPenelitian\AnggaranController@showtotal')->name('perbaikanpenelitianng.showtotal');
+   Route::POST('perbaikanpenelitianng.anggaran/honor', 'PerbaikanPenelitian\AnggaranController@showhonor')->name('perbaikanpenelitianng.showhonor');
+   Route::POST('perbaikanpenelitianng.anggaran/bahan', 'PerbaikanPenelitian\AnggaranController@showbahan')->name('perbaikanpenelitianng.showbahan');
+   Route::POST('perbaikanpenelitianng.anggaran/jalan', 'PerbaikanPenelitian\AnggaranController@showjalan')->name('perbaikanpenelitianng.showjalan');
+   Route::POST('perbaikanpenelitianng.anggaran/barang','PerbaikanPenelitian\AnggaranController@showbrng')->name('perbaikanpenelitianng.showbarang');
+
+   Route::RESOURCE('validasiperbaikanpenelitian', 'PerbaikanPenelitian\ValidasiController');
+
+
+   Route::RESOURCE('perbaikanpengabdianng', 'PerbaikanPengabdian\PengabdianngController');
+   Route::GET('perbaikanpengabdianng/resume/{id}','PerbaikanPengabdian\PengabdianngController@resume')->name('perbaikanpengabdianng.resume');
+   Route::GET('perbaikanpengabdianng/unduh/{id}','PerbaikanPengabdian\PengabdianngController@unduh')->name('perbaikanpengabdianng.unduh');
+   Route::GET('perbaikanpengabdianng/penyetujuan/{id}', 'PerbaikanPengabdian\PengabdianngController@setuju')->name('perbaikanpengabdianng.setuju');
+   Route::GET('perbaikanpengabdianng/response/{id}','PerbaikanPengabdian\PengabdianngController@response')->name('perbaikanpengabdianng.response');
+   Route::GET('perbaikanpengabdianng/catatan/{id}','PerbaikanPengabdian\PengabdianngController@baca')->name('perbaikanpengabdianng.baca');
+
+   Route::RESOURCE('perbaikanpengabdianng.proposal',   'PerbaikanPengabdian\ProposalController');
+   Route::POST('perbaikanpengabdianng.proposal/fetch','PerbaikanPengabdian\ProposalController@fetchilmu')->name('perbaikanpengabdianng.fetch');
+   Route::POST('perbaikanpengabdianng.proposal/topik','PerbaikanPengabdian\ProposalController@loadtpk') ->name('perbaikanpengabdianng.reloadtpk');
+   Route::POST('perbaikanpengabdianng.proposal/bidang','PerbaikanPengabdian\ProposalController@loadbdg')->name('perbaikanpengabdianng.reloadbdg');
+
+   Route::RESOURCE('perbaikanpengabdianng.anggota', 'PerbaikanPengabdian\AnggotaController');
+   Route::POST('perbaikanpengabdianng.anggota/data/{id}','PerbaikanPengabdian\AnggotaController@loadanggota')->name('perbaikanpengabdianng.list');
+   Route::POST('perbaikanpengabdianng.anggota/peserta','PerbaikanPengabdian\AnggotaController@reloadpeserta')->name('perbaikanpengabdianng.data');
+   Route::POST('perbaikanpengabdianng.anggota/rincian','PerbaikanPengabdian\AnggotaController@rincipeserta')->name('perbaikanpengabdianng.detail');
+
+   Route::RESOURCE('perbaikanpengabdianng.subtansi', 'PerbaikanPengabdian\SubtansiController');
+   Route::POST('perbaikanpengabdianng.subtansi/get/{id}','PerbaikanPengabdian\SubtansiController@getusulan')->name('perbaikanpengabdianng.usulan');
+   Route::POST('perbaikanpengabdianng.subtansi/update/{id}','PerbaikanPengabdian\SubtansiController@perbaru')->name('perbaikanpengabdianng.ganti');
+
+   Route::RESOURCE('perbaikanpengabdianng.luaran', 'PerbaikanPengabdian\LuaranController');
+   Route::POST('perbaikanpengabdianng.luaran/wajib','PerbaikanPengabdian\LuaranController@luaranwajib')->name('perbaikanpengabdianng.wajib');
+   Route::POST('perbaikanpengabdianng.luaran/tambah','PerbaikanPengabdian\LuaranController@luarantambah')->name('perbaikanpengabdianng.tambah');
+   Route::POST('perbaikanpengabdianng.luaran/target','PerbaikanPengabdian\LuaranController@loadtarget')->name('perbaikanpengabdianng.target');
+
+   Route::RESOURCE('perbaikanpengabdianng.anggaran',   'PerbaikanPengabdian\AnggaranController');
+    Route::GET('perbaikanpengabdianng.anggaran/edit/{id}', 'PerbaikanPengabdian\AnggaranController@edit')->name('pengabdiananggaran.edit');
+   Route::POST('perbaikanpengabdianng.anggaran/total','PerbaikanPengabdian\AnggaranController@showtotal')->name('perbaikanpengabdianng.showtotal');
+   Route::POST('perbaikanpengabdianng.anggaran/honor','PerbaikanPengabdian\AnggaranController@showhonor')->name('perbaikanpengabdianng.showhonor');
+   Route::POST('perbaikanpengabdianng.anggaran/bahan','PerbaikanPengabdian\AnggaranController@showbahan')->name('perbaikanpengabdianng.showbahan');
+   Route::POST('perbaikanpengabdianng.anggaran/jalan','PerbaikanPengabdian\AnggaranController@showjalan')->name('perbaikanpengabdianng.showjalan');
+   Route::POST('perbaikanpengabdianng.anggaran/barang','PerbaikanPengabdian\AnggaranController@showbrng')->name('perbaikanpengabdianng.showbarang');
+
+   Route::RESOURCE('validasiperbaikanpengabdian', 'PerbaikanPengabdian\ValidasiController');
+
+
+
+
 
     Route::GET('rancangan/resume/{id}','Pelaksanaan\RancanganController@resume')->name('rancangan.resume');
     Route::GET('rancangan/penyetujuan/{id}', 'Pelaksanaan\RancanganController@setuju')->name('rancangan.setuju');
