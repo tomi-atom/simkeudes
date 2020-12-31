@@ -12,13 +12,16 @@ use App\Keanggotaan;
 
 use App\Peneliti;
 
+use App\Periode;
 use App\Program;
 use App\Rumpun;
 use App\Fokus;
 use App\Skema;
 use App\Topik;
 use App\Tema;
+use DB;
 
+use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use Redirect;
 
@@ -55,7 +58,8 @@ class ProposalController extends Controller
 
        // $idskem = (Integer)substr($temp[0], 1, strlen($temp[0])) - 2; 
         //$idprog = (Integer)substr($temp[1], 1, strlen($temp[1])) - 9;
-
+        $periode  = Periode::where('aktif','1')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
+        ->get();
         $iddsn = Auth::user()->id;
         $program  = Program::get();
         $peneliti = Peneliti::select('idpddk','fungsi')->where('id', $iddsn)->first();
@@ -67,6 +71,7 @@ class ProposalController extends Controller
                            ->where('ketuaid', $iddsn)
                            ->count();
         
+        /*                   
         $ttl = count($skema);
         foreach ($skema as $data) {
             if (($total >= $data->kuota)){
@@ -81,13 +86,13 @@ class ProposalController extends Controller
                     $data->id = 0;
                     $data->skema = '';
             }
-        }
+        }*/
         
         $rumpun = Rumpun::groupBy('ilmu1')->orderBy('id')->get();
 
         $fokus = Fokus::where('aktif', '1')->get(); 
 
-        return view('admin.datapenelitian.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
+        return view('admin.datapenelitian.proposal.index', compact('person','periode', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
 
         /*
         $periode = 2;
@@ -118,15 +123,15 @@ class ProposalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id, Request $request)
+    public function store(Request $request)
     {
-        $temp = explode("/", base64_decode($id));
-        $periode= (Integer)substr($temp[0], 2, strlen($temp[0]));
-        $idprog = (Integer)$temp[1];
+         //   $temp = explode("/", base64_decode($id));
+        //$periode= (Integer)substr($temp[0], 2, strlen($temp[0]));
+         //  $idprog = (Integer)$temp[1];
         $jdlprop= $request['judul'] ? $request['judul'] : '';
 
-        $penelitian  = Proposal::where('idketua',Auth::user()->id)
-                               ->where('periodeusul', $periode)
+        $penelitian  = Proposal::where('idketua',$request['iddosen'])
+                               ->where('periodeusul', $request['periodeusul'])
                                ->where('jenis', 1)
                                ->where('aktif', '1')
                                ->count();
@@ -135,21 +140,21 @@ class ProposalController extends Controller
 
         $batasskema = Keanggotaan::select('anggotaid')
             ->leftJoin('tb_proposal', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
+            ->where('tb_keanggota.anggotaid', $request['iddosen'])
             ->where('tb_keanggota.setuju', 1)
             ->where('tb_proposal.jenis', 1)
-            ->where('tb_proposal.periodeusul',$periode)
+            ->where('tb_proposal.periodeusul',$request['periodeusul'])
             ->where('tb_proposal.idskema', $request['skema'])
             ->where('tb_proposal.aktif', '1')
             ->count();
 
         if(!$penelitian && !$judul && !$batasskema) {
             $proposal = new Proposal;
-            $proposal->idketua    = Auth::user()->id;
+            $proposal->idketua    = $request['iddosen'];
             $proposal->idtkt      = 1;
-            $proposal->periodeusul= $periode;
+            $proposal->periodeusul= $request['periodeusul'];
             $proposal->jenis      = 1;
-            $proposal->idprogram  = $idprog;
+            $proposal->idprogram  = 3;
             $proposal->judul      = $request['judul'];
             $proposal->tktawal    = $request['tkt1'];
             $proposal->tktakhir   = $request['tkt2'];
@@ -169,7 +174,7 @@ class ProposalController extends Controller
 
             $penelitian = new Penelitian;
             $penelitian->prosalid = $proposal->id;
-            $penelitian->ketuaid  = Auth::user()->id;
+            $penelitian->ketuaid  = $request['iddosen'];
             $penelitian->thnkerja = $request['thnkerja'];
             $penelitian->tahun_ke = 1;
           //  $penelitian->status   = 1;
@@ -177,8 +182,8 @@ class ProposalController extends Controller
             $penelitian->save();
 
 
-            return Redirect::route('admin.datapenelitian.anggota.index', base64_encode($proposal->id."/".mt_rand(10,99).(9 + $proposal->idskema)))->withInput()->withErrors(array('success' => 'succes'));;
-        }
+            return Redirect::back()->withInput()->withErrors(array('success' => 'success'));
+            }
         else {
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
             //return Redirect::route('error666');
@@ -191,7 +196,28 @@ class ProposalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($iddosen, $id)
+    public function show()
+    {
+        try
+        {
+            DB::statement(DB::raw('set @rownum=0'));
+            $peneliti = Peneliti::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'users.id', 'nidn','nip','nama','tb_peneliti.email'])
+            ->leftJoin('users','users.email','tb_peneliti.nidn')
+            //->where('users.level',1);
+            ->whereIn('users.level',[1,2]);
+            //->groupBy('users.id');
+
+            return DataTables::of($peneliti)
+                ->addColumn('action', function ($peneliti) {
+                    return ' <a onclick="selectAnggota('.$peneliti->id.','.$peneliti->nidn.')" class="btn btn-primary"><i class="fa fa-check-circle"></i> Pilih</a>';
+                })
+                ->make(true);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+    }
+    public function show2()
     {
         
         $person = ProposalController::countPersonil();
@@ -393,46 +419,16 @@ class ProposalController extends Controller
         }
         echo $output;
     } 
+   
 
-    public function loadanggota($id)
+    public function loadanggota()
     {
-        $temp = explode("/", base64_decode($id));
-        $proposalid = (Integer)$temp[0];
-        $idskemapro = (Integer)substr($temp[1], 2, strlen($temp[1]))-9;
-        
-        if ($idskemapro == 7) { 
-            $peserta = Peneliti::select('id','nama','nidn','idpddk', 'fungsi')->whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
-                            ->where('idpddk', '>', 4)
-                            ->where('fungsi', '<', 3)
-                            ->where('id', '!=', Auth::user()->id)
-                            ->orderBy('nama', 'asc')
-                            ->get();
-        }
-        else if ($idskemapro == 3) {
-            $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
-                            ->where('idpddk', '>', 1)
-                            ->where('id', '!=', Auth::user()->id)
-                            ->orderBy('nama', 'asc')
-                            ->get();
-        }
-        else if ($idskemapro == 2) {
-            $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
-                            ->where('idpddk', '>', 1)
-                            ->where('id', '!=', Auth::user()->id)
-                            ->orderBy('nama', 'asc')
-                            ->get();
-        }
-        else 
-            $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
-                            ->where('idpddk', '>', 4)
-                            ->where('id', '!=', Auth::user()->id)
-                            ->orderBy('nama', 'asc')
-                            ->get();
-               
+    
+        $peserta = Peneliti::where('sinta', '!=', '')
+                        ->where('id', '!=', Auth::user()->id)
+                        ->orderBy('nama', 'asc')
+                        ->get();
+            
         $no = 0;
         foreach($peserta as $list) {
             $no++;

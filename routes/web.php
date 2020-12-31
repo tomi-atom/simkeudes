@@ -470,6 +470,9 @@ Route::group(['middleware' => ['cekuser:3']], function(){
     Route::POST('dataproposal/tkt',  'Admin\Data\ProposalController@loadtkt')->name('dataproposal.reloadtkt');
     Route::POST('dataproposal/topik','Admin\Data\ProposalController@loadtpk') ->name('dataproposal.reloadtpk');
     Route::POST('dataproposal/bidang','Admin\Data\ProposalController@loadbdg')->name('dataproposal.reloadbdg');
+    Route::POST('dataproposal/data','Admin\Data\ProposalController@loadanggota')->name('dataproposal.list');
+    Route::POST('dataproposal/rincian','Admin\Data\ProposalController@rincipeserta')->name('dataproposal.detail');
+    Route::get('dataproposal/get_data', 'Admin\Data\ProposalController@reviewerpenelitian');
  
 
 

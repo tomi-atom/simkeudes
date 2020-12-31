@@ -81,11 +81,7 @@
                                         <th scope="col" class="text-center" width="5%">TKT</th>
                                     
                                         <th scope="col" class="text-left" width="30%">Judul</th>
-                                        <th scope="col" class="text-left" width="20%">Reviewer</th>
-                                        <th scope="col" class="text-left" width="10%">Komentar</th>
-                                        <th scope="col" class="text-left" width="10%">Dana disetujui</th>
-                                        <th scope="col" class="text-left" width="5%">Upload Data</th>
-
+                                       
                                         <th scope="col" class="text-left" width="2%">Aksi</th>
                                 
                                     </tr>
@@ -159,6 +155,7 @@
                                     <th scope="col" class="text-center" width="20%">Nama</th>
                                     <th scope="col" class="text-left" width="10%">Periode</th>
                                     <th scope="col" class="text-left" width="10%">Jenis</th>
+                                    <th scope="col" class="text-left" width="10%">Jenis</th>
                                     <th scope="col" class="text-left" width="10%">Aksi</th>
                                 </tr>
                                 </thead>
@@ -222,7 +219,7 @@
                                 {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU : Monev Hasil'},
                     ],
                     ajax: {
-                        url: 'hasilakhir/get_data',
+                        url: 'datapenelitian/get_data',
                         data:{filter_thn:filter_thn}
                     },
                     columns: [{
