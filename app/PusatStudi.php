@@ -13,4 +13,8 @@ class PusatStudi extends Model
     public function proposal() {
     	return $this->hasMany('App\Proposal', 'id');
     }
+
+    public function tema() {
+        return $this->belongsTo('App\PusatStudi', 'idpusatstudi');
+    }
 }

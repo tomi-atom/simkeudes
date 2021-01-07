@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengabdian;
 
+use App\PusatStudi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -85,9 +86,10 @@ class ProposalController extends Controller
         
         $rumpun = Rumpun::groupBy('ilmu1')->orderBy('id')->get();
 
-        $fokus = Fokus::where('aktif', '1')->get(); 
+        $fokus = Fokus::where('aktif', '1')->get();
+        $pusatstudi = PusatStudi::where('aktif', '1')->get();
 
-        return view('pengabdianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
+        return view('pengabdianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus','pusatstudi', 'idskem'));
 
 
     }
@@ -150,7 +152,7 @@ class ProposalController extends Controller
             $proposal->idtopik    = 0;
         
             $proposal->lama       = $request['lama'];
-            $proposal->aktif      = '0';
+            $proposal->aktif      = '1';
             $proposal->pengesahan = '';
             $proposal->usulan   = '';
 

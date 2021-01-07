@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Penelitian;
 
+use App\PusatStudi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -86,8 +87,9 @@ class ProposalController extends Controller
         $rumpun = Rumpun::groupBy('ilmu1')->orderBy('id')->get();
 
         $fokus = Fokus::where('aktif', '1')->get(); 
+        $pusatstudi = PusatStudi::where('aktif', '1')->get();
 
-        return view('penelitianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
+        return view('penelitianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus','pusatstudi', 'idskem'));
 
         /*
         $periode = 2;
@@ -159,9 +161,9 @@ class ProposalController extends Controller
             $proposal->idfokus    = $request['bidang'];
             $proposal->idtema     = $request['tema'];
             $proposal->idtopik    = $request['topik'];
-        
+            $proposal->idpusatstudi = implode(',', (array) $request->get('pusatstudi'));
             $proposal->lama       = $request['lama'];
-            $proposal->aktif      = '0';
+            $proposal->aktif      = '1';
             $proposal->pengesahan = '';
             $proposal->usulan   = '';
 
@@ -246,10 +248,12 @@ class ProposalController extends Controller
             $fokus = Fokus::where('aktif', '1')->get(); 
             $tema  = Tema::select('id','tema')->where('idskema', $proposal->idskema)->orderBy('id')->get();
             $topik = Topik::select('id','topik')->where('idtema', $proposal->idtema)->orderBy('id')->get();
+            $pusatstudi = PusatStudi::select('id','pusatstudi')->orderBy('id')->get();
+            $idpusatstudi = $proposal->idpusatstudi;
 
             $tahun = Penelitian::select('thnkerja')->where('prosalid', $proposal->id)->first();
         
-            return view('penelitianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik', 'tahun'));
+            return view('penelitianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik','pusatstudi','idpusatstudi', 'tahun'));
         }
     }
 

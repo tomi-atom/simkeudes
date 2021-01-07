@@ -247,6 +247,8 @@
                                 <option value="2019">2019</option>
                                 <option value="2020" selected>2020</option>
                                 <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2022">2023</option>
                             </select>
                         </div>
                     </div>
@@ -263,7 +265,26 @@
                             </select>
                         </div>
                     </div>
-                </div> 
+                </div>
+
+                <p></p>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-offset-2"> Pusat Studi</label><br>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <code>Pilih Minimal 2 Pusat Studi dan Maksimal 5 Pusat Studi</code>
+                        <div class="col-sm-12 input-group input-group-sm">
+                            @foreach($pusatstudi as $list)
+
+                                <li><input type="checkbox" name="pusatstudi[]" id="pusatstudi" value="{{$list->id}}"> <small>{{$list->pusatstudi}}</small></li>
+
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
                 <p>. </p>
                 <div class="row">
                     <div class="col-md-12">
