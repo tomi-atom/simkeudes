@@ -161,7 +161,7 @@ class ProposalController extends Controller
             $proposal->idtopik    = $request['topik'];
         
             $proposal->lama       = $request['lama'];
-            $proposal->aktif      = '0';
+            $proposal->aktif      = '1';
             $proposal->pengesahan = '';
             $proposal->usulan   = '';
 
