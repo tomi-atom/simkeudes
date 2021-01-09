@@ -161,7 +161,7 @@ class ProposalController extends Controller
             $proposal->idfokus    = $request['bidang'];
             $proposal->idtema     = $request['tema'];
             $proposal->idtopik    = $request['topik'];
-            $proposal->idpusatstudi = implode(',', (array) $request->get('pusatstudi'));
+            $proposal->idpusatstudi = implode('/', (array) $request->get('pusatstudi'));
             $proposal->lama       = $request['lama'];
             $proposal->aktif      = '1';
             $proposal->pengesahan = '';
@@ -249,7 +249,7 @@ class ProposalController extends Controller
             $tema  = Tema::select('id','tema')->where('idskema', $proposal->idskema)->orderBy('id')->get();
             $topik = Topik::select('id','topik')->where('idtema', $proposal->idtema)->orderBy('id')->get();
             $pusatstudi = PusatStudi::select('id','pusatstudi')->orderBy('id')->get();
-            $idpusatstudi = $proposal->idpusatstudi;
+            $idpusatstudi =explode("/", $proposal->idpusatstudi); ;
 
             $tahun = Penelitian::select('thnkerja')->where('prosalid', $proposal->id)->first();
         
@@ -291,7 +291,8 @@ class ProposalController extends Controller
             $proposal->idfokus    = $request['bidang'];
             $proposal->idtema     = $request['tema'];
             $proposal->idtopik    = $request['topik'];
-        
+            $proposal->idpusatstudi = implode('/', (array) $request->get('pusatstudi'));
+
             $proposal->lama       = $request['lama'];
 
             $proposal->update();

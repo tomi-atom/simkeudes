@@ -265,6 +265,8 @@
                                 <option value="2019" {{$tahun->thnkerja == 2019 ? 'selected' : ''}}>2019</option>
                                 <option value="2020" {{$tahun->thnkerja == 2020 ? 'selected' : ''}}>2020</option>
                                 <option value="2021" {{$tahun->thnkerja == 2021 ? 'selected' : ''}}>2021</option>
+                                <option value="2022" {{$tahun->thnkerja == 2022 ? 'selected' : ''}}>2022</option>
+                                <option value="2023" {{$tahun->thnkerja == 2023 ? 'selected' : ''}}>2023</option>
                             </select>
                         </div>
                     </div>
@@ -295,7 +297,7 @@
                         <div class="col-sm-12 input-group input-group-sm">
                             @foreach($pusatstudi as $list)
 
-                                <li><input type="checkbox" name="pusatstudi[]" id="pusatstudi" value="{{$list->id}}"    @if($idpusatstudi->contains($list->id)) checked=checked @endif  > <small>{{$list->pusatstudi}}</small></li>
+                                <li><input type="checkbox" name="pusatstudi[]" id="pusatstudi" value="{{$list->id}}"    @if(in_array($list->id,$idpusatstudi)){{"checked='checked'"}}@endif  > <small>{{$list->pusatstudi}}{{$idpusatstudi}}</small></li>
 
 
                             @endforeach
