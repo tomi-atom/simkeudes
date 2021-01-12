@@ -196,16 +196,21 @@
                     searchable: false
                 },
                     {
-                        data: 'nidn'
+                        data: 'email',
+                        name:'users.email'
                     },
                     {
-                        data: 'nip'
+                        data: 'nip',
+                        name:'tb_peneliti.nip'
                     },
                     {
-                        data: 'nama'
+                        data: 'name',
+                        name:'users.name'
+
                     },
                     {
-                        data: 'email'
+                        data: 'email2',
+                        name:'tb_peneliti.email'
                     },
                     {
                         data: 'action',

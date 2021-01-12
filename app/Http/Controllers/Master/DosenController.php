@@ -212,8 +212,8 @@ class DosenController extends Controller
         try
         {
             DB::statement(DB::raw('set @rownum=0'));
-            $peneliti = Peneliti::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'users.id', 'nidn','nip','nama','tb_peneliti.email'])
-            ->leftJoin('users','users.email','tb_peneliti.nidn')
+            $peneliti = User::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'users.id', 'users.email','nip','name', 'tb_peneliti.email as email2'])
+            ->leftJoin('tb_peneliti','users.email','tb_peneliti.nidn')
             //->where('users.level',1);
             ->whereIn('users.level',[1,2]);
             //->groupBy('users.id');
