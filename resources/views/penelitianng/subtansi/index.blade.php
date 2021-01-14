@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('public/adminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 @endsection
 
 @section('content')
@@ -30,7 +31,7 @@
             <div class="panel-body">
                 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Subtansi Usulan - Proposal Penelitian </strong></div>
+                    <div class="panel-heading"><strong>Subtansi Usulan - Proposal Penelitian - <code>Tekan ( Ctrl + V ) untuk Paste Data</code></strong></div>
             
                     <div class="panel-body">
                     <form role="form" method="POST">
@@ -123,7 +124,7 @@
 
 @section('script')
 <script src="{{ asset('public/adminLTE/plugins/responsive-editor/editor.js') }}"></script>
-
+<script src="{{ asset('public/adminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
 <script>
     function getLatar() {
         var _token     = $('input[name = "_token"]').val();
@@ -167,25 +168,25 @@
     }
 
     $(document).ready(function() {
-        $("#ringkas").Editor();
-        $("#latar").Editor();
-        $("#literatur").Editor({"insert_img":true});
-        $("#metode").Editor({"insert_img":true});
-        $("#jadwal").Editor({"insert_img":true});
-        $("#pustaka").Editor();
+        $("#ringkas").wysihtml5()
+        $("#latar").wysihtml5()
+        $("#literatur").wysihtml5()
+        $("#metode").wysihtml5()
+        $("#jadwal").wysihtml5()
+        $("#pustaka").wysihtml5()
 
         $('#katakunci').val('');
         getLatar();
     });
 
     function lanjutSubtansi() {
-        var ringkasan  = $('#ringkas').Editor('getText');
+        var ringkasan  = $('#ringkas').val();
         var katakunci  = $('#katakunci').val();
-        var lbelakang  = $('#latar').Editor('getText');
-        var literatur  = $('#literatur').Editor('getText');
-        var metode     = $('#metode').Editor('getText');
-        var jadwal     = $('#jadwal').Editor('getText');
-        var pustaka    = $('#pustaka').Editor('getText');
+        var lbelakang  = $('#latar').val();
+        var literatur  = $('#literatur').val();
+        var metode     = $('#metode').val();
+        var jadwal     = $('#jadwal').val();
+        var pustaka    = $('#pustaka').val();
         var _token     = $('input[name = "_token"]').val();
 
         $.ajax({
