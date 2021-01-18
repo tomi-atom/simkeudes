@@ -150,7 +150,9 @@ class ProposalController extends Controller
             $proposal->idfokus    = $request['bidang'];
             $proposal->idtema     = 0;
             $proposal->idtopik    = 0;
-        
+            $proposal->idpusatstudi = implode('/', (array) $request->get('pusatstudi'));
+
+
             $proposal->lama       = $request['lama'];
             $proposal->aktif      = '1';
             $proposal->pengesahan = '';
@@ -238,10 +240,13 @@ class ProposalController extends Controller
             $fokus = Fokus::where('aktif', '1')->get(); 
             $tema  = Tema::select('id','tema')->where('idskema', $proposal->idskema)->orderBy('id')->get();
             $topik = Topik::select('id','topik')->where('idtema', $proposal->idtema)->orderBy('id')->get();
+            $pusatstudi = PusatStudi::select('id','pusatstudi')->orderBy('id')->get();
+            $idpusatstudi =explode("/", $proposal->idpusatstudi); ;
+
 
             $tahun = Penelitian::select('thnkerja')->where('prosalid', $proposal->id)->first();
         
-            return view('pengabdianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik', 'tahun'));
+            return view('pengabdianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik','pusatstudi','idpusatstudi', 'tahun'));
         }
     }
 
@@ -269,14 +274,19 @@ class ProposalController extends Controller
 
         $proposal = Proposal::find($idprop);
         if ($proposal) {
-            
+
+
             $proposal->judul      = $request['judul'];
             $proposal->idskema    = $request['skema'];
             $proposal->idilmu     = $request['ilmu3'];
             $proposal->idsbk      = $request['sbk'];
             $proposal->idfokus    = $request['bidang'];
-        
+
             $proposal->lama       = $request['lama'];
+            $proposal->idpusatstudi = implode('/', (array) $request->get('pusatstudi'));
+
+            $proposal->lama       = $request['lama'];
+
 
             $proposal->update();
 

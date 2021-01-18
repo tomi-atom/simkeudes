@@ -212,6 +212,8 @@
                                 <option value="2019" {{$tahun->thnkerja == 2019 ? 'selected' : ''}}>2019</option>
                                 <option value="2020" {{$tahun->thnkerja == 2020 ? 'selected' : ''}}>2020</option>
                                 <option value="2021" {{$tahun->thnkerja == 2021 ? 'selected' : ''}}>2021</option>
+                                <option value="2022" {{$tahun->thnkerja == 2022 ? 'selected' : ''}}>2022</option>
+                                <option value="2023" {{$tahun->thnkerja == 2023 ? 'selected' : ''}}>2023</option>
                             </select>
                         </div>
                     </div>
@@ -225,10 +227,31 @@
                                 <option value="1" {{$proposal->lama == 1 ? 'selected' : '' }}>1 Tahun</option>
                                 <option value="2" {{$proposal->lama == 2 ? 'selected' : '' }}>2 Tahun</option>
                                 <option value="3" {{$proposal->lama == 3 ? 'selected' : '' }}>3 Tahun</option>
+
                             </select>
                         </div>
                     </div>
-                </div> 
+                </div>
+
+
+                <p></p>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-offset-2"> Pusat Studi</label><br>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <code>Pilih Minimal 2 Pusat Studi dan Maksimal 5 Pusat Studi</code>
+                        <div class="col-sm-12 input-group input-group-sm">
+                            @foreach($pusatstudi as $list)
+
+                                <li><input type="checkbox" name="pusatstudi[]" id="pusatstudi" value="{{$list->id}}"    @if(in_array($list->id,$idpusatstudi)){{"checked='checked'"}}@endif  > <small>{{$list->pusatstudi}}{{$idpusatstudi}}</small></li>
+
+
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                 <p>. </p>
                 <div class="row">
                     <div class="col-md-12">
