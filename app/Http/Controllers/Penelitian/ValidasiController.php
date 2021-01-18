@@ -285,7 +285,7 @@ class ValidasiController extends Controller
 
         if ($penelitian) {
             //ubah ke 3 untuk default
-            $penelitian->status = 4;
+            $penelitian->status = 3;
 
             $penelitian->update();
         }

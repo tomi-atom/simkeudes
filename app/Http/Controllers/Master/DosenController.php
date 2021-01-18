@@ -238,9 +238,9 @@ class DosenController extends Controller
         $iddosen = (Integer)substr($temp, 2, strlen($temp));
         //$iddosen = (Integer)substr($temp, 2, strlen($temp));
        
-        $nidn = User::select('email')->where('id',$iddosen)->first();
+        //$nidn = User::select('id')->where('id',$iddosen)->first();
 
-        $dosen = Peneliti::all()->where('nidn',$nidn->email)->first();
+        $dosen = Peneliti::all()->where('id',$iddosen)->first();
         //$profil = Profil::where('iddosen', $iddosen)->where('status', '1')->first();
 
         $pt = Universitas::where('id', '!=', 0)->where('aktif', '1')->orderBy('id','asc')->get();
