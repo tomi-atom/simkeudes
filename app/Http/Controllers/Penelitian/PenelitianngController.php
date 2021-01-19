@@ -402,6 +402,7 @@ class PenelitianngController extends Controller
                         ->where('tb_keanggota.anggotaid', Auth::user()->id)
                         ->where('tb_keanggota.setuju', 1)
                         ->where('tb_proposal.jenis', 1)
+                        ->where('tb_proposal.periodeusul', $periode->id)
                         ->count();
 
         $proposal = Proposal::select('idskema', 'periodeusul')

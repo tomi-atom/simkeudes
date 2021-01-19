@@ -396,6 +396,7 @@ class PengabdianngController extends Controller
         //$member = Keanggotaan::where('anggotaid', Auth::user()->id)->where('setuju', 1)->count();
         $member = Keanggotaan::select('tb_keanggota.id')->leftJoin('tb_proposal', 'tb_keanggota.idpenelitian', 'tb_proposal.id')
                         ->where('tb_keanggota.anggotaid', Auth::user()->id)
+                        ->where('tb_proposal.periodeusul', $periode->id)
                         ->where('tb_keanggota.setuju', 1)
                         ->where('tb_proposal.jenis', 2)
                         ->count();
