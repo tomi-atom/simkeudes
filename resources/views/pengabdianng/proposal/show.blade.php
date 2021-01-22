@@ -241,7 +241,7 @@
 
                     </div>
                     <div class="col-sm-9">
-                        <code>Pilih Minimal 2 Pusat Studi dan Maksimal 5 Pusat Studi</code>
+
                         <div class="col-sm-12 input-group input-group-sm">
                             @foreach($pusatstudi as $list)
 

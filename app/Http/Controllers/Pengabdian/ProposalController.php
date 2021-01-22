@@ -87,7 +87,7 @@ class ProposalController extends Controller
         $rumpun = Rumpun::groupBy('ilmu1')->orderBy('id')->get();
 
         $fokus = Fokus::where('aktif', '1')->get();
-        $pusatstudi = PusatStudi::where('aktif', '1')->get();
+        $pusatstudi = PusatStudi::where('aktif', '1')->where('id','13')->get();
 
         return view('pengabdianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus','pusatstudi', 'idskem'));
 
@@ -166,7 +166,7 @@ class ProposalController extends Controller
             $penelitian->thnkerja = $request['thnkerja'];
             $penelitian->tahun_ke = 1;
             //hilangkan koment untuk kembali k awal
-           // $penelitian->status   = 1;
+            $penelitian->status   = 1;
 
             $penelitian->save();
 
@@ -240,7 +240,7 @@ class ProposalController extends Controller
             $fokus = Fokus::where('aktif', '1')->get(); 
             $tema  = Tema::select('id','tema')->where('idskema', $proposal->idskema)->orderBy('id')->get();
             $topik = Topik::select('id','topik')->where('idtema', $proposal->idtema)->orderBy('id')->get();
-            $pusatstudi = PusatStudi::select('id','pusatstudi')->orderBy('id')->get();
+            $pusatstudi = PusatStudi::select('id','pusatstudi')->where('id','13')->orderBy('id')->get();
             $idpusatstudi =explode("/", $proposal->idpusatstudi); ;
 
 
