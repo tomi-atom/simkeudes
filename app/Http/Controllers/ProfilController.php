@@ -214,10 +214,10 @@ class ProfilController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nip' => 'required|numeric|digits:18',
+            'nip' => 'required|numeric',
             'profil' => 'image|mimes:png|max:512',
             'sinta' => 'required|numeric|digits_between:2,10',
-            'hindex' => 'required|numeric|min:1',
+            'hindex' => 'required|numeric',
             'pakar' => 'required|string|max:64',
             'email' => 'required|string|email|max:128',
         ]);
@@ -271,13 +271,16 @@ class ProfilController extends Controller
                 $peneliti->pakar      = $request['pakar'];
                 $peneliti->rumpunilmu = $request['ilmu3'];
                 $peneliti->email      = $request['email'];
+                $peneliti->struktur = $request['struktur'];
+                $peneliti->fungsi = $request['fungsi'];
+                $peneliti->idpddk = $request['pddk'];
 
                 $peneliti->update();
-                return Redirect::route('home');
+                return Redirect::back()->withInput()->withErrors(array('success' => 'success'));
             }
             else
             {
-                return Redirect::route('error666');
+                return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
             }
         }
         else

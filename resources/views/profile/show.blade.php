@@ -8,6 +8,10 @@
     @parent
     <li><a href="{{ route('home') }}">Profil</a></li>
     <li>Perubahan</li>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
+
 @endsection
 
 @section('content')
@@ -18,7 +22,27 @@
         <div class="panel panel-primary">
             <div class="panel-heading"><strong></strong> <div class="pull-right"><strong></strong></div>
             </div>
-            
+            @if($errors->first('success'))
+                <script type="text/javascript">
+                    "use strict";
+                    swal(
+                        'Selamat!',
+                        'Data Berhasil Diperbaharui',
+                        'success'
+                    );
+                </script>
+            @elseif($errors->first('error'))
+                <script type="text/javascript">
+
+                    "use strict";
+                    swal(
+                        'Terjadi Kesalahan!',
+                        'Data Gagal Diperbaharui',
+                        'error'
+                    );
+                </script>
+            @else
+            @endif
             <div class="panel-body">
                 <form role="form" method="POST" enctype="multipart/form-data" action="{{route('profile.destroy',base64_encode(mt_rand(10,99).$dosen->id))}}">
                 {{ csrf_field() }} {{ method_field('DELETE') }}

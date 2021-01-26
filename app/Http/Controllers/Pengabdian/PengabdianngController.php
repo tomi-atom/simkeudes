@@ -58,6 +58,7 @@ class PengabdianngController extends Controller
 
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
         $periode  = Periode::where('aktif', '1')->where('jenis','2')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
+        $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->first();
 
         $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
             ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
@@ -102,7 +103,7 @@ class PengabdianngController extends Controller
         $total   = $ketua + count($peserta);
         $waktu = Carbon::now('Asia/Jakarta');
 
-        return view('pengabdianng.index', compact('person', 'peneliti', 'periode', 'proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu'));
+        return view('pengabdianng.index', compact('person', 'peneliti', 'periode', 'periodeterbaru','proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu'));
     }
 
     /**
