@@ -311,7 +311,7 @@
                     url: 'hasilmonev/get_data',
                     data:{filter_thn:filter_thn}
                 },
-                ajax: 'hasilpenelitian/get_data',
+
                 columns: [{
                         data: 'rownum',
                         orderable: false,
