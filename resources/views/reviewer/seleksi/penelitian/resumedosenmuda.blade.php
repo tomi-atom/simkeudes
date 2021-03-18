@@ -43,7 +43,7 @@
             <div class="panel-body">
                 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Periode: 2020 | Batch 1</strong></div>
+                   <div class="panel-heading"><strong>Periode: {{$periode->tahun}} | Sesi {{$periode->sesi}}</strong></div>
             
                     <div class="panel-body">
                         <div class="">
@@ -263,6 +263,16 @@
                                             </tbody>
                                            </td>
                                         </tr>
+                                    <tr>
+                                        <td colspan="8"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" colspan="4"><b>Total Anggaran</b> </td>
+                                        <td class="text-center" colspan="2">  <b>Rp {{format_uang($thnr + $tbhn + $tjln + $tbrg)}},-</b> </td>
+                                        <td class="text-center"> Rp {{format_uang($prop->skema->dana * $mata[3]->batas / 100)}},-</td>
+                                      
+                                    </tr>
+                                        
                                         <tr>
                                             <td class="text-center" width="12.5%"></td>
                                             <td class="text-center" width="12.5%"></td>
@@ -294,7 +304,8 @@
                             
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span> </button>
-                                            <h3 class="modal-title"><a  href=" {{route('rn_laporankemajuan.resumeberkas',base64_encode(mt_rand(10,99). $prop->id))}}" class="btn btn-primary " title="Proposl"><i class="glyphicon glyphicon-file"></i>Lihat Proposal </a>                       
+                                            <h3 class="modal-title"><a  href=" {{route('penelitianr.resumeberkas',base64_encode(mt_rand(10,99). $prop->id))}}" class="btn btn-primary " title="Proposal"><i class="glyphicon glyphicon-file"></i>Lihat Proposal </a>  
+                                             <a  href=" {{route('penelitianr.resumeluaran',base64_encode(mt_rand(10,99). $prop->idketua))}}" class="btn btn-success " title="Luaran Sebelumnya"><i class="glyphicon glyphicon-file"></i>Lihat Luaran Sebelumnya </a> 
                                             </h3>
                                         </div>
                                         <br>
@@ -345,6 +356,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="row">
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2">2 </label>
@@ -572,19 +584,79 @@
                                             
                                         </div>
                                         <br>
-                                        <div class="row">
+                                        <br>
+                                          <div class="row">
+                                            <div class="col-sm-1">
+                                                <label class="control-label col-sm-offset-2"></label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Kelayakan Proposal</label>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label col-sm-offset-2"> </label>
+                                            </div>
                                             <div class="col-sm-2">
-                                                <label class="control-label col-sm-offset-1 pull-right">Komentar</label>
+                                                <div class="col-sm-12 input-group input-group-sm" >
+                                                    <select class="form-control"  id="kelayakan" name="kelayakan" required  style="display: none" >
+                                                    
+                                                        <option value="1"> Layak  </option>
+                                                        <option value="2"> Tidak Layak  </option>
+                                                       
+                                                    </select>
+                                                </div>
+                                               <h4> <span class="label label-success" id="layak" name="layak" >LAYAK</span> 
+                                                <span class="label label-danger" id="tidaklayak" name="tidaklayak" hidden>TIDAK LAYAK</span> </h4>
+                                                
                                             </div>
-                                            <div class="col-sm-8">
-                                                <textarea class="form-control" rows="2" placeholder="Komentar..." name="komentar" id="komentar"   cols="50" required></textarea>
+
+                                        </div>
+                                         <br>
+                                        <br>
+                                        <div class="row" id="anggaran" name="anggaran">
+                                             <div class="col-sm-1">
+                                                <label class="control-label col-sm-offset-2"></label>
                                             </div>
+                                             <div class="col-sm-6">
+                                                <label>Jumlah Anggaran yang  direkomendasikan(Rp) <code> Pagu Maksimum  {{format_uang($prop->skema->dana * $mata[1]->batas / 100)}}</code></label>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label col-sm-offset-2"> </label>
+                                            </div>
+                                            
+                                            <div class="col-sm-3 input-group">
+                                                <span class="input-group-addon"><b>Rp.</b></span>
+                                                <input type="number"  class="form-control "  name="rekomdana" id="rekomdana" value=""><br>
+                                                  
+                                               
+
+                                            </div>
+                                          
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="row">
+                                          
+                                           <div class="col-sm-1">
+                                                <label class="control-label col-sm-offset-2"></label>
+                                            </div>
+                                             <div class="col-sm-3">
+                                                <label>Komentar</label>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label col-sm-offset-2"> </label>
+                                            </div>
+                                            <div class="col-sm-6">
+
+                                                <textarea class="form-control" rows="2" placeholder="Komentar..." name="komentar" id="komentar"   cols="50"></textarea>
+
+                                            </div>
+                                            
                                         </div>
                                         <br>
                             
                                         
                                         <div class="modal-footer">
-                                         <button onclick="lanjutSubtansi()" type="submit" class="btn btn-success pull-right" name="simpan" id="simpan"><span class="ion ion-android-exit" ></span> Simpan
+                                         <button onclick="lanjutSubtansi()"  type="button" class=" btn btn-success pull-right" name="simpan" id="simpan"><span class="ion ion-android-exit" ></span> Simpan
                                         </div>
                                     </form>
                             </div>
@@ -607,7 +679,7 @@
                 <br>
     
 
-                <form class="form-horizontal" method="POST" action="{{ route('rn_laporankemajuan.index') }}">
+                <form class="form-horizontal" method="POST" action="{{ route('penelitianr.index') }}">
                 {{ csrf_field() }} {{ method_field('GET') }}
                 
                 <div class="form-group row">
@@ -659,7 +731,18 @@
                     $('#nilai6').val(result[17]);
                     $('#nilai7').val(result[18]);
                     $('#nilai8').val(result[19]);
-                    $('#rekomdana').val(result[23]);
+                  
+                     $('#rekomdana').val(result[23]);
+                     $('#kelayakan').val(result[24]);
+                     if(result[24] == 1){
+                          $("#layak").show();
+                          $("#tidaklayak").hide();
+                          $("#anggaran").show();
+                     }else{
+                          $("#layak").hide();
+                          $("#tidaklayak").show();
+                          $("#anggaran").hide();
+                     }
 
                     var totalnilai = result[12]+result[13]+result[14]+result[15]+result[16]+result[17]+result[18]+result[19]+result[20]+result[21];
                     $('#totalnilai').val(totalnilai);
@@ -696,40 +779,113 @@
         var nilai6  = $('#nilai6').val();
         var nilai7  = $('#nilai7').val();
         var nilai8  = $('#nilai8').val();
+        var rekomdana  = $('#rekomdana').val();
         var komentar  = $('#komentar').val();
+        var kelayakan  = $('#kelayakan').val();
         var _token     = $('input[name = "_token"]').val();
 
-        $.ajax({
-            url: "{{ route('penelitianr.store') }}",
-            method: "POST",
-            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,
-            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,komentar: komentar,  _token: _token},
-            success: function(result)
-            {
-                swal({
-                    title: 'Selamat!',
-                    text: "Data Berhasil Disimpan",
-                    type: 'success',
-                    confirmButtonColor: '#5bc0de',
-                    cancelButtonColor: '#f0ad4e',
-                    confirmButtonText: 'Ok!',
-                }).then(function(isConfirm) {
-                        if (isConfirm) {
-                            window.location = "{{ route('penelitianr.index') }}";
-
-                        }
-                    }
-                );
-            },
-            error : function() {
-                swal(
-                    'Terjadi Kesalahan!',
-                    'Tidak dapat menyimpan data',
+         if(kriteria1 != "" && kriteria2 != "" && kriteria3 != "" && kriteria4 != "" && kriteria5 != "" && kriteria6 != "" && kriteria7 != "" && kriteria8 != ""  ){
+               
+               if(kelayakan == "1")
+               {
+                   if(rekomdana == ""){
+                      swal(
+                        'Data Belum Lengkap!',
+                        'Rekomendasi Dana Harus di isi',
+                        'error'
+                         ); 
+                   }else if(rekomdana > {{$prop->skema->dana * $mata[1]->batas / 100}}){
+                        swal(
+                        'Rekomendasi Melebihi Pagu!',
+                        'Rekomendasi Dana Tidak Boleh Melebihi Pagu Maksimum',
+                        'error'
+                         ); 
+                   }
+                   else{
+                         
+                           $.ajax({
+                            url: "{{ route('penelitianr.store') }}",
+                            method: "POST",
+                            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,
+                            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,rekomdana: rekomdana,komentar: komentar,kelayakan: kelayakan,  _token: _token},
+                            success: function(result)
+                            {
+                                swal({
+                                    title: 'Selamat!',
+                                    text: "Data Berhasil Disimpan",
+                                    type: 'success',
+                                    confirmButtonColor: '#5bc0de',
+                                    cancelButtonColor: '#f0ad4e',
+                                    confirmButtonText: 'Ok!',
+                                }).then(function(isConfirm) {
+                                        if (isConfirm) {
+                                            window.location = "{{ route('penelitianr.index') }}";
+                
+                                        }
+                                    }
+                                );
+                            },
+                            error : function() {
+                                swal(
+                                    'Terjadi Kesalahan!',
+                                    'Tidak dapat menyimpan data',
+                                    'error'
+                                );
+                
+                            }
+                        });
+                   }
+               }else if(kelayakan == "2"){
+                    if(komentar == ""){
+                      swal(
+                        'Data Belum Lengkap!',
+                        'Komentar Harus di isi',
+                        'error'
+                         ); 
+                   }else{
+                         
+                           $.ajax({
+                            url: "{{ route('penelitianr.store') }}",
+                            method: "POST",
+                            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,
+                            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,rekomdana: rekomdana,komentar: komentar,kelayakan: kelayakan,  _token: _token},
+                            success: function(result)
+                            {
+                                swal({
+                                    title: 'Selamat!',
+                                    text: "Data Berhasil Disimpan",
+                                    type: 'success',
+                                    confirmButtonColor: '#5bc0de',
+                                    cancelButtonColor: '#f0ad4e',
+                                    confirmButtonText: 'Ok!',
+                                }).then(function(isConfirm) {
+                                        if (isConfirm) {
+                                            window.location = "{{ route('penelitianr.index') }}";
+                
+                                        }
+                                    }
+                                );
+                            },
+                            error : function() {
+                                swal(
+                                    'Terjadi Kesalahan!',
+                                    'Tidak dapat menyimpan data',
+                                    'error'
+                                );
+                
+                            }
+                        });
+                   }
+               }
+               
+                
+        }else{
+           swal(
+                    'Data Belum Lengkap!',
+                    'Semua data Harus di di isi',
                     'error'
                 );
-
-            }
-        });
+        }
     }
 
         $(document).ready(function() {
@@ -748,6 +904,17 @@
                 
                  );
                 $("#totalnilai").val(totalnilai);
+                if(totalnilai >= 401){
+                     $("#kelayakan").val(1);
+                     $("#layak").show();
+                     $("#tidaklayak").hide();
+                      $("#anggaran").show();
+                }else{
+                      $("#kelayakan").val(2);
+                      $("#layak").hide();
+                    $("#tidaklayak").show();
+                     $("#anggaran").hide();
+                }
             }
             var total1
             var total2

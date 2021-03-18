@@ -41,7 +41,7 @@
                             <div class="row">
                                 <br>
                                 <div class="col-md-10">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="skema">Skema</label>
                                             <select name="filter_skema" id="filter_skema" class="form-control" required>
@@ -184,18 +184,20 @@
                 $('#mytable').DataTable({
                     processing: true,
                     serverSide: true,
-                    dom: '<"html5buttons">Bfrtip',
+                    dom: '<"html5buttons">Blfrtip',
                     language: {
-                        buttons: {
-                            colvis : 'show / hide', // label button show / hide
-                            colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
-                        }
+                            buttons: {
+                                colvis : 'show / hide', // label button show / hide
+                                colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
+                            }
                     },
+
                     buttons : [
-                        {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
-                        {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU '},
-                        {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU '},
-                        {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU '},
+                                {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
+                                {extend:'csv'},
+                                {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU  '},
+                                {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU '},
+                                {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU '},
                     ],
                     ajax: {
                         url: 'penelitianbaru/get_data',

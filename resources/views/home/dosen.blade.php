@@ -55,7 +55,7 @@
 
                             <div class="box-body">
                                 <ul class="todo-list" style="overflow-x: hidden">
-                                    <a  href="{{url('/public/docs/template/sistematikapenelitian.pdf')}}" type="application/pdf"  class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Sistematika Penelitian </a>
+                                    <a  href="{{url('/public/docs/template/sistematikapenelitian2021.pdf')}}" type="application/pdf"  class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Sistematika Penelitian </a>
                                      <a   href="{{url('/public/docs/template/sistematikapengabdian.pdf')}}" type="application/pdf" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Sistematika Pengabdian </a>
                                       <a  href="{{url('/public/docs/template/templateluaran.docx')}}" type="application/docx" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Contoh Format Luaran Lainnya 1 </a>
                                        <a    href="{{url('/public/docs/template/templateluaranlain.docx')}}" type="application/docx" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Contoh Format Luaran Lainnya 2 </a>

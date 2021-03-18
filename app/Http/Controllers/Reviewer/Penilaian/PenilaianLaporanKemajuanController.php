@@ -410,7 +410,7 @@ class PenilaianLaporanKemajuanController extends Controller
                }
    
            }
-           elseif($skema->idskema == 7 ){//dosenmuda
+           elseif($skema->idskema == 7 ){//masyarakat
             $cek = NilaiLaporanKemajuan::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->where('jenis',1)->first();
 
            if($cek){

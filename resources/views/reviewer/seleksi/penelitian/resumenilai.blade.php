@@ -43,7 +43,7 @@
             <div class="panel-body">
                 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Periode: 2020 | Batch 1</strong></div>
+                    <div class="panel-heading"><strong>Periode: {{$periode->tahun}} | Sesi {{$periode->sesi}}</strong></div>
             
                     <div class="panel-body">
                         <div class="">

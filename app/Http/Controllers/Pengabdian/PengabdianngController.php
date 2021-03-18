@@ -58,7 +58,7 @@ class PengabdianngController extends Controller
 
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
         $periode  = Periode::where('aktif', '1')->where('jenis','2')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
-        $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->first();
+        $periodeterbaru  = Periode::orderBy('tahun', 'desc')->where('jenis','2')->orderBy('sesi', 'desc')->first();
 
         $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
             ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')

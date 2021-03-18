@@ -177,11 +177,16 @@
 
                     },
                     {
+                        data: 'skema',
+                        searchable: false
+
+                    },
+                    {
                         data: 'judul',
 
                     },
                     {
-                        data: 'reviewer',
+                        data: 'status',
 
                     },
                     {

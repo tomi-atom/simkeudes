@@ -102,12 +102,12 @@ class ProfilController extends Controller
         $ilmu  = Rumpun::select('ilmu1')->groupBy('ilmu1')->orderBy('id')->get();
         $ilmu2 = Rumpun::select('ilmu2')
                             ->groupBy('ilmu2')
-                            ->where('ilmu1',$dosen->rumpun->ilmu1)
+                            //->where('ilmu1',$dosen->rumpun->ilmu1)
                             ->orderBy('id')
                             ->get();
         $ilmu3 = Rumpun::select('id', 'ilmu3')
                             ->groupBy('ilmu3')
-                            ->where('ilmu2',$dosen->rumpun->ilmu2)
+                           // ->where('ilmu2',$dosen->rumpun->ilmu2)
                             ->orderBy('id')
                             ->get();
 

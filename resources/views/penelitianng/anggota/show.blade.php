@@ -92,7 +92,7 @@
 
                                         <option value="3"> Anggota Pengusul 3</option>
                                         <option value="4"> Anggota Pengusul 4</option>
-
+                                     
                                     </select>
                                 </div>
                             </div>
@@ -206,9 +206,9 @@
             var oRows = document.getElementById('tbdepan').getElementsByTagName('tr');
             var iRowCount = oRows.length;
 
-            var max=4;
+            var max=5;
             if (propos > 3)
-                max = 2;
+                max = 5;
 
             if (iRowCount > max) {
                 swal(
@@ -247,9 +247,9 @@
             var oRows  = document.getElementById('tbdepan').getElementsByTagName('tr');
             var iRowCount = oRows.length;
 
-            var max=4;
+            var max=5;
             if (propos > 3)
-                max = 2;
+                max = 5;
 
             if (iRowCount > max+1) {
                 swal(

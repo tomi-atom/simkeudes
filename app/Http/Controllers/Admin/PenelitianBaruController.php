@@ -224,7 +224,8 @@ class PenelitianBaruController extends Controller
                         })
 
                         ->addColumn('action', function ($proposal) {
-                            $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                            if(Auth::user()->level == 3){
+                                 $subtansi = Substansi::where('proposalid', $proposal->id)->first();
                             if ($subtansi){
                                 if ($proposal->status > 4 && $proposal->status != 6 ){
                                     return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
@@ -236,7 +237,7 @@ class PenelitianBaruController extends Controller
                                     return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
                                 <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>                      
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
-                                <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>
+                               
                                 ';
 
                                 }elseif ($proposal->status == 4 ){
@@ -260,23 +261,85 @@ class PenelitianBaruController extends Controller
                                     <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi">'.$proposal->status . '<i class="glyphicon glyphicon-check"></i> </button>';
 
-                                }elseif ($proposal->status == 6 ){
+                                }elseif ($proposal->status == 6 )
+                                {
                                     return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>    
                                     <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
-                                <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>';
+                              ';
 
-                                }elseif ($proposal->status == 4 ){
+                                }elseif ($proposal->status == 4 )
+                                {
                                     return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
                                     <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 ';
 
-                                }else{
+                                }else
+                                {
                                     return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
                                 ';
 
                                 }
 
                             }
+                            }else{
+                                 $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                            if ($subtansi){
+                                if ($proposal->status > 4 && $proposal->status != 6 ){
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                               
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                             ';
+
+                                }elseif ($proposal->status == 6 ){
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                              
+                                ';
+
+                                }elseif ($proposal->status == 4 ){
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                 
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
+
+                                }else{
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                   
+                                      <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                      
+                                ';
+
+                                }
+
+                            }else{
+                                if ($proposal->status > 4 && $proposal->status != 6 ){
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>  
+                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                               ';
+
+                                }elseif ($proposal->status == 6 )
+                                {
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>    
+                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
+
+                                }elseif ($proposal->status == 4 )
+                                {
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
+
+                                }else
+                                {
+                                    return '<a  href="'. route('penelitianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                ';
+
+                                }
+
+                            }
+                            }
+                           
 
                         })
                         ->rawColumns(['status','judul','upload','dana', 'action'])

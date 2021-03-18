@@ -179,7 +179,7 @@ class AnggotaController extends Controller
         
         if ($idskemapro == 7) { 
             $peserta = Peneliti::select('id','nama','nidn','idpddk', 'fungsi')->whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
+                            //->where('sinta', '!=', '')
                             ->where('idpddk', '>', 4)
                             ->where('fungsi', '<', 3)
                             ->where('id', '!=', Auth::user()->id)
@@ -188,7 +188,7 @@ class AnggotaController extends Controller
         }
         else if ($idskemapro == 3) {
             $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
+                            //->where('sinta', '!=', '')
                             ->where('idpddk', '>', 1)
                             ->where('id', '!=', Auth::user()->id)
                             ->orderBy('nama', 'asc')
@@ -196,7 +196,7 @@ class AnggotaController extends Controller
         }
         else if ($idskemapro == 2) {
             $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
+                           // ->where('sinta', '!=', '')
                             ->where('idpddk', '>', 1)
                             ->where('id', '!=', Auth::user()->id)
                             ->orderBy('nama', 'asc')
@@ -204,7 +204,7 @@ class AnggotaController extends Controller
         }
         else 
             $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                            ->where('sinta', '!=', '')
+                            //->where('sinta', '!=', '')
                             ->where('idpddk', '>', 4)
                             ->where('id', '!=', Auth::user()->id)
                             ->orderBy('nama', 'asc')

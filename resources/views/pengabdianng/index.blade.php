@@ -1,514 +1,376 @@
-<?php
+@extends('layouts.app')
 
-namespace App\Http\Controllers\Pengabdian;
+@section('title')
+    Daftar Usulan Baru
+@endsection
 
-use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+@section('breadcrumb')
+    @parent
+    <li>Pengabdian</li>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
 
-use App\Proposal;
-use App\Penelitian;
-use App\Keanggotaan;
-use App\Substansi;
-use App\Luaran;
-use App\Anggaran;
+@endsection
 
-use App\Peneliti;
-use App\Mataanggaran;
+@section('content')
 
-use App\Pengukuran;
-use App\Program;
-use App\Periode;
-use App\Posisi;
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>H-INDEX: {{ $peneliti->hindex }}</strong> <div class="pull-right"><strong>USULAN BARU: {{ $total }}</strong></div></div>
+            @if($errors->first('success'))
+                <script type="text/javascript">
+                    "use strict";
+                    swal(
+                        'Selamat!',
+                        'Data Berhasil Disimpan',
+                        'success'
+                    );
+                </script>
+            @elseif($errors->first('error'))
+                <script type="text/javascript">
+
+                    "use strict";
+                    swal(
+                        'Terjadi Kesalahan!',
+                        'Data Gagal Disimpan',
+                        'error'
+                    );
+                </script>
+            @elseif($errors->first('bersedia'))
+                <script type="text/javascript">
+
+                    "use strict";
+                    swal(
+                        'Bersedia!',
+                        'Anda Telah Bersedia Untuk Berpartisipasi',
+                        'success'
+                    );
+                </script>
+            @elseif($errors->first('tolak'))
+                <script type="text/javascript">
+
+                    "use strict";
+                    swal(
+                        'Ditolak!',
+                        'Anda Telah Menolak Untuk Berpartisipasi',
+                        'info'
+                    );
+                </script>
+            @elseif($errors->first('sistemtolak'))
+                <script type="text/javascript">
+
+                    "use strict";
+                    swal(
+                        'Ditolak Sistem!',
+                        'Quota Keanggotaan pada Skema ini Telah Terpenuhi',
+                        'info'
+                    );
+                </script>
+            @else
+            @endif
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Persyaratan Umum: </strong></div>
+            
+                    <div class="panel-body">
+                        <div class="box-header">
+                            <i class="ion ion-clipboard"></i>
+                            <h4 class="box-title"></h4>
+                        </div>
+            
+                        <div class="box-body">
+                            <ul class="todo-list">
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    @if($peneliti->sinta != '')
+                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Terdaftar Dalam Sinta : <b class="text-black">{{ $peneliti->sinta }}</b></span>
+                                    @else
+                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Terdaftar Dalam Sinta : <b class="text-black">Belum Terdaftar</b></span>
+                                    <small class="label label-danger"><i class="ion ion-android-person"></i> Silakan hubungi Administrator LPPM</small> 
+                                    @endif
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    @if($peneliti->status == 1)
+                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Status Pegawai : <b class="text-black">Aktif Mengajar</b></span>
+                                    @else
+                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Status Pegawai : <b class="text-black">Tidak Aktif</span>
+                                    <small class="label label-danger"><i class="ion ion-android-person"></i> Silakan hubungi Administrator LPPM</small> 
+                                    @endif
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    @if($peneliti->tanggungan == 0)
+                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Tanggungan Kegiatan : <b class="text-black">Tidak Ada</b></span> 
+                                    @else
+                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Tanggungan Kegiatan : <b class="text-black">Ada Tangunggan</b></span>
+                                    <small class="label label-danger"><i class="ion ion-android-person"></i> Silakan hubungi Administrator LPPM</small> 
+                                    @endif
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    @if(($ketua < 1) && ($member < 2)) 
+                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Ketua Tersedia</b></span> 
+                                    @elseif($member >= 2)
+                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Anggota Telah Terpenuhi</b></span><small class="label label-danger"><i class="ion ion-ios-pricetags-outline"></i> {{ $total}} Proposal</small> 
+                                    @else
+                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Ketua Telah Terpenuhi</b></span><small class="label label-danger"><i class="ion ion-ios-pricetags-outline"></i> {{ $ketua}} Proposal</small> 
+                                    @endif
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+
+                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) &&  ($ketua < 1) && ($member < 2))
+                <form class="form-horizontal" method="POST" action="{{ route('pengabdianng.create') }}">
+                {{ csrf_field() }} {{method_field('GET')}}
+                @endif 
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-9">Periode Pengusulan</label>
+                    </div>
+                    <div class="col-sm-2 input-group input-group-sm">
+                        <select id="idtahun" class="form-control" name="idtahun" required>
+                            <option value="">--Pilih periode--</option>
+                            {{$periodeaktif = false}}
+                            @foreach($periode as $list)
+                                @if(($waktu > $list->tanggal_mulai) && ($waktu < $list->tanggal_akhir))
+                                    {{$periodeaktif = true}}
+                                    <option value="{{ $list->id }}"> Pengabdian tahun {{$list->tahun}} | Sesi {{$list->sesi}}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <!-- validator jalan dengan tanda dibawah 
+                <div class="form-group{{ $errors->has('buka') ? ' has-error' : '' }}">
+                    <label for="buka" class="col-md-4 control-label">Name</label>
+
+                    <div class="col-sm-6 input-group input-group-sm">
+                        <input id="buka" type="text" class="form-control" name="buka" required autofocus>
+                                
+                        @if ($errors->has('buka'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('buka') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                -->
+                
+                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) && ($ketua < 1)  && ($member < 2) && ($periodeaktif))
+                <div class="form-group row">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="submit" class="btn btn-success pull-right">
+                          <span class="ion ion-android-exit"></span>
+                            LANJUTKAN
+                        </button>
+                    </div>
+                </div>
+                </form>
+                @endif
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>Daftar Usul Pengandian Baru</strong> <small class="label label-success">{{$total}}</small>
+                    </div>
+            
+                    <div class="panel-body">
+                        @if($total == 0)
+                        <div>Belum Ada Usulan Baru..</div>
+                        @else
+                        <div class="box-header">
+                            <i class="ion ion-paper-airplane"></i>
+                            <h4 class="box-title">Periode: 2021:</h4>
+                        </div>
+            
+                        <div class="box-body">
+                            <ul class="todo-list" style="overflow-x: hidden">
+                                @foreach ($proposal as $detail)
+                                <li>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <span class="text text-blue">{{ $detail->judul }}</span>
+                                            <br>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text text-green">{{$detail->program->program}} - {{$detail->skema->skema}}</span>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text text-red">Periode Usulan Tahun {{ $detail->periode->tahun}} Batch {{ $detail->periode->sesi}} | Tahun Pelaksanaan {{ $detail->thnkerja }} </span>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text text-dark">Bidang Fokus : </span> {{$detail->fokus->fokus}}&nbsp; &nbsp;- <small class="label label-primary">Ketua Pengusul</small>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; {{$status[$detail->status]->jenis}} &nbsp;</span> 
+                                             @if($detail->status == 4)
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; Dana Disetujui  Rp {{ format_uang($detail->dana)}} &nbsp;</span>                                           
+                                            @endif
+                                            @if ($minat)
+                                            <span class="text bg-red text-dark">&nbsp; {{$minat}} Anggota Belum Menyetujui &nbsp;</span>
+                                            @endif
+                                            <br>
+                                            <br>  
+                                        </div>
+                                        
+                                        <div class="tools col-sm-12 pull-left">
+                                            @if($periodeterbaru->tanggal_mulai == null && $periodeterbaru->tanggal_mulai == null)
+                                                <span class="text bg-red text-dark">&nbsp;Waktu Untuk Upload Data Belum di Buka</span>
+                                            @elseif($waktu < $periodeterbaru->tanggal_mulai )
+                                                <span class="text text-dark">Waktu Untuk Upload Data di Buka Pada Tanggal</span> <span class="text bg-blue text-dark">&nbsp;{{$periodeterbaru->tanggal_mulai}}</span> - <span class="text bg-red text-dark">&nbsp;{{$periodeterbaru->tanggal_mulai}}</span>
+                                            @else
+
+                                                @if($waktu >= $periodeterbaru->tanggal_mulai && $waktu <= $periodeterbaru->tanggal_akhir )
+                                                     <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                                                        <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
+                                                    <a onclick="editProposal({{mt_rand(10,99).($detail->prosalid*2+29)}} )" class="btn btn-app btn-xs" id="edit"><i class="ion ion-edit text-red"></i> Validasi </a>
 
 
-use Auth;
-use Redirect;
+                                                @elseif($waktu > $periodeterbaru->tanggal_akhir)
+                                                  
+                                                        <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                                                        <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
+                                                        <span class="text bg-red text-dark">&nbsp;Periode Upload Data Telah Habis</span>
 
-class PengabdianngController extends Controller
-{
-    public function __construct()
-    {
-        $this->middleware('auth');
+                                                   
+                                                @endif
+                                            @endif
+
+                                        </div>
+                                    </div>                
+                                </li>
+                                @endforeach
+                                <br>
+                                @foreach ($peserta as $detail)
+                                <li>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <span class="text text-blue">{{ $detail->judul }}</span>
+                                            <br>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text text-green">{{$detail->program->program}} - {{$detail->skema->skema}}</span>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text text-red">Periode Usulan Tahun {{ $detail->periode->tahun}} Batch {{ $detail->periode->sesi}} | Tahun Pelaksanaan {{ $detail->thnkerja }} </span>
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text text-dark">Bidang Fokus : </span> {{$detail->fokus->fokus}} &nbsp; &nbsp;- <small class="label label-primary">Anggota Pengusul {{$detail->peran}}</small> 
+                                            @if($detail->setuju == 0)
+                                            <small class="label label-warning">Belum Disetujui</small>
+                                            @elseif($detail->setuju == 1)
+                                            <small class="label label-success">Disetujui</small>
+                                            @else
+                                            <small class="label label-danger">Tidak Setuju</small>
+                                            @endif
+                                            <br>
+                                            &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; {{$status[$detail->status]->jenis}} &nbsp;</span>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        
+                                        <div class="tools col-sm-12 pull-left">
+                                            @if(!$detail->setuju)
+                                            <a onclick="setujuiProposal({{mt_rand(1,9).($detail->prosalid+$peneliti->id*3)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-checkmark-outline text-blue"></i> Approve </a>
+                                            @endif
+                                            <a onclick="bacaProposal({{mt_rand(1,9).($detail->prosalid*9+$peneliti->id)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                                            @if($detail->setuju)
+                                                <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
+                                            @endif
+                                        </div>
+                                    </div>                
+                                </li>
+                                @endforeach
+                                <li></li>
+                            </ul>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('script')
+<script type="text/javascript">
+
+    function bacaProposalRinci(id) {
+        window.location = "{{route('pengabdianng.resume', '')}}/"+btoa(id);
     }
-    protected function countPersonil()
-    {
 
-        $personil = Keanggotaan::select('tb_proposal.id', 'anggotaid', 'jenis', 'nama', 'foto', 'tb_keanggota.created_at')
-            ->leftJoin('tb_penelitian', 'tb_keanggota.idpenelitian', 'tb_penelitian.prosalid')
-            ->leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
-            ->where('tb_keanggota.setuju', 0)
-            ->where('tb_penelitian.status', '>', 0)
-            ->where('tb_proposal.aktif', '1')
-            ->get();
-        return $personil;
+    function unduhProposal(id) {
+        window.location = "{{route('pengabdianng.unduh', '')}}/"+btoa(id)
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $person = PengabdianngController::countPersonil();
-
-        $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
-        $periode  = Periode::where('aktif', '1')->where('jenis','2')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
-        $periodeterbaru  = Periode::orderBy('tahun', 'desc')->where('jenis','2')->orderBy('sesi', 'desc')->first();
-
-        $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
-            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_proposal.periodeusul',$periode[0]->id)
-            ->where('tb_penelitian.ketuaid', $peneliti->id)
-            ->where('tb_penelitian.status', '>', 0)
-            ->where('tb_proposal.jenis', 2)
-            ->get();
-
-        $peserta = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','thnkerja','status','prosalid','peran','setuju')
-            ->join('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_proposal.periodeusul',$periode[0]->id)
-            ->where('tb_keanggota.anggotaid', $peneliti->id)
-            ->where('tb_penelitian.status', '>', 0)
-            ->where('tb_keanggota.setuju', '<', 2)
-            ->where('tb_proposal.jenis', 2)
-            ->where('tb_proposal.aktif', '1')
-            ->orderBy('tb_keanggota.peran', 'asc')
-            ->get();
-
-        $minat =  Proposal::join('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_proposal.periodeusul',$periode[0]->id)
-            ->where('tb_penelitian.ketuaid', $peneliti->id)
-            ->where('tb_penelitian.status', '>', 0)
-            ->where('tb_keanggota.setuju', 0)
-            ->where('tb_proposal.jenis', 2)
-            ->where('tb_proposal.aktif', '1')
-            ->count();
-
-        $status = Posisi::select('jenis')->where('aktif', '1')->orderBy('id','asc')->get(); //*temp
-
-        $member = Keanggotaan::leftJoin('tb_proposal', 'tb_keanggota.idpenelitian', 'tb_proposal.id')
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
-            ->where('tb_keanggota.setuju', 1)
-            ->where('tb_proposal.periodeusul',$periode[0]->id)
-            ->where('tb_proposal.jenis', 2)
-            ->count();
-
-        $ketua   = count($proposal);
-        $total   = $ketua + count($peserta);
-        $waktu = Carbon::now('Asia/Jakarta');
-
-        return view('pengabdianng.index', compact('person', 'peneliti', 'periode', 'periodeterbaru','proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu'));
+    function editProposal(id) {
+        window.location = "{{route('validasipengabdian.show','')}}/"+btoa(id);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        /* error validator, jalan dengan penelitan index
-        $data = $request->all();
+    function hapusProposal(id) {
+        swal({
+            title: 'Anda Yakin?',
+            text: "Apakah yakin proposal dari kegiatan ini akan dihapus?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#5bc0de',
+            cancelButtonColor: '#f0ad4e',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then(function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url  : "{{route('pengabdianng.destroy','')}}/"+id,
+                        type : "POST",
+                        data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
+                        success : function(data) {
+                            swal(
+                                'Selamat!',
+                                'Data Berhasil Dihapus',
+                                'success'
+                            );
+                            window.location = "{{route('pengabdianng.index')}}";
+                        },
+                        error : function() {
+                            swal(
+                                'Terjadi Kesalahan!',
+                                'Data Gagal Dihapus',
+                                'error'
+                            );
+                        }
 
-        $validator = Validator::make($data, [
-            'idtahun' => 'required',
-            'buka' => 'required|string|min:5'
-        ]);
+                    });
 
-        if ($validator->fails()) {
-            return redirect()->route('pengabdianng.index')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-        */
-        $periode = $request['idtahun'];
-
-        $person = PengabdianngController::countPersonil();
-        $peneliti = Peneliti::find(Auth::user()->id);
-
-        $program = Program::where('kategori', 2)->where('aktif', '1')->get();
-
-        return view('pengabdianng.create', compact('person', 'peneliti', 'program', 'periode'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $idprop = base64_decode($id);
-
-        $proposal = Proposal::find($idprop);
-
-        $proposal->aktif = '1';
-        $proposal->update();
-
-        $penelitian = Penelitian::where('prosalid', $idprop)
-            ->where('ketuaid', Auth::user()->id)
-            ->where('status', 1)
-            ->first();
-        if ($penelitian) {
-            $penelitian->status = 2;
-            $penelitian->update();
-            return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('success' => 'komentar'));
-
-        }else{
-            return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
-        }
-
-
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $temp = $id;
-        $idprop = (Integer)substr($temp, 2, strlen($temp));
-        $idprop /= 3;
-
-        $proposal = Proposal::find($idprop);
-        $proposal->delete();
-
-        /* //error tambah tkt jika dihapus..
-        $tkt = Pengukuran::select('teknologi', 'tb_ukurtkt.created_at')
-                        ->leftJoin('tb_proposal', 'tb_ukurtkt.id', 'tb_proposal.idtkt') 
-                        ->whereNull('tb_proposal.id')
-                        ->where('tb_ukurtkt.id', 'LIKE', Auth::user()->email.'%')
-                        ->get();
-        
-        foreach($tkt as $list) {
-            $temp = Pengukuran::where('teknologi', $list->teknologi)->where('created_at', $list->created_at)->first();
-            $temp->delete();
-        }
-        */
-
-        $penelitian = Penelitian::where('prosalid', $proposal->id)->first();
-        if (count($penelitian))
-            $penelitian->delete();
-
-        $anggota = Keanggotaan::where('idpenelitian', $proposal->id)->get();
-        foreach ($anggota as $list)
-            $list->delete();
-
-        $subtansi = Substansi::where('proposalid', $proposal->id)->first();
-        if (count($subtansi))
-            $subtansi->delete();
-
-        $luaran = Luaran::where('idpenelitian', $proposal->id)->get();
-        foreach ($luaran as $list)
-            $list->delete();
-
-        $anggaran = Anggaran::where('proposalid', $proposal->id)->get();
-        foreach ($anggaran as $list)
-            $list->delete();
-
-    }
-
-    public function resume($id)
-    {
-        $person = PengabdianngController::countPersonil();
-
-        $temp = base64_decode($id);
-        $stat = (Integer)substr($temp, 0, 1);
-        $idprop = (Integer)substr($temp, 2, strlen($temp));
-        $idprop /= 2;
-
-        $prop = Proposal::find($idprop);
-        //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
-
-        $peneliti = Penelitian::where('prosalid', $idprop)->first();
-        $thn = $peneliti->tahun_ke;
-
-        $ketua = Peneliti::select('sinta','nama','idpt','idfakultas','idprodi','hindex')->find($peneliti->ketuaid);
-        $peserta = Peneliti::leftJoin('tb_keanggota', 'tb_keanggota.anggotaid', '=', 'tb_peneliti.id')
-            ->where('tb_keanggota.idpenelitian', '=', $idprop)
-            ->where('tb_keanggota.setuju', '<', 2)
-            ->orderBy('peran', 'asc')
-            ->get();
-
-        $luar = Luaran::select('kategori','idluaran','publish','urllink')
-            ->where('idpenelitian', $idprop)
-            ->orderBy('kategori', 'asc')
-            ->orderBy('id', 'asc')
-            ->get();
-
-        $biaya = Anggaran::where('proposalid', $idprop)->orderBy('anggaranid','asc')->orderBy('id','asc')->get();
-
-        $thnr = 0;
-        $tbhn = 0;
-        $tjln = 0;
-        $tbrg = 0;
-        foreach ($biaya as $list)
-        {
-            if ($list->anggaranid == 1) {
-                $thnr += $list->volume * $list->biaya;
+                }
             }
-            else if ($list->anggaranid == 2) {
-                $tbhn += $list->volume * $list->biaya;
-            }
-            else if ($list->anggaranid == 3) {
-                $tjln += $list->volume * $list->biaya;
-            }
-            else if ($list->anggaranid == 4) {
-                $tbrg += $list->volume * $list->biaya;
-            }
-
-        }
-
-        $mata = Mataanggaran::select('batas')->get();
-
-        return view('pengabdianng.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
-    }
-
-    public function unduh($id)
-    {
-
-        $temp = base64_decode($id);
-        $idprop = (Integer)substr($temp, 2, strlen($temp));
-        $idprop /= 2;
-        //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
-        $prop = Proposal::find($idprop);
-        $usulan = Substansi::where('proposalid', $idprop)->first();
-        $peneliti = Penelitian::where('prosalid', $idprop)->first();
-        $thn = $peneliti->tahun_ke;
-
-        $ketua = Peneliti::select('sinta','nama','idpt','idfakultas','idprodi','hindex')->find($peneliti->ketuaid);
-
-        if($usulan) {
-            $pdf = PDF::loadView('pengabdianng.unduh',compact('person','idprop','prop','usulan','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
-            return  $pdf->stream($prop->judul.".pdf");
-        }
-        else
-            return Redirect::back()->withInput()->withErrors(array('error0' => 'error'));
-    }
-    public function setuju($id) {
-        $person = PengabdianngController::countPersonil();
-
-        $temp = base64_decode($id);
-
-        $idprop = (Integer)substr($temp, 1, strlen($temp));
-        $idprop -= Auth::user()->id*3;
-
-        $dosen = Peneliti::select('nama')->find(Auth::user()->id);
-
-        $peneliti = Peneliti::select('tb_peneliti.id as dsn','nama','idfakultas','hindex','foto','tb_keanggota.id','anggotaid','peran','tugas')
-            ->leftJoin('tb_penelitian', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
-            ->leftJoin('tb_keanggota', 'tb_penelitian.prosalid', 'tb_keanggota.idpenelitian')
-            ->where('tb_penelitian.prosalid', $idprop)
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
-            ->first();
-
-        $proposal = Proposal::select('judul','idskema','idilmu')
-            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_penelitian.prosalid', $idprop)
-            ->first();
-
-        $toteliti = Penelitian::leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_penelitian.ketuaid', $peneliti->dsn)
-            ->where('tb_penelitian.status', '>', 0)
-            ->where('tb_proposal.jenis', '1')
-            ->count();
-
-        $tempory  = Keanggotaan::leftJoin('tb_penelitian', 'tb_keanggota.idpenelitian', 'tb_penelitian.id')
-            ->leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_keanggota.anggotaid', $peneliti->dsn)
-            ->where('tb_proposal.jenis', '1')
-            ->count();
-        $toteliti += $tempory;
-
-        $totabdi  = Penelitian::leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_penelitian.ketuaid', $peneliti->dsn)
-            ->where('tb_penelitian.status', '>', 0)
-            ->where('tb_proposal.jenis', '2')
-            ->count();
-        $tempory  = Keanggotaan::leftJoin('tb_penelitian', 'tb_keanggota.idpenelitian', 'tb_penelitian.id')
-            ->leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_keanggota.anggotaid', $peneliti->dsn)
-            ->where('tb_proposal.jenis', '2')
-            ->count();
-        $totabdi  += $tempory;
-
-        return view('pengabdianng.persetujuan', compact('person','proposal','toteliti','totabdi','peneliti','dosen'));
-    }
-
-    public function response(Request $request, $id)
-    {
-        $temp = base64_decode($id) - Auth::user()->id;
-
-        $stat = (Integer)substr($temp, 0, 1);
-        $idprog = (Integer)substr($temp, 2, strlen($temp));
-
-        $periode  = Periode::select('id')->where('aktif', '1')->orderBy('tahun','desc')->orderBy('sesi','desc')->first();
-        $ketua  = Penelitian::leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_penelitian.ketuaid', Auth::user()->id)
-            ->where('tb_proposal.periodeusul', $periode->id)
-            ->where('tb_proposal.jenis', '2')
-            ->count();
-
-        //$member = Keanggotaan::where('anggotaid', Auth::user()->id)->where('setuju', 1)->count();
-        $member = Keanggotaan::select('tb_keanggota.id')->leftJoin('tb_proposal', 'tb_keanggota.idpenelitian', 'tb_proposal.id')
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
-            ->where('tb_proposal.periodeusul', $periode->id)
-            ->where('tb_keanggota.setuju', 1)
-            ->where('tb_proposal.jenis', 2)
-            ->count();
-
-        $proposal = Proposal::select('idskema', 'periodeusul')
-            ->leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
-            ->where('tb_keanggota.id', $idprog)
-            ->first();
-
-
-        $bataspeserta = Keanggotaan::select('anggotaid')
-            ->leftJoin('tb_proposal', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->where('tb_keanggota.anggotaid', Auth::user()->id)
-            ->where('tb_keanggota.setuju', 1)
-            ->where('tb_proposal.periodeusul',$proposal->periodeusul)
-            ->where('tb_proposal.idskema', $proposal->idskema)
-            ->where('tb_proposal.aktif', '1')
-            ->count();
-
-        if (($ketua + $member) < 2) {
-            if ($bataspeserta ) {
-                $stat = 3;
-            }
-            $anggota = Keanggotaan::find($idprog);
-
-            $anggota->setuju = $stat;
-            $anggota->update();
-            if ($stat == 1){
-                return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('bersedia' => 'bersedia'));
-
-            }else if ($stat == 2) {
-                return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('tolak' => 'tolak'));
-
-            }
-            else{
-                return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('sistemtolak' => 'sistemtolak'));
-
-            }
-        }else{
-            return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
-        }
-
-        $member++;
-
-        if (($ketua + $member) >= 2) {
-            $anggota = Keanggotaan::where('anggotaid', Auth::user()->id)->where('setuju', 0)->get();
-            foreach($anggota as $data) {
-                $data->setuju = 3;
-                $data->update();
-            }
-            return Redirect::route('pengabdianng.index');
-        }else{
-            return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
-        }
-
+        );
 
     }
 
-    public function baca($id)
-    {
-        $person = PengabdianngController::countPersonil();
-
-        $temp = base64_decode($id);
-
-        $idprop = (Integer)substr($temp, 1, strlen($temp));
-        $idprop = ($idprop - Auth::user()->id) / 9;
-
-        $prop = Proposal::find($idprop);
-        $peneliti = Penelitian::where('prosalid', $idprop)->first();
-        $thn = $peneliti->tahun_ke;
-        $ketua = Peneliti::select('sinta','nama','idpt','idfakultas','idprodi','hindex')->find($peneliti->ketuaid);
-
-        $peserta = Peneliti::leftJoin('tb_keanggota', 'tb_keanggota.anggotaid', '=', 'tb_peneliti.id')
-            ->where('tb_keanggota.idpenelitian', '=', $idprop)
-            ->where('tb_keanggota.setuju', '<', 2)
-            ->orderBy('peran', 'asc')
-            ->get();
-
-        $luar = Luaran::select('kategori','idluaran','publish','urllink')
-            ->where('idpenelitian', $idprop)
-            ->orderBy('kategori', 'asc')
-            ->orderBy('id', 'asc')
-            ->get();
-
-        $biaya = Anggaran::where('proposalid', $idprop)->orderBy('anggaranid','asc')->get();
-
-        $thnr = 0;
-        $tbhn = 0;
-        $tjln = 0;
-        $tbrg = 0;
-        foreach ($biaya as $list)
-        {
-            if ($list->anggaranid == 1) {
-                $thnr += $list->volume * $list->biaya;
-            }
-            else if ($list->anggaranid == 2) {
-                $tbhn += $list->volume * $list->biaya;
-            }
-            else if ($list->anggaranid == 3) {
-                $tjln += $list->volume * $list->biaya;
-            }
-            else if ($list->anggaranid == 4) {
-                $tbrg += $list->volume * $list->biaya;
-            }
-
-        }
-
-        $mata = Mataanggaran::select('batas')->get();
-
-        return view('pengabdianng.baca', compact('person','idprop','prop','thn','ketua','peserta','luar','thnr','tbhn','tjln','tbrg','mata'));
-
+    function setujuiProposal(id) {
+        window.location = "{{route('pengabdianng.setuju','')}}/"+btoa(id);
     }
-}
+
+    function bacaProposal(id) {
+        window.location = "{{route('pengabdianng.baca', '')}}/"+btoa(id);
+    }
+
+    
+</script>
+@endsection

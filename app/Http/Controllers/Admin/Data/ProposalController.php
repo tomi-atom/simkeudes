@@ -148,7 +148,7 @@ class ProposalController extends Controller
             ->where('tb_proposal.aktif', '1')
             ->count();
 
-        if(!$penelitian && !$judul && !$batasskema) {
+        if( !$judul && !$batasskema) {
             $proposal = new Proposal;
             $proposal->idketua    = $request['iddosen'];
             $proposal->idtkt      = 1;
@@ -177,11 +177,12 @@ class ProposalController extends Controller
             $penelitian->ketuaid  = $request['iddosen'];
             $penelitian->thnkerja = $request['thnkerja'];
             $penelitian->tahun_ke = 1;
-          //  $penelitian->status   = 1;
+            $penelitian->status   = 4;
 
             $penelitian->save();
 
 
+          
             return Redirect::back()->withInput()->withErrors(array('success' => 'success'));
             }
         else {
@@ -411,7 +412,7 @@ class ProposalController extends Controller
         $idskema = $request->get('idskema'); 
         $_token  = $request->get('_token');
 
-        $tema    = Tema::where('idskema', $idskema)->where('aktif', '1')->get();
+        $tema    = Tema::where('aktif', '1')->get();
         $output = '<option value=""> -- Pilih Tema Penelitian --</option>';
         foreach ($tema as $row) 
         {

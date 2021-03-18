@@ -30,7 +30,7 @@
             <div class="panel-body">
                 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Subtansi Usulann - Proposal Pengabdian - <code>Tekan ( Ctrl + V ) untuk Paste Data</code></strong></div>
+                    <div class="panel-heading"><strong>Subtansi Usulann - Proposal Pengabdian - <code>Tekan tombol CTRL dan diikuti dgn V di keyboard untuk Paste data</code> </strong></div>
             
                     <div class="panel-body">
                     <form role="form" method="POST">

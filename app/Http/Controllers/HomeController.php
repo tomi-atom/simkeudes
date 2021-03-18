@@ -30,7 +30,7 @@ class HomeController extends Controller
                         ->where('tb_keanggota.anggotaid', Auth::user()->id)
                         ->where('tb_keanggota.setuju', 0)
                         ->where('tb_penelitian.status', '>', 0)
-                       // ->where('tb_proposal.aktif', '1')
+                        //->where('tb_proposal.aktif', '1')
                         ->get();
         return $personil;
     }

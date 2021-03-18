@@ -223,22 +223,40 @@ class PengabdianBaruController extends Controller
 
                         })
                         ->addColumn('action', function ($proposal) {
-                            $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                             if(Auth::user()->level == 3){
+                                  $subtansi = Substansi::where('proposalid', $proposal->id)->first();
                             if ($subtansi){
                                 return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
                                 <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>     
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>
-                                <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>';
+                               ';
 
                             }else{
                                 return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>     
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>
-                                <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>';
+                                ';
 
 
                             }
+                             }else{
+                                  $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                            if ($subtansi){
+                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                    
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
+
+                            }else{
+                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>     
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                              ';
+
+
+                            }
+                             }
+                           
 
                         })
                         ->rawColumns(['status','judul','upload','dana', 'action'])

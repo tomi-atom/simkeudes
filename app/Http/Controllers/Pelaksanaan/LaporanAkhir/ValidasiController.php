@@ -83,7 +83,7 @@ class ValidasiController extends Controller
 
         $temp = base64_decode($id);
         $idprop = (Integer)substr($temp, 2, strlen($temp));
-      //  $idprop = ($idprop - 29) / 2;
+        //$idprop = ($idprop - 29) / 2;
 
         $err = 0;
         $err2 = 0;

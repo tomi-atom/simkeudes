@@ -370,8 +370,8 @@ class HasilMonevController extends Controller
     public function resumenilai($id)
     {
         $person = HasilMonevController::countPersonil();
-        $temp = base64_decode($id);
-        $idn = (Integer)substr($temp, 2, strlen($temp));
+        $idn = base64_decode($id);
+       //  = (Integer)substr($temp, 2, strlen($temp));
 
         $nilai =  NilaiLaporanKemajuan ::  where('id',$idn)->first();
 

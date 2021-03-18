@@ -33,7 +33,7 @@
                             <div class="row">
                                 <br>
                                 <div class="col-md-10">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="skema">Skema</label>
                                             <select name="filter_skema" id="filter_skema" class="form-control" required>
@@ -170,27 +170,28 @@
 
         $(function () {
             //fill_datatable();
-
-            function fill_datatable(filter_skema = '')
+ function fill_datatable(filter_skema = '')
             {
                 $('#mytable').DataTable({
                     processing: true,
                     serverSide: true,
-                    dom: '<"html5buttons">Bfrtip',
+                    dom: '<"html5buttons">Blfrtip',
                     language: {
-                        buttons: {
-                            colvis : 'show / hide', // label button show / hide
-                            colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
-                        }
+                            buttons: {
+                                colvis : 'show / hide', // label button show / hide
+                                colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
+                            }
                     },
+
                     buttons : [
-                        {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
-                        {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU  '},
-                        {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU '},
-                        {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU'},
+                                {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
+                                {extend:'csv'},
+                                {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU  '},
+                                {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU '},
+                                {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU '},
                     ],
                     ajax: {
-                        url: 'pengabdianbaru/get_data',
+                       url: 'pengabdianbaru/get_data',
                         data:{filter_skema:filter_skema}
                     },
                     columns: [{
@@ -230,6 +231,7 @@
                     ]
                 });
             }
+           
 
 
             $('#filter').click(function(){
