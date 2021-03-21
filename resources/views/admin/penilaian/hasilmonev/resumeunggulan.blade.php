@@ -653,7 +653,7 @@
     function getLatar() {
         var _token     = $('input[name = "_token"]').val();
          $.ajax({
-            url: "{{ route('rn_laporankemajuan.nilai', $prop->id) }}",
+            url: "{{ route('hasilmonev.nilai', $nilai->id) }}",
             method: "POST",
             dataType: "json",
             data: {_token: _token},
@@ -670,6 +670,7 @@
                     $('#kriteria7').val(result[7]);
                     $('#kriteria8').val(result[8]);
                     $('#kriteria9').val(result[9]);
+                    $('#kriteria10').val(result[10]);
 
                     $('#nilai1').val(result[12]);
                     $('#nilai2').val(result[13]);
@@ -680,9 +681,12 @@
                     $('#nilai7').val(result[18]);
                     $('#nilai8').val(result[19]);
                     $('#nilai9').val(result[20]);
+                    $('#nilai10').val(result[21]);
+                    $('#rekomdana').val(result[23]);
 
-                    var totalnilai = result[12]+result[13]+result[14]+result[15]+result[16]+result[17]+result[18]+result[19]+result[20];
+                    var totalnilai = result[12]+result[13]+result[14]+result[15]+result[16]+result[17]+result[18]+result[19]+result[20]+result[21];
                     $('#totalnilai').val(totalnilai);
+
                     
                 }
                              
@@ -696,7 +700,6 @@
             }
         });
     }
-
    
 
         $(document).ready(function() {

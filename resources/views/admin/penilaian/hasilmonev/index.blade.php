@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Hasil Penilaian Monev
+    Hasil Penilaian Monev Kemajuan
 @endsection
 
 @section('breadcrumb')
@@ -27,7 +27,7 @@
                 <div class="panel-body">
                     <div class="panel panel-default">
 
-                        <div class="panel-heading"><strong>Hasil Penilaian Monev  </strong><div class="pull-right"><strong></strong></div></div>
+                        <div class="panel-heading"><strong>Hasil Penilaian Monev Kemajuan  </strong><div class="pull-right"><strong></strong></div></div>
                         <div class="panel-body">
                             <div class="row">
                                 @if($errors->first('kesalahan'))
