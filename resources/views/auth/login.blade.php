@@ -74,8 +74,8 @@
       </div>
     </form>
 
-    <a href="#">I forgot my password</a><br>
-    <a href="#" class="text-center">Register a new membership</a>
+   <!-- <a href="#">I forgot my password</a><br> -->
+    <a href="{{ route('grafik') }}" class="text-center">Grafik Penelitian dan Pengabdian</a>
 
   </div>
   <!-- /.login-box-body -->

@@ -666,6 +666,7 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
 
 
 
+
 Route::resource('penelitianlanjut', 'PenelitianlanjutController');
 Route::resource('pengabdianlanjut', 'PengabdianlanjutController');
 
@@ -675,4 +676,6 @@ Auth::routes();
 Route::RESOURCE('home','HomeController');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::GET('home/gantiperan/{id}','HomeController@gantiperan')->name('gantiperan');
+Route::get('/grafik', 'GrafikController@index')->name('grafik');
+Route::get('grafik/chart','GrafikController@chart');
 Route::RESOURCE('profile','ProfilController');
