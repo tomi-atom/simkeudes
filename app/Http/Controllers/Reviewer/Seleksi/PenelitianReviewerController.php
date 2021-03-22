@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Reviewer\Seleksi;
 use App\Anggaran;
 use App\Nilai;
 use App\Luaran;
+use App\LuaranAkhir;
+use App\LaporanAkhir;
+use App\AnggaranAkhir;
 use App\Mataanggaran;
+use App\NilaiLaporanKemajuan;
 use App\Peneliti;
 use App\Periode;
 use App\PlotingReviwer;
@@ -14,7 +18,7 @@ use App\RancanganPenelitian;
 use App\Reviewer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Carbon\Carbon;
 use App\Proposal;
 use App\Keanggotaan;
 use App\Penelitian;
@@ -147,7 +151,7 @@ class PenelitianReviewerController extends Controller
     public function store(Request $request)
     {
         $_token = $request->get('_token');
-       try
+        try
         {
             $skema = Proposal::find( $request->prosalid);
 
@@ -164,18 +168,18 @@ class PenelitianReviewerController extends Controller
                     $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
                     $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
                     $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
+                    $cek->komentar  = $request->komentar;  $cek->kelayakan = $request->kelayakan;
+                    $cek->rekomdana  = $cek->rekomdana;  
                     $cek->update();
-    
-               
+
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
+
+
                 }else{
-    
+
                     $nilai = new Nilai();
-        
+
                     $nilai->prosalid = $request->prosalid;
                     $nilai->iddosen = Auth::user()->id;
                     $nilai->jenis = 1;
@@ -188,13 +192,13 @@ class PenelitianReviewerController extends Controller
                     $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
                     $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
                     $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
+                    $nilai->komentar  = $request->komentar; $nilai->kelayakan = $request->kelayakan;
+                    $nilai->skema  = $skema->idskema; $nilai->rekomdana = $request->rekomdana;
                     $nilai->save();
-        
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
-    
+
             }elseif($skema->idskema==2){//inovasi 11
                 $cek = Nilai::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
 
@@ -210,18 +214,19 @@ class PenelitianReviewerController extends Controller
                     $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
                     $cek->kriteria10 = $request->kriteria10; $cek->nilai10 = $request->nilai10;
                     $cek->kriteria11 = $request->kriteria11; $cek->nilai11 = $request->nilai11;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
+                    $cek->komentar  = $request->komentar; $cek->kelayakan = $request->kelayakan;
+                    // $cek->skema  = $skema->idskema; 
+                    $cek->rekomdana = $request->rekomdana;
                     $cek->update();
-    
-               
+
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
+
+
                 }else{
-    
+
                     $nilai = new Nilai();
-        
+
                     $nilai->prosalid = $request->prosalid;
                     $nilai->iddosen = Auth::user()->id;
                     $nilai->jenis = 1;
@@ -236,10 +241,10 @@ class PenelitianReviewerController extends Controller
                     $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
                     $nilai->kriteria10 = $request->kriteria10; $nilai->nilai10 = $request->nilai10;
                     $nilai->kriteria11 = $request->kriteria11; $nilai->nilai11 = $request->nilai11;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
+                    $nilai->komentar  = $request->komentar; $nilai->kelayakan = $request->kelayakan;
+                    $nilai->skema  = $skema->idskema; $nilai->rekomdana = $request->rekomdana;
                     $nilai->save();
-        
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
             }elseif($skema->idskema==3){//bidangilmu 10
@@ -256,18 +261,19 @@ class PenelitianReviewerController extends Controller
                     $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
                     $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
                     $cek->kriteria10 = $request->kriteria10; $cek->nilai10 = $request->nilai10;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
+                    $cek->komentar  = $request->komentar; $cek->kelayakan = $request->kelayakan;
+                    // $cek->skema  = $skema->idskema;
+                    $cek->rekomdana = $request->rekomdana;
                     $cek->update();
-    
-               
+
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
+
+
                 }else{
-    
+
                     $nilai = new Nilai();
-        
+
                     $nilai->prosalid = $request->prosalid;
                     $nilai->iddosen = Auth::user()->id;
                     $nilai->jenis = 1;
@@ -281,16 +287,16 @@ class PenelitianReviewerController extends Controller
                     $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
                     $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
                     $nilai->kriteria10 = $request->kriteria10; $nilai->nilai10 = $request->nilai10;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
+                    $nilai->komentar  = $request->komentar; $nilai->kelayakan = $request->kelayakan;
+                    $nilai->skema  = $skema->idskema; $nilai->rekomdana = $request->rekomdana;
                     $nilai->save();
-        
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
             }elseif($skema->idskema==4){//guru 9
                 $cek = Nilai::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
 
-                
+
                 if($cek){
                     $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
                     $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
@@ -301,18 +307,19 @@ class PenelitianReviewerController extends Controller
                     $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
                     $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
                     $cek->kriteria9 = $request->kriteria9; $cek->nilai9 = $request->nilai9;
-                    $cek->komentar  = $request->komentar;
-                   // $cek->skema  = $skema->idskema;
+                    $cek->komentar  = $request->komentar; $cek->kelayakan = $request->kelayakan;
+                    // $cek->skema  = $skema->idskema;
+                    $cek->rekomdana = $request->rekomdana;
                     $cek->update();
-    
-               
+
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
-    
-        
+
+
                 }else{
-    
+
                     $nilai = new Nilai();
-        
+
                     $nilai->prosalid = $request->prosalid;
                     $nilai->iddosen = Auth::user()->id;
                     $nilai->jenis = 1;
@@ -325,14 +332,58 @@ class PenelitianReviewerController extends Controller
                     $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
                     $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
                     $nilai->kriteria9 = $request->kriteria9; $nilai->nilai9 = $request->nilai9;
-                    $nilai->komentar  = $request->komentar;
-                    $nilai->skema  = $skema->idskema;
+                    $nilai->komentar  = $request->komentar; $nilai->kelayakan = $request->kelayakan;
+                    $nilai->skema  = $skema->idskema; $nilai->rekomdana = $request->rekomdana;
                     $nilai->save();
-        
+
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
             }
-                 } catch (\Exception $e) {
+            elseif($skema->idskema == 7 ){//dosenmuda
+                $cek = Nilai::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->where('jenis',1)->first();
+
+                if($cek){
+                    $cek->kriteria1 = $request->kriteria1; $cek->nilai1 = $request->nilai1;
+                    $cek->kriteria2 = $request->kriteria2; $cek->nilai2 = $request->nilai2;
+                    $cek->kriteria3 = $request->kriteria3; $cek->nilai3 = $request->nilai3;
+                    $cek->kriteria4 = $request->kriteria4; $cek->nilai4 = $request->nilai4;
+                    $cek->kriteria5 = $request->kriteria5; $cek->nilai5 = $request->nilai5;
+                    $cek->kriteria6 = $request->kriteria6; $cek->nilai6 = $request->nilai6;
+                    $cek->kriteria7 = $request->kriteria7; $cek->nilai7 = $request->nilai7;
+                    $cek->kriteria8 = $request->kriteria8; $cek->nilai8 = $request->nilai8;
+                    $cek->komentar  = $request->komentar; $cek->kelayakan = $request->kelayakan;
+                    // $cek->skema  = $skema->idskema;
+                    $cek->rekomdana = $request->rekomdana;
+                    $cek->update();
+
+
+                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
+
+
+                }else{
+
+                    $nilai = new Nilai();
+
+                    $nilai->prosalid = $request->prosalid;
+                    $nilai->iddosen = Auth::user()->id;
+                    $nilai->jenis = 1;
+                    $nilai->kriteria1 = $request->kriteria1; $nilai->nilai1 = $request->nilai1;
+                    $nilai->kriteria2 = $request->kriteria2; $nilai->nilai2 = $request->nilai2;
+                    $nilai->kriteria3 = $request->kriteria3; $nilai->nilai3 = $request->nilai3;
+                    $nilai->kriteria4 = $request->kriteria4; $nilai->nilai4 = $request->nilai4;
+                    $nilai->kriteria5 = $request->kriteria5; $nilai->nilai5 = $request->nilai5;
+                    $nilai->kriteria6 = $request->kriteria6; $nilai->nilai6 = $request->nilai6;
+                    $nilai->kriteria7 = $request->kriteria7; $nilai->nilai7 = $request->nilai7;
+                    $nilai->kriteria8 = $request->kriteria8; $nilai->nilai8 = $request->nilai8;
+                    $nilai->komentar  = $request->komentar; $nilai->kelayakan = $request->kelayakan;
+                    $nilai->skema  = $skema->idskema; $nilai->rekomdana = $request->rekomdana;
+                    $nilai->save();
+
+                    return response()->json(['success' ,'data berhasil ditambahkan'], 200);
+                }
+
+            }
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
@@ -355,7 +406,7 @@ class PenelitianReviewerController extends Controller
             $output[] = $nilai->kriteria9;
             $output[] = $nilai->kriteria10;
             $output[] = $nilai->kriteria11;
-            
+
             $output[] = $nilai->nilai1; //12
             $output[] = $nilai->nilai2; //13
             $output[] = $nilai->nilai3; //14
@@ -368,8 +419,9 @@ class PenelitianReviewerController extends Controller
             $output[] = $nilai->nilai10; //21
             $output[] = $nilai->nilai11; //22
             $output[] = $nilai->rekomdana; //23
-            
-        
+             $output[] = $nilai->kelayakan; //24
+
+
             return json_encode($output);
         }
         else
@@ -392,7 +444,7 @@ class PenelitianReviewerController extends Controller
         try
         {
             DB::statement(DB::raw('set @rownum=0'));
-
+            $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',1)->first();
 
             $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_proposal.jenis'])
                 ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
@@ -400,6 +452,7 @@ class PenelitianReviewerController extends Controller
                 ->leftJoin('tb_ploting_reviewer', 'tb_ploting_reviewer.prosalid', 'tb_proposal.id')
                 ->where('tb_ploting_reviewer.iddosen', Auth::user()->id)
                 //->where('tb_penelitian.status', 4)
+                ->where('tb_proposal.periodeusul', $periodeterbaru->id)
                 ->where('tb_proposal.jenis', 1)
             ;
 
@@ -410,28 +463,28 @@ class PenelitianReviewerController extends Controller
                         ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
                         ->where('idpenelitian',$proposal->prosalid)
                         ->get();
-                            $data = '';
-                        // here we prepare the options
-                        foreach ($anggota as $list) {
-                            $data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
-                                ;
-                        }
-                        $return =
-                            '<td class="text-left">' .$proposal->judul . '</td><br>
+                    $data = '';
+                    // here we prepare the options
+                    foreach ($anggota as $list) {
+                        $data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
+                        ;
+                    }
+                    $return =
+                        '<td class="text-left">' .$proposal->judul . '</td><br>
                                 <td class="text-left">' .$data . '</td>
                            ';
-                        return $return;
+                    return $return;
                 })
                 ->addColumn('skema', function ($proposal) {
                     $skema = DB::table('adm_skema')
-                       ->select('id','skema')
-                       ->groupBy('skema')
-                       ->where('id', $proposal->idskema)
-                       ->first();
-                  
-                       return $skema->skema;
-                  
-               })
+                        ->select('id','skema')
+                        ->groupBy('skema')
+                        ->where('id', $proposal->idskema)
+                        ->first();
+
+                    return $skema->skema;
+
+                })
                 ->addColumn('reviewer', function($proposal) {
                     $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','nama')
                         ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
@@ -464,32 +517,34 @@ class PenelitianReviewerController extends Controller
                 })
                 ->addColumn('status', function ($proposal) {
                     $ploting = PlotingReviwer::select('tb_ploting_reviewer.iddosen','nama')
-                    ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
-                    ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
-                    ->get();
-                $data = '';
-                // here we prepare the options
-                foreach ($ploting as $list) {
-                    $nilai = Nilai::where('prosalid',$proposal->id)->where('iddosen',$list->iddosen)->first();
-                    if ($nilai){
-                        $data = '<span class="label label-primary">Penilaian Selesai</span>'
-                        ;
+                        ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
+                        ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
+                        ->get();
+                    $data = '';
+                    // here we prepare the options
+                    foreach ($ploting as $list) {
+                        $nilai = Nilai::where('prosalid',$proposal->id)->where('iddosen',Auth::user()->id)->first();
+                        if ($nilai){
+                             $totalnilai = $nilai->nilai1 + $nilai->nilai2 + $nilai->nilai3 + $nilai->nilai4 + $nilai->nilai5 + $nilai->nilai6 + $nilai->nilai7 + $nilai->nilai8 + $nilai->nilai9 + $nilai->nilai10 + $nilai->nilai11  ;
+                            $data = '<span class="label label-primary">Penilaian Selesai</span><br>
+                            <small class="label label-success">' . $totalnilai . '</small>'
+                            ;
+                        }
+                        else{
+                            $data = '<span class="label label-danger">Belum di Nilai</span>'
+                            ;
+
+                        }
+
                     }
-                    else{
-                        $data = '<span class="label label-danger">Belum di Nilai</span>'
-                        ;
-                      
-                    }
-                  
-                }
-                $return =
-                    '<td class="text-left">' .$data . '</td>
+                    $return =
+                        '<td class="text-left">' .$data . '</td>
                        ';
-                if ($data == null){
-                    return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
-                }else{
-                    return $return;
-                }
+                    if ($data == null){
+                        return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
+                    }else{
+                        return $return;
+                    }
 
                 })
                 ->addColumn('action', function ($proposal) {
@@ -517,7 +572,7 @@ class PenelitianReviewerController extends Controller
                 ->where('tb_ploting_reviewer.iddosen', Auth::user()->id)
                 //  ->where('tb_proposal.periodeusul', $request->filter_thn)
                 ->where('tb_penelitian.status', 4)
-                 ->where('tb_proposal.jenis', '1')
+                ->where('tb_proposal.jenis', '1')
             ;
 
 
@@ -572,32 +627,32 @@ class PenelitianReviewerController extends Controller
                 })
                 ->addColumn('status', function ($proposal) {
                     $ploting = PlotingReviwer::select('tb_ploting_reviewer.iddosen','nama')
-                    ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
-                    ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
-                    ->get();
-                $data = '';
-                // here we prepare the options
-                foreach ($ploting as $list) {
-                    $nilai = Nilai::where('prosalid',$proposal->id)->where('iddosen',$list->iddosen)->first();
-                    if ($nilai){
-                        $data = '<span class="label label-primary">Penilaian Selesai</span>'
-                        ;
+                        ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
+                        ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
+                        ->get();
+                    $data = '';
+                    // here we prepare the options
+                    foreach ($ploting as $list) {
+                        $nilai = Nilai::where('prosalid',$proposal->id)->where('iddosen',$list->iddosen)->first();
+                        if ($nilai){
+                            $data = '<span class="label label-primary">Penilaian Selesai</span>'
+                            ;
+                        }
+                        else{
+                            $data = '<span class="label label-danger">Belum di Nilai</span>'
+                            ;
+
+                        }
+
                     }
-                    else{
-                        $data = '<span class="label label-danger">Belum di Nilai</span>'
-                        ;
-                      
-                    }
-                  
-                }
-                $return =
-                    '<td class="text-left">' .$data . '</td>
+                    $return =
+                        '<td class="text-left">' .$data . '</td>
                        ';
-                if ($data == null){
-                    return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
-                }else{
-                    return $return;
-                }
+                    if ($data == null){
+                        return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
+                    }else{
+                        return $return;
+                    }
 
                 })
                 ->addColumn('action', function ($proposal) {
@@ -618,7 +673,7 @@ class PenelitianReviewerController extends Controller
 
         $prop = Proposal::find($idprop);
         //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
-
+        $periode  = Periode::where('id',$prop->periodeusul)->first();
         $peneliti = Penelitian::where('prosalid', $idprop)->first();
         $thn = $peneliti->tahun_ke;
 
@@ -660,7 +715,7 @@ class PenelitianReviewerController extends Controller
 
         $mata = Mataanggaran::select('batas')->get();
 
-        return view('reviewer.seleksi.penelitian.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        return view('reviewer.seleksi.penelitian.resume', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
     }
 
     public function resumenilai($id)
@@ -671,7 +726,7 @@ class PenelitianReviewerController extends Controller
 
         $prop = Proposal::find($idprop);
         //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
-
+        $periode  = Periode::where('id',$prop->periodeusul)->first();
         $peneliti = Penelitian::where('prosalid', $idprop)->first();
         $thn = $peneliti->tahun_ke;
 
@@ -714,18 +769,20 @@ class PenelitianReviewerController extends Controller
         $mata = Mataanggaran::select('batas')->get();
 
         if($prop->idskema == 1 ){
-            return view('reviewer.seleksi.penelitian.resumeunggulan', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('reviewer.seleksi.penelitian.resumeunggulan', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==2){
-            return view('reviewer.seleksi.penelitian.resumeinovasi', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('reviewer.seleksi.penelitian.resumeinovasi', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==3){
-            return view('reviewer.seleksi.penelitian.resumebidangilmu', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('reviewer.seleksi.penelitian.resumebidangilmu', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==4){
-            return view('reviewer.seleksi.penelitian.resumeguru', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('reviewer.seleksi.penelitian.resumeguru', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        }elseif($prop->idskema==7){
+            return view('reviewer.seleksi.penelitian.resumedosenmuda', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }
 
     }
-   
-   
+
+
     public function resumeberkas($id)
     {
         $temp = base64_decode($id);
@@ -748,6 +805,126 @@ class PenelitianReviewerController extends Controller
                 return Redirect::back()->withInput()->withErrors(array('kesalahan' => $message));
             }
         }
+    }
+    
+    public function resumeluaran($id)
+    {
+        $temp = base64_decode($id);
+        $idketua = (Integer)substr($temp, 2, strlen($temp));
+
+        $person = PenelitianReviewerController::countPersonil();
+
+        $peneliti = Peneliti::select('id','nama','hindex','sinta','status','tanggungan')->find($idketua);
+      //  $periode  = Periode::where('aktif', '1')->where('jenis','1')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
+
+        $proposal = Proposal::select('tb_proposal.id','judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
+            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+            //->where('tb_proposal.periodeusul',$periode[0]->id)
+            ->where('tb_penelitian.ketuaid', $peneliti->id)
+            ->where('tb_penelitian.status', '=', 4)
+            ->where('tb_proposal.jenis', 1)
+            ->first();
+            
+  
+        $peserta = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','thnkerja','status','prosalid','peran','setuju')
+            ->leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
+            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+               // ->where('tb_proposal.periodeusul',$periode[0]->id)
+                ->where('tb_keanggota.anggotaid', $peneliti->id)
+                ->where('tb_penelitian.status', '=', 4)
+                ->where('tb_keanggota.setuju', '<', 2)
+                ->where('tb_proposal.jenis', 1)
+               // ->where('tb_proposal.aktif', '1')
+                ->orderBy('tb_keanggota.peran', 'asc')
+                ->get(); 
+
+        $minat =  Proposal::leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
+            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+            ->where('tb_proposal.periodeusul',$periode[0]->id)
+            ->where('tb_penelitian.ketuaid', $peneliti->id)
+            ->where('tb_penelitian.status', '>', 0)
+            ->where('tb_keanggota.setuju', 0)
+            ->where('tb_proposal.jenis', 1)
+            ->where('tb_proposal.aktif', '1')
+            ->count(); 
+
+        $status = Posisi::select('jenis')->where('aktif', '1')->orderBy('id','asc')->get(); //*temp
+
+        $member = Keanggotaan::leftJoin('tb_proposal', 'tb_keanggota.idpenelitian', 'tb_proposal.id')
+                        ->where('tb_keanggota.anggotaid', $idketua)
+                        ->where('tb_keanggota.setuju', 1)
+                        ->where('tb_proposal.jenis', 1)
+                        ->count();
+
+        $ketua   = count($proposal);
+        $total   = $ketua + count($peserta);
+        $waktu = Carbon::now('Asia/Jakarta');
+        
+        $luaranlainnya = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',3)->first();
+        $luaranwajib = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',1)->first();
+        $luarantambahan = LuaranAkhir::where('idpenelitian', $proposal->id)->where('kategori',2)->first();
+
+        return view('reviewer.seleksi.penelitian.resumeluaran', compact('person', 'peneliti', 'periode', 'proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu', 'luaranlainnya', 'luaranwajib', 'luarantambahan'));
+    }
+    public function resumeluaranlama($id)
+    {
+       $person = PenelitianReviewerController::countPersonil();
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp));
+
+        $prop = Proposal::find($idprop);
+        //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
+        $periode  = Periode::where('id',$prop->periodeusul)->first();
+        $peneliti = Penelitian::where('prosalid', $idprop)->first();
+        $thn = $peneliti->tahun_ke;
+
+        $ketua = Peneliti::select('sinta','nama','idpt','idfakultas','idprodi','hindex')->find($peneliti->ketuaid);
+        $peserta = Peneliti::leftJoin('tb_keanggota', 'tb_keanggota.anggotaid', '=', 'tb_peneliti.id')
+            ->where('tb_keanggota.idpenelitian', '=', $idprop)
+            ->where('tb_keanggota.setuju', '<', 2)
+            ->orderBy('peran', 'asc')
+            ->get();
+
+        $luar = Luaran::select('kategori','idluaran','publish','urllink')
+            ->where('idpenelitian', $idprop)
+            ->orderBy('kategori', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+            $luarkemajuan = LuaranAkhir::select('id','judul','kategori','idluaran','publish','urllink','upload')
+            ->where('idpenelitian', $idprop)
+            ->orderBy('kategori', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $biaya = Anggaran::where('proposalid', $idprop)->orderBy('anggaranid','asc')->orderBy('id','asc')->get();
+
+        $thnr = 0;
+        $tbhn = 0;
+        $tjln = 0;
+        $tbrg = 0;
+        foreach ($biaya as $list)
+        {
+            if ($list->anggaranid == 1) {
+                $thnr += $list->volume * $list->biaya;
+            }
+            else if ($list->anggaranid == 2) {
+                $tbhn += $list->volume * $list->biaya;
+            }
+            else if ($list->anggaranid == 3) {
+                $tjln += $list->volume * $list->biaya;
+            }
+            else if ($list->anggaranid == 4) {
+                $tbrg += $list->volume * $list->biaya;
+            }
+
+        }
+
+        $mata = Mataanggaran::select('batas')->get();
+        $laporanakhir = LaporanAkhir::where('prosalid', $prop->id)->first();
+        $anggaranakhir = AnggaranAkhir::where('prosalid', $prop->id)->first();
+
+
+        return view('reviewer.seleksi.penelitian.resumeluaranlama', compact('person','idprop','periode','prop','thn','ketua','peserta','luar','luarkemajuan','biaya','thnr','tbhn','tjln','tbrg','mata','laporanakhir','anggaranakhir'));
     }
 
 
@@ -788,32 +965,32 @@ class PenelitianReviewerController extends Controller
         try
 
         {
-/*            DB::table('tb_nilai')->insert(
-                [
-                    'prosalid' => $id, 
-                    'iddosen' => Auth::user()->id, 
-                    'jenis' => 1,
-                    'kriteria1' => $request->kriteria,
-                    'kriteria2' => $request->kriteria,
-                    'kriteria3' => $request->kriteria,
-                    'kriteria4' => $request->kriteria,
-                    'kriteria5' => $request->kriteria,
-                    'kriteria6' => $request->kriteria,
-                    'kriteria7' => $request->kriteria,
-                    'kriteria8' => $request->kriteria,
-                    'nilai1' => $request->nilai1,
-                    'nilai2' => $request->nilai2,
-                    'nilai3' => $request->nilai3,
-                    'nilai4' => $request->nilai4,
-                    'nilai5' => $request->nilai5,
-                    'nilai6' => $request->nilai6,
-                    'nilai7' => $request->nilai7,
-                    'nilai8' => $request->nilai8,
-                    'komentar' => $request->komentar
-                ]
-            );
+            /*            DB::table('tb_nilai')->insert(
+                            [
+                                'prosalid' => $id,
+                                'iddosen' => Auth::user()->id,
+                                'jenis' => 1,
+                                'kriteria1' => $request->kriteria,
+                                'kriteria2' => $request->kriteria,
+                                'kriteria3' => $request->kriteria,
+                                'kriteria4' => $request->kriteria,
+                                'kriteria5' => $request->kriteria,
+                                'kriteria6' => $request->kriteria,
+                                'kriteria7' => $request->kriteria,
+                                'kriteria8' => $request->kriteria,
+                                'nilai1' => $request->nilai1,
+                                'nilai2' => $request->nilai2,
+                                'nilai3' => $request->nilai3,
+                                'nilai4' => $request->nilai4,
+                                'nilai5' => $request->nilai5,
+                                'nilai6' => $request->nilai6,
+                                'nilai7' => $request->nilai7,
+                                'nilai8' => $request->nilai8,
+                                'komentar' => $request->komentar
+                            ]
+                        );
 
-          */  $nilai = new Nilai();
+                      */  $nilai = new Nilai();
 
             $nilai->prosalid = $id;
             $nilai->iddosen = 1;

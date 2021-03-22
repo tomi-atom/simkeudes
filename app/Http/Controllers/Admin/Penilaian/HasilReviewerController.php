@@ -184,7 +184,155 @@ class HasilReviewerController extends Controller
         }
 
     }
-    
+     public function reviewerpenelitian()
+    {
+        try
+        {
+            DB::statement(DB::raw('set @rownum=0'));
+            /*$peneliti = Reviewer::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_reviewer.iddosen as id', 'tb_peneliti.nama','tb_peneliti.nidn','tb_reviewer.periode','tb_reviewer.jenis'])
+                ->leftJoin('tb_peneliti', 'tb_reviewer.iddosen', 'tb_peneliti.id')
+                ->leftJoin('adm_periode', 'tb_reviewer.periode', 'adm_periode.id')
+                ->where('adm_periode.aktif','1')
+                ->where('tb_reviewer.jenis','!=','2')
+                //->orderBy('level','DESC')
+            ;*/
+            $peneliti = Reviewer::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_reviewer.iddosen as id', 'tb_peneliti.nama','tb_peneliti.nidn','tb_reviewer.periode','tb_reviewer.jenis'])
+                ->leftJoin('tb_peneliti', 'tb_reviewer.iddosen', 'tb_peneliti.id')
+                ->leftJoin('adm_periode', 'tb_reviewer.periode', 'adm_periode.id')
+              //  ->where('adm_periode.aktif','1')
+                ->where('tb_reviewer.jenis','!=','2')
+                //->orderBy('level','DESC')
+            ;
+
+            return DataTables::of($peneliti)
+
+                ->addColumn('periode', function($peneliti) {
+                    $tempid = $_GET['id'];
+                    $periode = Periode::where('id', $peneliti->periode)->first();
+                    return '<td class="text-left">' .$periode->tahun. ' sesi ' .$periode->sesi. '</td>';
+
+                })
+                ->addColumn('jenis', function ($peneliti) {
+                    if ($peneliti->jenis == 1){
+                        return ' <small class="label label-info">Penelitian</small>';
+                    }elseif ($peneliti->jenis == 2){
+                        return '<small class="label label-warning">Pengabdian</small>';
+                    }
+                    else{
+                        return '<small class="label label-info">Penelitian</small>
+                                <br>
+                                <small class="label label-warning">Pengabdian</small>';
+
+                    }
+                })
+
+                ->addColumn('action', function ($peneliti) {
+                    $tempid = $_GET['id'];
+                    $status = Posisi::select('id','jenis')
+                        ->where('id','>=',50)
+                        ->get();
+                    $data = '';
+                    // here we prepare the options
+                    foreach ($status as $list) {
+                        $rev = PlotingReviwer::select('iddosen','prosalid','jenis')->where('iddosen',$peneliti->id)->where('prosalid',$tempid)->where('jenis',$list->id)->first();
+                        $countrev = PlotingReviwer::select('iddosen')
+                            ->leftjoin('tb_proposal','tb_proposal.id','tb_ploting_reviewer.prosalid')
+                            ->leftjoin('adm_periode','adm_periode.id','tb_proposal.periodeusul')
+                            ->where('adm_periode.aktif','1')
+                            ->where('tb_proposal.jenis','1')
+                            ->where('tb_ploting_reviewer.jenis',$list->id)->where('iddosen',$peneliti->id)->get();
+                        $total = count($countrev);
+                        if ($rev->iddosen == null && $rev->jenis == null && $rev->prosalid == null){
+                            $data .= '<button id="' . $list->id . '' . $peneliti->id . '" class="btn btn-xs btn-success tambahreviewerpenelitian" title="Tambah Reviewer"><i class="glyphicon glyphicon-plus"></i> ' . $list->jenis . ' : <span class="label label-danger">'.$total.'</span></button> <div style="line-height:15%;"><br></div>'                        ;
+
+                        }elseif ($rev->iddosen != null && $rev->jenis != null  ){
+                            $data .= '<button class="btn btn-xs btn-default " title="Tambah Reviewer" disabled><i class="glyphicon glyphicon-plus"></i> ' . $list->jenis . ' : <span class="label label-danger">'.$total.'</span></button> <div style="line-height:15%;"><br></div>'                        ;
+
+                        }
+
+
+                    }
+                    return $data;
+
+                })
+                ->rawColumns(['jenis','periode','action'])
+                ->make(true);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+    }
+     public function reviewerpengabdian()
+    {
+        try
+        {
+            DB::statement(DB::raw('set @rownum=0'));
+            $peneliti = Reviewer::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_reviewer.iddosen as id', 'tb_peneliti.nama','tb_peneliti.nidn','tb_reviewer.periode','tb_reviewer.jenis'])
+                ->leftJoin('tb_peneliti', 'tb_reviewer.iddosen', 'tb_peneliti.id')
+                ->leftJoin('adm_periode', 'tb_reviewer.periode', 'adm_periode.id')
+                ->where('adm_periode.aktif','1')
+                ->where('tb_reviewer.jenis','!=','1')
+                
+                //->where('users.level', '!=','3')
+                //->orderBy('level','DESC')
+            ;
+
+
+            return DataTables::of($peneliti)
+
+                ->addColumn('periode', function($peneliti) {
+                    $periode = Periode::where('id', $peneliti->periode)->first();
+                    return '<td class="text-left">' .$periode->tahun. ' sesi ' .$periode->sesi. '</td>';
+
+                })
+                ->addColumn('jenis', function ($peneliti) {
+                    if ($peneliti->jenis == 1){
+                        return ' <small class="label label-info">Penelitian</small>';
+                    }elseif ($peneliti->jenis == 2){
+                        return '<small class="label label-warning">Pengabdian</small>';
+                    }
+                    else{
+                        return '<small class="label label-info">Penelitian</small>
+                                <br> <small class="label label-warning">Pengabdian</small>';
+
+                    }
+                })
+                ->addColumn('action', function ($peneliti) {
+                    $tempid = $_GET['id'];
+                    $status = Posisi::select('id','jenis')
+                        ->where('id','>=',50)
+                        ->get();
+                    $data = '';
+                    // here we prepare the options
+                    foreach ($status as $list) {
+                        $rev = PlotingReviwer::select('iddosen','prosalid','jenis')->where('iddosen',$peneliti->id)->where('prosalid',$tempid)->where('jenis',$list->id)->first();
+                        $countrev = PlotingReviwer::select('iddosen')
+                            ->leftjoin('tb_proposal','tb_proposal.id','tb_ploting_reviewer.prosalid')
+                            ->leftjoin('adm_periode','adm_periode.id','tb_proposal.periodeusul')
+                            ->where('adm_periode.aktif','1')
+                            ->where('tb_proposal.jenis','2')
+                            ->where('tb_ploting_reviewer.jenis',$list->id)->where('iddosen',$peneliti->id)->get();
+                        $total = count($countrev);
+                        if ($rev->iddosen == null && $rev->jenis == null && $rev->prosalid == null){
+                            $data .= '<button id="' . $list->id . '' . $peneliti->id . '" class="btn btn-xs btn-success tambahreviewerpengabdian" title="Tambah Reviewer"><i class="glyphicon glyphicon-plus"></i> ' . $list->jenis . '</button> <span class="label label-danger">'.$total.'</span><div style="line-height:15%;"><br></div>'                        ;
+
+                        }elseif ($rev->iddosen != null && $rev->jenis != null  ){
+                            $data .= '<button class="btn btn-xs btn-default " title="Tambah Reviewer" disabled><i class="glyphicon glyphicon-plus"></i> ' . $list->jenis . '</button><span class="label label-danger">'.$total.'</span><div style="line-height:15%;"><br></div>'                        ;
+
+                        }
+
+
+                    }
+                    return $data;
+
+                })
+                ->rawColumns(['jenis','periode','action'])
+                ->make(true);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+    }
     public function showpenelitian(Request $request)
     {
         if(request()->ajax())
@@ -196,17 +344,20 @@ class HasilReviewerController extends Controller
                 {
                     DB::statement(DB::raw('set @rownum=0'));
 
-                    $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',1)->where('aktif','1')->first();
+                 
                     $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','tb_proposal.idtkt','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_penelitian.dana','tb_penelitian.status','tb_proposal.jenis'])
                         ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
                         ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
+                        ->leftJoin('tb_ploting_reviewer', 'tb_proposal.id', 'tb_ploting_reviewer.prosalid')
                         // ->leftJoin('tb_plotingreviewer', 'tb_plotingreviewer.prosalid', 'tb_proposal.id')
-                        ->where('tb_proposal.periodeusul', $periodeterbaru->id)
+                        ->where('tb_proposal.periodeusul', $request->filter_thn)
                     //->where('tb_penelitian.status', 4)
                         ->where('tb_proposal.jenis', 1)
+                        ->where('tb_ploting_reviewer.jenis', 50)
                             ->whereIn('tb_penelitian.status',[4,6])
                             ->orderBy('tb_proposal.idskema', 'desc')
                         // ->orwhere('tb_penelitian.status', 6)
+                         ->groupBy('tb_proposal.id')
                     ;
 
 
@@ -241,6 +392,7 @@ class HasilReviewerController extends Controller
                             $data = '';
                             $temp = '';
                             $rata = array();
+                           
                             // here we prepare the options
                             foreach ($ploting as $list) {
                                 $nilai = Nilai::select('nilai1','nilai2','nilai3','nilai4','nilai5','nilai6','nilai7','nilai8','nilai9','nilai10','nilai11')
@@ -251,21 +403,47 @@ class HasilReviewerController extends Controller
                                 $rata[] = $totalnilai;
                                 if ($temp != $list->nama){
                                     $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br><small class="label label-success">' . $totalnilai . '</small><br>
+                                     <button id="' . $list->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button><br>
                                     
                                     '
                                     ;
                                     $temp = $list->nama;
                                 }else{
                                     $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
+                                     <button id="' . $list->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button><br>
                                     '
                                     ;
                                 }
 
                             }
-                            $return =
+                           
+                           $rata_len = count($rata)-1;
+
+                            sort($rata);
+                            
+                            $result = $rata[$rata_len];
+                            for ($i = $rata_len-1; $i >= 0; $i--) {
+                                $result -= $rata[$i];
+                            } 
+                            
+                            if($result > 100 && count($rata) ==2 && $result != array_sum($rata)){
+                                 $return =
                                 '<td class="text-left">' .$data . '</td><br>
-                                <td class="text-left">Rata-Rata : <small class="label label-primary"> '  . array_sum($rata)/count($rata) . '</small></td>
+                                <td class="text-left">Selisih : <small class="label label-primary"> '  . $result . '</small></td><br>
+                                <td class="text-left">Perlu di Tambah Reviewer</td>
+                                  <br> <button id="' . $proposal->id . '" class="btn btn-xs editreviewerpenelitian btn-success" title="Tambah Reviewer"><i class="glyphicon glyphicon-plus"></i></button><div style="line-height:20%;"><br></div>
                                 ';
+                            }else{
+                                 $return =
+                                '<td class="text-left">' .$data . '</td><br>
+                               <td class="text-left">Selisih : <small class="label label-primary"> '  . $result . '</small></td><br>
+                               <td class="text-left">Rata-Rata : <small class="label label-primary"> '  . array_sum($rata)/count($rata) . '</small></td>
+                                
+                               
+                               
+                                ';
+                            }
+                           
                             if ($data == null){
                                 return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
                             }else{
@@ -307,20 +485,48 @@ class HasilReviewerController extends Controller
                         $rata = array();
                         // here we prepare the options
                         foreach ($ploting as $list) {
-                            $nilai = Nilai::select('komentar')
+                            $nilai = Nilai::select('id','komentar','kelayakan','rekomdana')
                             ->where('prosalid',$proposal->id)
                             ->where('iddosen',$list->iddosen)->first();
                             $totalnilai = $nilai->komentar ;
                             
                             $rata[] = $totalnilai;
                             if ($temp != $list->nama){
-                                $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br>' . $totalnilai . '<br>
-        
-                                '
-                                ;
-                                $temp = $list->nama;
+                                
+                                if($nilai->kelayakan == '1'){
+                                    $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br>' . $totalnilai . '<br>
+                                     <span>Kelayakan : </span><small class="label label-success">Layak</small><br>
+                                     <span>Rekomendasi Dana : </span><small class="label label-success">' . format_uang($nilai->rekomdana) . '</small><br>
+                                     <a  href="'. route('hasilreviewer.resumenilai',base64_encode($nilai->id) ).'" class="btn btn-xs resumenilai btn-warning" title="Lihat Penilaian"><i class="glyphicon glyphicon-edit"></i> </a><br>
+            
+                                    '
+                                    ;
+                                    $temp = $list->nama;
+                                }else if($nilai->kelayakan == '2') {
+                                    $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br>' . $totalnilai . '<br>
+                                     <span>Kelayakan : </span><small class="label label-danger">Tidak Layak</small><br><br>
+                                       <a  href="'. route('hasilreviewer.resumenilai',base64_encode($nilai->id) ).'" class="btn btn-xs resumenilai btn-warning" title="Lihat Penilaian"><i class="glyphicon glyphicon-edit"></i> </a><br>
+                                    
+            
+                                    '
+                                    ;
+                                    $temp = $list->nama;
+                                    
+                                }else{
+                                    $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br>' . $totalnilai . '<br>
+                                      <a  href="'. route('hasilreviewer.resumenilai',base64_encode($nilai->id) ).'" class="btn btn-xs resumenilai btn-warning" title="Lihat Penilaian"><i class="glyphicon glyphicon-edit"></i> </a><br>
+                                    
+                                    
+            
+                                    '
+                                    ;
+                                    $temp = $list->nama;
+                                }
+                                
                             }else{
                                 $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
+                
+                                
                                 '
                                 ;
                             }
@@ -365,17 +571,21 @@ class HasilReviewerController extends Controller
                             $admstatus = Posisi::select('jenis')
                             ->where('id',$proposal->status)
                             ->first();
-                                if ($proposal->status == 6){
-                                    return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a>
+                                if ($proposal->status != 4){
+                                    return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs resume btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a><br>
                                     <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>
+                                  
+                              
                                     ';
                                 }
                                 elseif($proposal->status == 4){
-                                    return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a>
+                                    return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs resume btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a>
                                 <button id="'.$proposal->id . '" class="btn btn-xs edit" title="Tambahkan Dana"><i class="glyphicon glyphicon-plus"></i> </button>
                                 ';
 
                                 }
+                                
+                                
                             
 
                         })
@@ -579,15 +789,20 @@ class HasilReviewerController extends Controller
     }
    
    
-    public function resumenilai($id)
+   public function resumenilai($id)
     {
         $person = HasilReviewerController::countPersonil();
-        $temp = base64_decode($id);
-        $idprop = (Integer)substr($temp, 2, strlen($temp));
+        $idn = base64_decode($id);
+      
+        $nilai =  Nilai ::  where('id',$idn)->first();
 
+        $idprop = $nilai->prosalid;
+        $prop = Proposal::find($idprop);
+
+        $idprop = $nilai->prosalid;
         $prop = Proposal::find($idprop);
         //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
-
+        $periode  = Periode::where('id',$prop->periodeusul)->first();
         $peneliti = Penelitian::where('prosalid', $idprop)->first();
         $thn = $peneliti->tahun_ke;
 
@@ -630,19 +845,29 @@ class HasilReviewerController extends Controller
         $mata = Mataanggaran::select('batas')->get();
 
         if($prop->idskema == 1 ){
-            return view('admin.penilaian.hasil.penelitian.resumeunggulan', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('admin.penilaian.seleksi.penelitian.resumeunggulan', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==2){
-            return view('admin.penilaian.hasil.penelitian.resumeinovasi', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('admin.penilaian.seleksi.penelitian.resumeinovasi', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==3){
-            return view('admin.penilaian.hasil.penelitian.resumebidangilmu', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('admin.penilaian.seleksi.penelitian.resumebidangilmu', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==4){
-            return view('admin.penilaian.hasil.penelitian.resumeguru', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            return view('admin.penilaian.seleksi.penelitian.resumeguru', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        }elseif($prop->idskema==7){
+            return view('admin.penilaian.seleksi.penelitian.resumedosenmuda', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+        }else if($prop->idskema == 6 ){
+            return view('admin.penilaian.seleksi.pengabdian.resumedesa', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        }elseif($prop->idskema==5){
+           return view('admin.penilaian.seleksi.pengabdian.resumemasyarakat', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        }elseif($prop->idskema == 22 ){
+            return view('admin.penilaian.seleksi.pengabdian.resumekemitraan', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        }elseif($prop->idskema == 23 ){
+            return view('admin.penilaian.seleksi.pengabdian.resumekewirausahaan', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }
 
     }
     public function getnilai($id)
     {
-        $nilai = Nilai::where('prosalid', $id)->where('iddosen',993)->first();
+        $nilai = Nilai::where('id', $id)->first();
 
         if($nilai) {
             $output = array();
@@ -671,6 +896,8 @@ class HasilReviewerController extends Controller
             $output[] = $nilai->nilai9; //20
             $output[] = $nilai->nilai10; //21
             $output[] = $nilai->nilai11; //22
+             $output[] = $nilai->rekomdana; //23
+             $output[] = $nilai->kelayakan; //24
             
         
             return json_encode($output);

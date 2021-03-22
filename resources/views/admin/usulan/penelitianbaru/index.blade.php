@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="{{url('AdminLTE/plugins/datatables/dataTables.bootstrap.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
 
 @endsection
 
@@ -39,7 +41,7 @@
                             <div class="row">
                                 <br>
                                 <div class="col-md-10">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="skema">Skema</label>
                                             <select name="filter_skema" id="filter_skema" class="form-control" required>
@@ -70,6 +72,7 @@
                                         <th scope="col" class="text-center" width="10%">NIDN</th>
                                         <th scope="col" class="text-center" width="10%">Ketua</th>
                                         <th scope="col" class="text-center" width="30%">Judul</th>
+                                        <th scope="col" class="text-left" width="10%">Usulan Dana</th>
                                         <th scope="col" class="text-left" width="10%">Status</th>
                                         <th scope="col" class="text-left" width="10%">Aksi</th>
                                     </tr>
@@ -78,7 +81,7 @@
                                 </table>
                             </div>
 
-                            </table>
+
                         </div>
 
                     </div>
@@ -159,6 +162,16 @@
 @endsection
 
 @section('script')
+    <script src="{{url('public/adminLTE/plugins/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{url('public/adminLTE/plugins/datatables/dataTables.bootstrap.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"> </script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js"> </script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"> </script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"> </script>
+
     <script type="text/javascript">
 
         "use strict";
@@ -171,6 +184,21 @@
                 $('#mytable').DataTable({
                     processing: true,
                     serverSide: true,
+                    dom: '<"html5buttons">Blfrtip',
+                    language: {
+                            buttons: {
+                                colvis : 'show / hide', // label button show / hide
+                                colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
+                            }
+                    },
+
+                    buttons : [
+                                {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
+                                {extend:'csv'},
+                                {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU  '},
+                                {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU '},
+                                {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU '},
+                    ],
                     ajax: {
                         url: 'penelitianbaru/get_data',
                         data:{filter_skema:filter_skema}
@@ -181,17 +209,27 @@
                         searchable: false
                     },
                         {
-                            data: 'nidn',
+                            data: 'email',
+                            name:'users.email'
 
                         },
                         {
-                            data: 'nama'
+                            data: 'name',
+                            name:'users.name'
                         },
                         {
                             data: 'judul',
+                            name:'tb_proposal.judul'
+                        },
+                        {
+                            data: 'dana',
+                            orderable: false,
+                            searchable: false
                         },
                         {
                             data: 'status',
+                            orderable: false,
+                            searchable: false
                         },
 
                         {

@@ -321,7 +321,7 @@ desired effect
             <li><a href="{{ route('pengabdianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
           </ul>
         </li>
-        <li class="treeview">
+      <!--  <li class="treeview">
           <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan Lanjutan</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -331,7 +331,7 @@ desired effect
             <li><a href="# "><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
             <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
           </ul>
-        </li>
+        </li> -->
         <li class="treeview">
           <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Perbaikan Proposal</span>
             <span class="pull-right-container">
@@ -382,8 +382,8 @@ desired effect
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
+            <li><a href="{{ route('penelitianr.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
+            <li><a href="{{ route('pengabdianr.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -423,6 +423,7 @@ desired effect
             <li><a href="{{ route('rn_laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
             <li><a href="{{ route('rn_luaranlainnya.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Lainnya</a></li>
          
+         
           </ul>
 
         </li>
@@ -458,10 +459,11 @@ desired effect
             <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Penugasan Reviewer</a></li>
             <li><a href="{{ route('plotingreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Plotting Reviewer</a></li>
             <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Penetapan Tahapan</a></li>
-           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Desk Evaluasi</a></li>
-            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev</a></li>
+           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian  Proposal</a></li>
+            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Kemajuan</a></li>
             <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Hasil</a></li>
             <li><a href="{{ route('hasilakhirluaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Luaran Lainnya</a></li>
+
 
            <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->
           </ul>
@@ -519,7 +521,8 @@ desired effect
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ route('datapenelitian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Data Penelitian Pengabdian</a></li>
+             <li><a href="{{ route('datapenelitian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Data Penelitian Pengabdian</a></li>
+
               <li><a href="{{ route('dosen.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Dosen</a></li>
               <li><a href="{{ route('mataanggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Anggaran</a></li>
               <li><a href="{{ route('bidangtkt.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Bidang TKT</a></li>
@@ -545,7 +548,17 @@ desired effect
           </form>
         </li>
         @elseif(Auth::user()->level == 4)
-
+        <li class="treeview">
+          <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ route('usulan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan</a></li>
+            <li><a href="{{ route('usulandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan Didanai</a></li>
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#"><i class="fa fa-book"></i> <span>Penilaian</span>
             <span class="pull-right-container">
@@ -554,8 +567,8 @@ desired effect
           </a>
           <ul class="treeview-menu">
  
-           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Desk Evaluasi</a></li>
-            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev</a></li>
+           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Penilaian Proposal</a></li>
+            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Kemajuan</a></li>
             <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Hasil</a></li>
 
            <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->

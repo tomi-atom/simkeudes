@@ -21,7 +21,7 @@
             <div class="panel-body">
                 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Periode: 2019 | Batch 1</strong></div>
+                    <div class="panel-heading"><strong>Periode: {{$periode->tahun}} | Sesi {{$periode->sesi}}</strong></div>
             
                     <div class="panel-body">
                         <div class="">
@@ -328,6 +328,16 @@
                                         </tbody>
                                        </td>
                                     </tr>
+                                    
+                                    <tr>
+                                        <td colspan="8"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" colspan="4"><b>Total Anggaran</b> </td>
+                                        <td class="text-center" colspan="2">  <b>Rp {{format_uang($thnr + $tbhn + $tjln + $tbrg)}},-</b> </td>
+                                        <td class="text-center"> Rp {{format_uang($prop->skema->dana * $mata[3]->batas / 100)}},-</td>
+                                      
+                                    </tr>
                                     <tr>
                                         <td class="text-center" width="12.5%"></td>
                                         <td class="text-center" width="12.5%"></td>
@@ -344,21 +354,20 @@
 
                     </div>
                 </div>  
-                @if ($stat == 1)
-                <form class="form-horizontal" method="POST" action="{{ route('penelitianng.update', base64_encode($idprop)) }}">
-                {{ csrf_field() }} {{method_field('PATCH')}}
+                @if ($prop->jenis == 1)
+               <form class="form-horizontal" method="POST" action="{{ route('penelitianr.index') }}">
+                {{ csrf_field() }} {{ method_field('GET') }}
                 
                 <div class="form-group row">
-                    <div class="col-md-8 col-md-offset-4">
-                        <button type="submit" class="btn btn-success pull-right">
-                          <span class="ion ion-paper-airplane"></span>
-                            SUBMIT
+                    <div class="col-md-8 ">
+                        <button type="submit" class="btn btn-default pull-left">
+                          <span class="fa fa-reply fa-fw"></span>
+                            Kembali
                         </button>
                     </div>
                 </div>
-                </form>
                 @else
-                <form class="form-horizontal" method="POST" action="{{ route('penelitianng.index') }}">
+                <form class="form-horizontal" method="POST" action="{{ route('pengabdianr.index') }}">
                 {{ csrf_field() }} {{ method_field('GET') }}
                 
                 <div class="form-group row">

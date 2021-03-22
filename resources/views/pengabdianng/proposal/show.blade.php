@@ -241,7 +241,7 @@
 
                     </div>
                     <div class="col-sm-9">
-
+                        
                         <div class="col-sm-12 input-group input-group-sm">
                             @foreach($pusatstudi as $list)
 

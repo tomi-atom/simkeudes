@@ -168,9 +168,9 @@ class PengabdianBaruController extends Controller
                     DB::statement(DB::raw('set @rownum=0'));
 
 
-                    $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_proposal.jenis','tb_penelitian.status'])
+                    $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','ketuaid','users.email','users.name','judul','tb_proposal.jenis','tb_penelitian.status','tb_penelitian.dana'])
                         ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                        ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
+                        ->leftJoin('users', 'tb_penelitian.ketuaid', 'users.id')
                         ->where('tb_proposal.periodeusul', $periodeterbaru->id)
                        // ->where('tb_proposal.jenis', $request->filter_jenis)
                         ->where('tb_proposal.idskema', $request->filter_skema)
@@ -212,27 +212,54 @@ class PengabdianBaruController extends Controller
 
                             }
                         })
+                        ->addColumn('dana', function ($proposal) {
+                            $subtot = Anggaran::select('volume', 'biaya')->where('proposalid', $proposal->id)->get();
+                            $grand  = 0;
+                            foreach ($subtot as $list) {
+                                $grand += $list->volume * $list->biaya;
+                            }
 
+                            return '<small class="label label-success">Rp. '.format_uang($grand).'</small>';
+
+                        })
                         ->addColumn('action', function ($proposal) {
-                            $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                             if(Auth::user()->level == 3){
+                                  $subtansi = Substansi::where('proposalid', $proposal->id)->first();
                             if ($subtansi){
                                 return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
                                 <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>     
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>
-                                <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>';
+                               ';
 
                             }else{
                                 return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>     
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>
-                                <button id="'.$proposal->id . '" class="btn btn-xs setuju" title="Setuju"><i class="glyphicon glyphicon-ok"></i> </button>';
+                                ';
 
 
                             }
+                             }else{
+                                  $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                            if ($subtansi){
+                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                    
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
+
+                            }else{
+                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>     
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                              ';
+
+
+                            }
+                             }
+                           
 
                         })
-                        ->rawColumns(['status','judul','upload', 'action'])
+                        ->rawColumns(['status','judul','upload','dana', 'action'])
                         ->make(true);
                 } catch (\Exception $e) {
                     dd($e->getMessage());

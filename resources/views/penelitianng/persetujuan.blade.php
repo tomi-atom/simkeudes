@@ -8,6 +8,9 @@
 	@parent
     <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
     <li>Konfirmasi anggota</li>
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
 @endsection
 
 @section('content')
@@ -32,10 +35,20 @@
                     "use strict";
                     swal(
                         'Terjadi Kesalahan!',
-                        'Gagal Menolak atau Bersedia Untuk Berpartisipasi..',
+                        'Gagal Menolak atau Bersedia Untuk Berpartisipasi ..',
                         'error'
                     );
                 </script>
+             @elseif($errors->first('errorlebih'))
+            <script type="text/javascript">
+
+                "use strict";
+                swal(
+                    'Terjadi Kesalahan!',
+                    'Gagal Untuk Berpartisipasi Karena telah Melebihi Kuota Sebagai Ketua dan Anggota ..',
+                    'error'
+                );
+            </script>
             @endif
 
             <div class="panel-footer bg-white">

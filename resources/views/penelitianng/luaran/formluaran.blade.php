@@ -20,8 +20,8 @@
                     <div class="col-sm-12 input-group input-group-sm">
                         <select class="form-control" id="tahun" name="tahun" required>
                             <option value="1"> 1</option>
-                            <option value="2" disabled="disabled"> 2 (Disabled) </option>
-                            <option value="3" disabled="disabled"> 3 (Disabled)</option>
+                            <option value="2" > 2  </option>
+                            <option value="3" > 3 </option>
                         </select>
                     </div>
                 </div>

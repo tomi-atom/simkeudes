@@ -44,6 +44,7 @@
                 
                 <div class="panel panel-default">
                    <div class="panel-heading"><strong>Periode: {{$periode->tahun}} | Sesi {{$periode->sesi}}</strong></div>
+            
                     <div class="panel-body">
                         <div class="">
                             <div class="box-header">
@@ -271,6 +272,7 @@
                                         <td class="text-center"> Rp {{format_uang($prop->skema->dana * $mata[3]->batas / 100)}},-</td>
                                       
                                     </tr>
+                                        
                                         <tr>
                                             <td class="text-center" width="12.5%"></td>
                                             <td class="text-center" width="12.5%"></td>
@@ -302,7 +304,7 @@
                             
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span> </button>
-                                            <h3 class="modal-title"><a  href=" {{route('penelitianr.resumeberkas',base64_encode(mt_rand(10,99). $prop->id))}}" class="btn btn-primary " title="Proposal"><i class="glyphicon glyphicon-file"></i>Lihat Proposal </a>   
+                                            <h3 class="modal-title"><a  href=" {{route('penelitianr.resumeberkas',base64_encode(mt_rand(10,99). $prop->id))}}" class="btn btn-primary " title="Proposal"><i class="glyphicon glyphicon-file"></i>Lihat Proposal </a>  
                                              <a  href=" {{route('penelitianr.resumeluaran',base64_encode(mt_rand(10,99). $prop->idketua))}}" class="btn btn-success " title="Luaran Sebelumnya"><i class="glyphicon glyphicon-file"></i>Lihat Luaran Sebelumnya </a> 
                                             </h3>
                                         </div>
@@ -330,10 +332,10 @@
                                                 <label class="control-label col-sm-offset-2">1 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Keterkaitan antara proposal penelitian dengan Renstra Penelitian Perguruan Tinggi</label>
+                                                <label>Keterkaitan antara proposal penelitian dengan Renstra Penelitian Perguruan Tinggi</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
+                                                <label class="control-label col-sm-offset-2"> 15</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
@@ -363,11 +365,11 @@
                                                 <label>Ketajaman Latar Belakang, Masalah, Metodologi, Kejelasan Peta Jalan (Roadmap)</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 15</label>
+                                                <label class="control-label col-sm-offset-2"> 20</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria2" name="kriteria2" required>
+                                                <select class="form-control" id="kriteria2" name="kriteria2" required>
                                                         <option value=""> -  </option>
                                                         <option value="1"> Buruk  </option>
                                                         <option value="2"> Sangat Kurang  </option>
@@ -390,14 +392,14 @@
                                                 <label class="control-label col-sm-offset-2">3 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Proyeksi/Potensi luaran penelitian: HKI, Teknologi Tepat Guna/Buku ISBN</label>
+                                                <label>Proyeksi/Potensi luaran tambahan penelitian: Teknologi Tepat Guna/kebijakan/model/rekayasa/desain/prototipe</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
+                                                <label class="control-label col-sm-offset-2"> 15</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria3" name="kriteria3" required>
+                                                <select class="form-control" id="kriteria3" name="kriteria3" required>
                                                         <option value=""> -  </option>
                                                         <option value="1"> Buruk  </option>
                                                         <option value="2"> Sangat Kurang  </option>
@@ -410,7 +412,7 @@
                                             </div>
                                             <div class="col-sm-1">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai3" id="nilai3" readonly>
+                                                    <input type="text" class="form-control" value="0" name="nilai3" id="nilai3" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -420,14 +422,14 @@
                                                 <label class="control-label col-sm-offset-2">4 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Rekam jejak peneliti </label>
+                                                <label>Proyeksi/Potensi minimal Publikasi (jurnal Ber-ISSN) </label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
+                                                <label class="control-label col-sm-offset-2"> 20</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria4" name="kriteria4" required>
+                                                <select class="form-control" id="kriteria4" name="kriteria4" required>
                                                         <option value=""> -  </option>
                                                         <option value="1"> Buruk  </option>
                                                         <option value="2"> Sangat Kurang  </option>
@@ -440,7 +442,7 @@
                                             </div>
                                             <div class="col-sm-1">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai4" id="nilai4" readonly>
+                                                    <input type="text" class="form-control" value="0" name="nilai4" id="nilai4" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -450,14 +452,14 @@
                                                 <label class="control-label col-sm-offset-2">5 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Proyeksi/Potensi Publikasi Ilmiah minimal SINTA 3</label>
+                                                <label>Proyeksi/Potensi minimal prosiding berskala lokal</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 15</label>
+                                                <label class="control-label col-sm-offset-2"> 10</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control"  id="kriteria5" name="kriteria5" required>
+                                                <select class="form-control" id="kriteria5" name="kriteria5" required>
                                                         <option value=""> -  </option>
                                                         <option value="1"> Buruk  </option>
                                                         <option value="2"> Sangat Kurang  </option>
@@ -470,7 +472,7 @@
                                             </div>
                                             <div class="col-sm-1">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai5" id="nilai5" readonly>
+                                                    <input type="text" class="form-control" value="0" name="nilai5" id="nilai5" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -480,14 +482,14 @@
                                                 <label class="control-label col-sm-offset-2">6 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Proyeksi/Potensi minimal materi ajar/bahan ajar/buku ajar/buku referensi</label>
+                                                <label>Proyeksi/Potensi minimal pengayaan bahan ajar/bahan ajar</label>
                                             </div>
                                             <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
+                                                <label class="control-label col-sm-offset-2"> 5</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria6" name="kriteria6" required>
+                                                <select class="form-control" id="kriteria6" name="kriteria6" required>
                                                         <option value=""> -  </option>
                                                         <option value="1"> Buruk  </option>
                                                         <option value="2"> Sangat Kurang  </option>
@@ -500,7 +502,7 @@
                                             </div>
                                             <div class="col-sm-1">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai6" id="nilai6" readonly>
+                                                    <input type="text" class="form-control"  value="0" name="nilai6" id="nilai6" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -510,7 +512,7 @@
                                                 <label class="control-label col-sm-offset-2">7 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Proyeksi/Potensi minimal prosiding berskala regional</label>
+                                                <label>Kemutakhiran literatur (kekinian dan pustaka primer)</label>
                                             </div>
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2"> 10</label>
@@ -519,15 +521,16 @@
                                                 <div class="col-sm-12 input-group input-group-sm">
                                                     <select class="form-control" id="kriteria7" name="kriteria7" required>
                                                         <option value=""> -  </option>
-                                                        <option value="3"> Proseding Berskala Regional </option>
-                                                        <option value="5"> Proseding Berskala Nasional </option>
-                                                        <option value="7"> Proseding Berskala Internasional</option>
+                                                        <option value="1">Tidak Ada Pustaka Primer(Buruk)  </option>
+                                                        <option value="3">  Pustaka tergolong primer dan mutakhir < 50% (Kurang)</option>
+                                                        <option value="5"> Pustaka tergolong primer dan mutakhir sejumlah 51-80% (Cukup) </option>
+                                                        <option value="7">  Pustaka tergolong primer dan mutakhir >80% (Sangat baik) </option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-1">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai7" id="nilai7" readonly>
+                                                    <input type="text" class="form-control" value="0" name="nilai7" id="nilai7" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -537,83 +540,30 @@
                                                 <label class="control-label col-sm-offset-2">8 </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label> Kemutakhiran literatur (kekinian dan pustaka primer)</label>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 10</label>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria8" name="kriteria8" required>
-                                                        <option value=""> -  </option>
-                                                        <option value="1"> Tidak ada pustaka primer (Buruk) </option>
-                                                        <option value="3">Pustaka tergolong primer dan mutakhir {{'<'}} 50% (Kurang) </option>
-                                                        <option value="5">Pustaka tergolong primer dan mutakhir sejumlah 51-80% (Cukup)</option>
-                                                        <option value="7"> Pustaka tergolong primer dan mutakhir >80% (7 = Sangat baik)</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control"  value="0" name="nilai8" id="nilai8" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2">9 </label>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Keterlibatan Mahasiswa</label>
+                                                <label> Target TKT (1-6)</label>
                                             </div>
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2"> 5</label>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria9" name="kriteria9" required>
-                                                        <option value=""> - </option>
-                                                        <option value="1"> Tidak Ada  </option>
-                                                        <option value="5"> 1 Mahasiswa</option>
-                                                        <option value="7"> => 2  Mahasiswa</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai9" id="nilai9" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2">10 </label>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Target TKT (1-9)</label>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <label class="control-label col-sm-offset-2"> 5</label>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="col-sm-12 input-group input-group-sm">
-                                                    <select class="form-control" id="kriteria10" name="kriteria10" required>
+                                                     <select class="form-control" id="kriteria8" name="kriteria8" required>
                                                         <option value=""> -  </option>
-                                                        <option value="1">  TKT tidak ada  </option>
-                                                        <option value="5"> TKT ada tetapi tidak sesuai </option>
-                                                        <option value="7"> TKT ada dan sesuai</option>
+                                                        <option value="1">TKT Tidak Ada</option>
+                                                        <option value="5">TKT ada tapi tidak sesuai </option>
+                                                        <option value="7">TKT Ada dan sesuai </option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-1">
                                                 <div class="col-sm-12 input-group input-group-sm">
-                                                    <input type="text" class="form-control" value="0"  name="nilai10" id="nilai10" readonly>
+                                                    <input type="text" class="form-control" value="0" name="nilai8" id="nilai8" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                         <br>
+                                      
+                                       
                                         <div class="row">
                                             <div class="col-sm-1">
                                                 <label class="control-label col-sm-offset-2"></label>
@@ -628,12 +578,11 @@
                                                 
                                             </div>
                                             <div class="col-sm-1">
-                                                <input type="text" class="form-control" value="0" name="totalnilai" id="totalnilai" readonly>
+                                                <input type="text" class="form-control" name="totalnilai" id="totalnilai" readonly>
+                                               
                                             </div>
                                             
                                         </div>
-                                       
-                                                                               
                                         <br>
                                         <br>
                                           <div class="row">
@@ -720,15 +669,12 @@
                     <div class="col-sm-12">
                         <label class="control-label pull-left"> Keterangan: </label><br>
                         <h6>
-                        <br>- Nilai = Bobot x Skor
-                        <br>- Nomor 1-6  berlaku skor: 1, 2, 3, 5, 6, 7 (1 = Buruk; 2 = Sangat kurang; 3 = Kurang; 5 = Cukup; 6 = Baik; 7 = Sangat baik)
-                        <br>- Nomor 7 berlaku skor: 3,5,7 (3 = Prosiding berskala regional, 5 = Prosiding berskala nasional, 7 = Prosiding berskala internasional)
-                        <br>- Nomor 8 berlaku skor Kemutakhiran literatur (5 tahun terakhir): Tidak ada pustaka primer (1 = Buruk); Pustaka tergolong primer dan mutakhir <50% (3 = Kurang); Pustaka tergolong primer dan mutakhir sejumlah 51-80% (5 = Cukup); Pustaka tergolong primer dan mutakhir >80% (7 = Sangat baik)
-                        <br>- Nomor 9 berlaku skor: 1,5,7 Keterlibatan Mahasiswa (1 = tidak  ada mhs; 5 = 1 mhs; dan 7 = ≥ 2 mhs)
-                        <br>- Nomor 10 berlaku skor: 1,5,7 untuk TKT (1 = TKT tidak ada, 5 = TKT ada tetapi tidak sesuai, 7 = TKT ada dan sesuai)
-                        <br>- Tema Riset: Mohon dilingkari 1. Kemandirian Pangan dan Sumberdaya Alam 2. Energi Baru, Terbarukan, Material Maju, Teknologi Informasi dan Komunikasi, 3.  Pengembangan Teknologi Kesehatan dan Obat, 4. Kemaritiman dan Pengembangan Wilayah Pesisir Dan Perikanan, 5. Pengelolaan Lahan Gambut, 6. Manajemen Pencegahan dan Penanggulangan Bencanaan 7. Sosial Humaniora Seni Budaya, Pendidikan dan Hukum.- Tema Riset: Mohon dilingkari 1. Kemandirian Pangan dan Sumberdaya Alam 2. Energi Baru, Terbarukan, Material Maju, Teknologi Informasi dan Komunikasi, 3.  Pengembangan Teknologi Kesehatan dan Obat, 4. Kemaritiman dan Pengembangan Wilayah Pesisir dan Perikanan, 5. Pengelolaan Lahan Gambut, 6. Manajemen Pencegahan dan Penanggulangan Bencanaan 7. Sosial Humaniora Seni Budaya, Pendidikan dan Hukum.
-                        </h6>
-                    </div>
+                        <br>- Nilai = Bobot x Skor 
+                        <br>- Nomor 1-6  berlaku skor: 1, 2, 3, 5, 6, 7 (1 = Buruk; 2 = Sangat kurang; 3 = Kurang; 5 = Cukup; 6 = Baik; 7 = Sangat baik); 
+                        <br>- Nomor 7 berlaku: Kemutakhiran literatur (5 tahun terakhir): Tidak ada pustaka primer (1 = Buruk); Pustaka tergolong primer dan mutakhir <50% (3 = Kurang); Pustaka tergolong primer dan mutakhir sejumlah 51-80% (5 = Cukup); Pustaka tergolong primer dan mutakhir >80% (7 = Sangat baik)
+                        <br>- Nomor 8 berlaku skor: 1,5,7 untuk TKT (1 = TKT tidak ada, 5 = TKT ada tetapi tidak sesuai, 7 = TKT sesuai)
+                        <br>- Tema Riset: Mohon dilingkari 1. Kemandirian Pangan dan Sumberdaya Alam 2. Energi Baru, Terbarukan, Material Maju, Teknologi Informasi dan Komunikasi, 3.  Pengembangan Teknologi Kesehatan dan Obat, 4. Kemaritiman dan Pengembangan Wilayah Pesisir dan Perikanan, 5. Pengelolaan Lahan Gambut, 6. Manajemen Pencegahan dan Penanggulangan Bencanaan 7. Sosial Humaniora Seni Budaya, 
+                        </div>
                 </div>
                 <br>
     
@@ -738,7 +684,7 @@
                 
                 <div class="form-group row">
                     <div class="col-md-8 ">
-                        <button type="submit" class=" btn btn-default pull-left">
+                        <button type="submit" class="btn btn-default pull-left">
                           <span class="fa fa-reply fa-fw"></span>
                             Kembali
                         </button>
@@ -760,7 +706,7 @@
     function getLatar() {
         var _token     = $('input[name = "_token"]').val();
          $.ajax({
-            url: "{{ route('penelitianr.nilai', $prop->id) }}",
+             url: "{{ route('penelitianr.nilai', $prop->id) }}",
             method: "POST",
             dataType: "json",
             data: {_token: _token},
@@ -776,9 +722,6 @@
                     $('#kriteria6').val(result[6]);
                     $('#kriteria7').val(result[7]);
                     $('#kriteria8').val(result[8]);
-                    $('#kriteria9').val(result[9]);
-                     $('#kriteria10').val(result[10]);
-                    
 
                     $('#nilai1').val(result[12]);
                     $('#nilai2').val(result[13]);
@@ -788,10 +731,8 @@
                     $('#nilai6').val(result[17]);
                     $('#nilai7').val(result[18]);
                     $('#nilai8').val(result[19]);
-                    $('#nilai9').val(result[20]);
-                    $('#nilai10').val(result[21]);
-                   
-                    $('#rekomdana').val(result[23]);
+                  
+                     $('#rekomdana').val(result[23]);
                      $('#kelayakan').val(result[24]);
                      if(result[24] == 1){
                           $("#layak").show();
@@ -821,7 +762,6 @@
     }
 
     function lanjutSubtansi() {
-        
         var prosalid  = $('#id').val();
         var kriteria1  = $('#kriteria1').val();
         var kriteria2  = $('#kriteria2').val();
@@ -831,9 +771,6 @@
         var kriteria6  = $('#kriteria6').val();
         var kriteria7  = $('#kriteria7').val();
         var kriteria8  = $('#kriteria8').val();
-        var kriteria9  = $('#kriteria9').val();
-        var kriteria10  = $('#kriteria10').val();
-       
         var nilai1  = $('#nilai1').val();
         var nilai2  = $('#nilai2').val();
         var nilai3  = $('#nilai3').val();
@@ -842,14 +779,12 @@
         var nilai6  = $('#nilai6').val();
         var nilai7  = $('#nilai7').val();
         var nilai8  = $('#nilai8').val();
-        var nilai9  = $('#nilai9').val();
-        var nilai10  = $('#nilai10').val();
         var rekomdana  = $('#rekomdana').val();
         var komentar  = $('#komentar').val();
         var kelayakan  = $('#kelayakan').val();
         var _token     = $('input[name = "_token"]').val();
 
-        if(kriteria1 != "" && kriteria2 != "" && kriteria3 != "" && kriteria4 != "" && kriteria5 != "" && kriteria6 != "" && kriteria7 != "" && kriteria8 != "" && kriteria9 != "" && kriteria10 != "" ){
+         if(kriteria1 != "" && kriteria2 != "" && kriteria3 != "" && kriteria4 != "" && kriteria5 != "" && kriteria6 != "" && kriteria7 != "" && kriteria8 != ""  ){
                
                if(kelayakan == "1")
                {
@@ -871,8 +806,8 @@
                            $.ajax({
                             url: "{{ route('penelitianr.store') }}",
                             method: "POST",
-                            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,kriteria9: kriteria9,kriteria10: kriteria10,
-                            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,nilai9: nilai9,nilai10: nilai10,rekomdana: rekomdana,komentar: komentar,kelayakan: kelayakan,  _token: _token},
+                            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,
+                            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,rekomdana: rekomdana,komentar: komentar,kelayakan: kelayakan,  _token: _token},
                             success: function(result)
                             {
                                 swal({
@@ -912,8 +847,8 @@
                            $.ajax({
                             url: "{{ route('penelitianr.store') }}",
                             method: "POST",
-                            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,kriteria9: kriteria9,kriteria10: kriteria10,
-                            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,nilai9: nilai9,nilai10: nilai10,rekomdana: rekomdana,komentar: komentar,kelayakan: kelayakan,  _token: _token},
+                            data: {prosalid: prosalid,kriteria1: kriteria1,kriteria2: kriteria2,kriteria3: kriteria3,kriteria4: kriteria4,kriteria5: kriteria5,kriteria6: kriteria6,kriteria7: kriteria7,kriteria8: kriteria8,
+                            nilai1: nilai1,nilai2: nilai2,nilai3: nilai3,nilai4: nilai4,nilai5: nilai5,nilai6: nilai6,nilai7: nilai7,nilai8: nilai8,rekomdana: rekomdana,komentar: komentar,kelayakan: kelayakan,  _token: _token},
                             success: function(result)
                             {
                                 swal({
@@ -951,12 +886,9 @@
                     'error'
                 );
         }
-        
-        
     }
 
         $(document).ready(function() {
-           
             getLatar();
             function hitung() {
                 // var totalnilai = Number(nilai1+ nilai2+ nilai3+ nilai4+ nilai5+ nilai6+ nilai7+ nilai8+ nilai9+ nilai10);
@@ -968,9 +900,7 @@
                 + parseFloat($('#nilai6').val())
                 + parseFloat($('#nilai7').val())
                 + parseFloat($('#nilai8').val())
-                + parseFloat($('#nilai9').val())
-                + parseFloat($('#nilai10').val())
-               
+              
                 
                  );
                 $("#totalnilai").val(totalnilai);
@@ -994,35 +924,34 @@
             var total6
             var total7
             var total8
-            var total9
            
             $("#kriteria1").change(function() {
-                total1 = $("#kriteria1").val()*10;
+                total1 = $("#kriteria1").val()*15;
                 $("#nilai1").val(total1);
                 hitung();
             });
             $("#kriteria2").change(function() {
-                total2 = $("#kriteria2").val()*15;
+                total2 = $("#kriteria2").val()*20;
                 $("#nilai2").val(total2);
                 hitung();
             });
             $("#kriteria3").change(function() {
-                total3 = $("#kriteria3").val()*10;
+                total3 = $("#kriteria3").val()*15;
                 $("#nilai3").val(total3);
                 hitung();
             });
             $("#kriteria4").change(function() {
-                total4 = $("#kriteria4").val()*10;
+                total4 = $("#kriteria4").val()*20;
                 $("#nilai4").val(total4);
                 hitung();
             });
             $("#kriteria5").change(function() {
-                total5 = $("#kriteria5").val()*15;
+                total5 = $("#kriteria5").val()*10;
                 $("#nilai5").val(total5);
                 hitung();
             });
             $("#kriteria6").change(function() {
-                total6 = $("#kriteria6").val()*10;
+                total6 = $("#kriteria6").val()*5;
                 $("#nilai6").val(total6);
                 hitung();
             });
@@ -1032,24 +961,9 @@
                 hitung();
             });
             $("#kriteria8").change(function() {
-                total8 = $("#kriteria8").val()*10;
+                total8 = $("#kriteria8").val()*5;
                 $("#nilai8").val(total8);
                 hitung();
-            });
-            $("#kriteria9").change(function() {
-                total9 = $("#kriteria9").val()*5;
-                $("#nilai9").val(total9);
-                hitung();
-            });
-            $("#kriteria10").change(function() {
-                total10 = $("#kriteria10").val()*5;
-                $("#nilai10").val(total10);
-                hitung();
-            });
-            $("#rekomdana").keyup(function() {
-                terbilang = $("#rekomdana").val();
-                $("#terbilang").val(100000);
-               
             });
            
 

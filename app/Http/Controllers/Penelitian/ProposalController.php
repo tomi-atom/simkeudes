@@ -174,7 +174,7 @@ class ProposalController extends Controller
             $penelitian->ketuaid  = Auth::user()->id;
             $penelitian->thnkerja = $request['thnkerja'];
             $penelitian->tahun_ke = 1;
-          //  $penelitian->status   = 1;
+            $penelitian->status   = 1;
 
             $penelitian->save();
 

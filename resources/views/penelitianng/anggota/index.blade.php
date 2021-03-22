@@ -90,10 +90,10 @@
                                         <option value=""> -- Pilih Peran --</option>
                                         <option value="1"> Anggota Pengusul 1</option>
                                         <option value="2"> Anggota Pengusul 2</option>
-                                        @if ($idskemapro < 7) 
+                                        
                                         <option value="3"> Anggota Pengusul 3</option>
                                         <option value="4"> Anggota Pengusul 4</option>
-                                        @endif
+                                       
                                     </select>
                                 </div>
                             </div>
@@ -207,9 +207,9 @@
             var oRows = document.getElementById('tbdepan').getElementsByTagName('tr');
             var iRowCount = oRows.length;
 
-            var max=4;
+            var max=5;
             if (propos > 3)
-                max = 2;
+                max = 5;
 
             if (iRowCount > max) {
                 swal(
@@ -248,9 +248,9 @@
             var oRows  = document.getElementById('tbdepan').getElementsByTagName('tr');
             var iRowCount = oRows.length;
 
-            var max=4;
+            var max=5;
             if (propos > 3)
-                max = 2;
+                max = 5;
 
             if (iRowCount > max+1) {
                 swal(

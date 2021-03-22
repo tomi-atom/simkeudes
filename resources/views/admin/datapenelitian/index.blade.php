@@ -76,13 +76,10 @@
                                     <tr>
                                         <th scope="col" class="text-left" width="4%">No.</th>
                                         <th scope="col" class="text-center" width="10%">NIDN</th>
-                                        <th scope="col" class="text-center" width="10%">Nama</th>
-                                        <th scope="col" class="text-center" width="10%">Skema</th>
-                                        <th scope="col" class="text-center" width="5%">TKT</th>
-                                    
-                                        <th scope="col" class="text-left" width="30%">Judul</th>
-                                       
-                                        <th scope="col" class="text-left" width="2%">Aksi</th>
+                                        <th scope="col" class="text-center" width="10%">Ketua</th>
+                                        <th scope="col" class="text-center" width="30%">Judul</th>
+                                        <th scope="col" class="text-left" width="10%">Status</th>
+                                        <th scope="col" class="text-left" width="10%">Aksi</th>
                                 
                                     </tr>
                                     </thead>
@@ -200,6 +197,7 @@
 
             function fill_datatable(filter_thn)
             {
+
                 $('#mytable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -227,44 +225,23 @@
                         orderable: false,
                         searchable: false
                     },
-                    {
-                        data: 'nidn',
-                        searchable: false
+                        {
+                            data: 'nidn',
+                            name:'tb_peneliti.nidn'
 
-                    },
-                    {
-                        data: 'nama',
-                        name:'tb_peneliti.nama'
+                        },
+                        {
+                            data: 'nama',
+                            name:'tb_peneliti.nama'
+                        },
+                        {
+                            data: 'judul',
+                            name:'tb_proposal.judul'
+                        },
+                        {
+                            data: 'status',
+                        },
 
-                    },
-                    {
-                        data: 'skema',
-                        name:'tb_proposal.idskema'
-
-                    },
-                    {
-                        data: 'idtkt',
-                        searchable: false
-
-                    },
-                    {
-                        data: 'judul',
-
-                    },
-                    {
-                        data: 'reviewer',
-
-                    },
-                    {
-                            data: 'komentar',
-                    },
-                    {
-                            data: 'dana',
-                    },
-                    {
-                        data: 'status',
-
-                    },
                         {
                             data: 'action',
                             orderable: false,
@@ -272,6 +249,7 @@
                         }
                     ]
                 });
+               
             }
           
 

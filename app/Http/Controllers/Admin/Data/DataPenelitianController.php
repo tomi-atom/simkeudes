@@ -174,84 +174,70 @@ class DataPenelitianController extends Controller
     
     public function show(Request $request)
     {
-
         if(request()->ajax())
         {
 
-            if(!empty($request->filter_thn))
+            if(!empty($request->filter_thn) )
             {
+
 
                 try
-            {
-                DB::statement(DB::raw('set @rownum=0'));
-
-                $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','tb_proposal.idtkt','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_penelitian.dana','tb_penelitian.status','tb_proposal.jenis'])
-                ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
-                ->where('tb_proposal.periodeusul', $request->filter_thn)
-                ->where('tb_penelitian.status', 4)
-                ->groupBy('tb_proposal.id')
-                ;
+                {
+                    DB::statement(DB::raw('set @rownum=0'));
 
 
-                return DataTables::of($proposal)
+                    $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_proposal.jenis','tb_penelitian.status'])
+                        ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+                        ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
+                        ->where('tb_proposal.periodeusul', $request->filter_thn)
+                       // ->where('tb_proposal.jenis', $request->filter_jenis)
+                       // ->where('tb_proposal.idskema', $request->filter_skema)
+                        ->where('tb_penelitian.status', 4)
+                        // ->where('tb_proposal.jenis', 1)
+                    ;
 
-                ->addColumn('judul', function($proposal) {
-                    $anggota = Keanggotaan::select('nama')
-                        ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
-                        ->where('idpenelitian',$proposal->prosalid)
-                        ->get();
+
+                    return DataTables::of($proposal)
+
+                        ->addColumn('judul', function($proposal) {
+                            $anggota = Keanggotaan::select('nama')
+                                ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
+                                ->where('idpenelitian',$proposal->id)
+                                ->get();
                             $data = '';
-                        // here we prepare the options
-                        foreach ($anggota as $list) {
-                            //$data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
-                            $data .= '<small class="label label-primary">'. $list->nama. '</small><div style="line-height:15%;"><br></div>'
+                            // here we prepare the options
+                            foreach ($anggota as $list) {
+                                $data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
                                 ;
-                        }
-                        $return =
-                            '<td class="text-left">' .$proposal->judul . '</td><br>
+                            }
+                            $return =
+                                '<td class="text-left">' .$proposal->judul . '</td><br>
                                 <td class="text-left">' .$data . '</td>
                            ';
-                        return $return;
-                })
-             
-                
-                ->addColumn('skema', function ($proposal) {
-                     $skema = DB::table('adm_skema')
-                        ->select('id','skema')
-                        ->groupBy('skema')
-                        ->where('id', $proposal->idskema)
-                        ->first();
-                   
-                        return $skema->skema;
-                   
-                })
-                ->addColumn('jenis', function ($proposal) {
-                    if ($proposal->jenis == 1){
-                        return '<a class="btn-info btn-sm center-block ">Penelitian</a>';
-                    }else{
-                        return '<a class="btn-warning btn-sm center-block ">Pengabdian</a>';
+                            return $return;
+                        })
 
-                    }
-                })
-                
-                ->addColumn('action', function ($proposal) {
-                    return '<a  href="'. route('datapenelitian.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a>
-                   ';
-                    
+                        ->addColumn('status', function ($proposal) {
+                            $admstatus = Posisi::select('jenis')
+                                ->where('id',$proposal->status)
+                                ->first();
+                                return '<small class="label label-success">'.$admstatus->jenis.'</small>';
 
-                })
-                ->rawColumns(['judul','skema','jenis','action'])
-                ->make(true);
-          }  catch (\Exception $e) {
+                        })
+
+                        ->addColumn('action', function ($proposal) {
+                            return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>';
+
+
+                        })
+                        ->rawColumns(['status','judul','upload', 'action'])
+                        ->make(true);
+                } catch (\Exception $e) {
                     dd($e->getMessage());
                 }
 
             }
         }
-
-       
-       
     }
     
     public function resumenilai($id)
