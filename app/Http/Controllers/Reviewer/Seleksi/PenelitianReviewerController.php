@@ -247,7 +247,7 @@ class PenelitianReviewerController extends Controller
 
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
-            }elseif($skema->idskema==3){//bidangilmu 10
+            }elseif($skema->idskema==3 or $skema->idskema==9){//bidangilmu 10
                 $cek = Nilai::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
 
                 if($cek){
@@ -293,7 +293,7 @@ class PenelitianReviewerController extends Controller
 
                     return response()->json(['success' ,'data berhasil ditambahkan'], 200);
                 }
-            }elseif($skema->idskema==4){//guru 9
+            }elseif($skema->idskema==4  ){//guru 9
                 $cek = Nilai::where('prosalid', $request->prosalid)->where('iddosen',Auth::user()->id)->first();
 
 
@@ -778,7 +778,10 @@ class PenelitianReviewerController extends Controller
             return view('reviewer.seleksi.penelitian.resumeguru', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==7){
             return view('reviewer.seleksi.penelitian.resumedosenmuda', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+        }elseif($prop->idskema==9){
+            return view('reviewer.seleksi.penelitian.resumekolaborasi', compact('person','periode','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }
+
 
     }
 
