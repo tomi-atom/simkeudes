@@ -60,8 +60,35 @@
                 </div>
                 <div class="col-md-6">
                     <div class="box box-primary">
-                        <div id="chartpengabdian">
-                        </div>
+                        <body class="antialiased">
+                        <h2>Integrating Line Chart in Laravel</h2>
+                        <div id="linechart" style="width: 1000px; height: 500px"></div>
+
+
+                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                        <script type="text/javascript">
+                            var population = <?php echo $population; ?>;
+                            console.log(population);
+                            google.charts.load('current', {
+                                'packages': ['corechart']
+                            });
+                            google.charts.setOnLoadCallback(lineChart);
+
+                            function lineChart() {
+                                var data = google.visualization.arrayToDataTable(population);
+                                var options = {
+                                    title: 'Wildlife Population',
+                                    curveType: 'function',
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                };
+                                var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+                                chart.draw(data, options);
+                            }
+                        </script>
+                        </body>
+
                     </div>
 
                 </div>
@@ -96,21 +123,12 @@
             });
             var options = {
                 series: [{
-                    name: 'Marine Sprite',
-                    data: [44, 55, 41, 37, 22, 43, 21]
+                    name: 'FMIPA',
+                    data: [44, 55]
                 }, {
-                    name: 'Striking Calf',
-                    data: [53, 32, 33, 52, 13, 43, 32]
-                }, {
-                    name: 'Tank Picture',
-                    data: [12, 17, 11, 9, 15, 11, 20]
-                }, {
-                    name: 'Bucket Slope',
-                    data: [9, 7, 5, 8, 6, 9, 4]
-                }, {
-                    name: 'Reborn Kid',
-                    data: [25, 12, 19, 32, 25, 24, 10]
-                }],
+                    name: '2021',
+                    data: [53, 32]
+                }, ],
                 chart: {
                     type: 'bar',
                     height: 350,
@@ -129,7 +147,7 @@
                     text: 'Penelitian'
                 },
                 xaxis: {
-                    categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+                    categories: [2020, 2021],
                     labels: {
                         formatter: function (val) {
                             return val + "K"
