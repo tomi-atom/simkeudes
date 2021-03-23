@@ -60,34 +60,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="box box-primary">
-                        <body class="antialiased">
-                        <h2>Integrating Line Chart in Laravel</h2>
-                        <div id="linechart" style="width: 1000px; height: 500px"></div>
 
-
-                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                        <script type="text/javascript">
-                            var population = <?php echo $population; ?>;
-                            console.log(population);
-                            google.charts.load('current', {
-                                'packages': ['corechart']
-                            });
-                            google.charts.setOnLoadCallback(lineChart);
-
-                            function lineChart() {
-                                var data = google.visualization.arrayToDataTable(population);
-                                var options = {
-                                    title: 'Wildlife Population',
-                                    curveType: 'function',
-                                    legend: {
-                                        position: 'bottom'
-                                    }
-                                };
-                                var chart = new google.visualization.LineChart(document.getElementById('linechart'));
-                                chart.draw(data, options);
-                            }
-                        </script>
-                        </body>
 
                     </div>
 
@@ -124,11 +97,40 @@
             var options = {
                 series: [{
                     name: 'FMIPA',
-                    data: [44, 55]
+                    data: [{{$cmipa}}, {{$cmipa21}}]
                 }, {
-                    name: '2021',
-                    data: [53, 32]
-                }, ],
+                    name: 'FT',
+                    data: [{{$cft}}, {{$cft21}}]
+                },
+                    {
+                        name: 'FEB',
+                        data: [{{$cfeb}}, {{$cfeb21}}]
+                    },
+                    {
+                        name: 'Fisipol',
+                        data: [{{$cfisip}}, {{$cfisip21}}]
+                    },
+                    {
+                        name: 'Faperika',
+                        data: [{{$cfaperika}}, {{$cfaperika21}}]
+                    },
+                    {
+                        name: 'FKIP',
+                        data: [{{$cfkip}}, {{$cfkip21}}]
+                    },
+                    {
+                        name: 'Faperta',
+                        data: [{{$cfaperta}}, {{$cfaperta21}}]
+                    },
+                    {
+                        name: 'Keperawatan',
+                        data: [{{$ckeperawatan}}, {{$ckeperawatan21}}]
+                    },
+                    {
+                        name: 'Lainnya',
+                        data: [{{$cnone}}, {{$cnone21}}]
+                    },
+                ],
                 chart: {
                     type: 'bar',
                     height: 350,
@@ -144,14 +146,12 @@
                     colors: ['#fff']
                 },
                 title: {
-                    text: 'Penelitian'
+                    text: 'Statistik Proposal Dana PPM dan PNBP dalam 2 Tahun Terakhir'
                 },
                 xaxis: {
                     categories: [2020, 2021],
                     labels: {
-                        formatter: function (val) {
-                            return val + "K"
-                        }
+
                     }
                 },
                 yaxis: {
@@ -162,7 +162,7 @@
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return val + "K"
+                            return val
                         }
                     }
                 },
