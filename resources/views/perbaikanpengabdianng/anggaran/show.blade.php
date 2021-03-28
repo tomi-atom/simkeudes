@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>RAB</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -102,15 +102,15 @@
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('validasipengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
-                <a href="{{ route('validasipengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-primary pull-right" name="lanjut" id="lanjut"><span class="ion ion-android-exit"></span> PERBAHARUI</a>  
+                <a href="{{route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
+                <a href="{{ route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-primary pull-right" name="lanjut" id="lanjut"><span class="ion ion-android-exit"></span> PERBAHARUI</a>
             </div>
         </div>
 
         
     </div>
 </div>
-@include('pengabdianng.anggaran.formanggaran')
+@include('perbaikanpengabdianng.anggaran.formanggaran')
 @endsection
 
 @section('script')
@@ -120,7 +120,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.showtotal') }}",
+            url: "{{ route('perbaikanpengabdianng.showtotal') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -135,7 +135,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.showhonor') }}",
+            url: "{{ route('perbaikanpengabdianng.showhonor') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -151,7 +151,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.showbahan') }}",
+            url: "{{ route('perbaikanpengabdianng.showbahan') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -167,7 +167,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.showjalan') }}",
+            url: "{{ route('perbaikanpengabdianng.showjalan') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -183,7 +183,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.showbarang') }}",
+            url: "{{ route('perbaikanpengabdianng.showbarang') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -290,7 +290,7 @@
         }).then(function(isConfirm) {
                 if (isConfirm) {
                     $.ajax({
-                        url  : "{{ route('pengabdianng.anggaran.destroy',[95, '']) }}/"+$id,
+                        url  : "{{ route('perbaikanpengabdianng.anggaran.destroy',[95, '']) }}/"+$id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {
@@ -334,7 +334,7 @@
             var jenis = $('#belanja').val();
             $.ajax ({
 
-                url : "{{ route('pengabdianng.anggaran.store', $idprop) }}",
+                url : "{{ route('perbaikanpengabdianng.anggaran.store', $idprop) }}",
                 type : "POST",
                 data : $('#modal-biaya form').serialize(),
                 success : function(data) {

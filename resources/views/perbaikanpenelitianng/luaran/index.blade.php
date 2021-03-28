@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
+    <li><a href="{{ route('perbaikanpenelitianng.index') }}">Penelitian</a></li>
     <li>Pengusul</li>
     <li>Luaran</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -64,7 +64,7 @@
         
     </div>
 </div>
-@include('penelitianng.luaran.formluaran')
+@include('perbaikanpenelitianng.luaran.formluaran')
 @endsection
 
 @section('script')
@@ -74,7 +74,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-             url: "{{ route('penelitianng.wajib') }}",
+             url: "{{ route('perbaikanpenelitianng.wajib') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -89,7 +89,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.tambah') }}",
+            url: "{{ route('perbaikanpenelitianng.tambah') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -126,7 +126,7 @@
                     confirmButtonText: 'Lanjutkan!',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('penelitianng.anggaran.index', base64_encode($idprop+15)) }}";
+                            window.location = "{{ route('perbaikanpenelitianng.anggaran.index', base64_encode($idprop+15)) }}";
 
                         }
                     }
@@ -139,7 +139,7 @@
         var idtarget = $("#jenis").val();
         var _token   = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('penelitianng.target') }}",
+            url: "{{ route('perbaikanpenelitianng.target') }}",
             method: "POST",
             data: {idtarget: idtarget, _token: _token},
             success: function(result)
@@ -197,7 +197,7 @@
             var id = $('#id').val();
             var jenis = $('#kategori').val();
             $.ajax ({
-                url : "{{ route('penelitianng.luaran.store', $idprop) }}",
+                url : "{{ route('perbaikanpenelitianng.luaran.store', $idprop) }}",
                 type : "POST",
                 data : $('#modal-luaran form').serialize(),
                 success : function(data) {
@@ -241,7 +241,7 @@
                 if (isConfirm) {
 
                     $.ajax({
-                        url  : "{{ route('penelitianng.luaran.destroy',[29,'']) }}/"+id,
+                        url  : "{{ route('perbaikanpenelitianng.luaran.destroy',[29,'']) }}/"+id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {

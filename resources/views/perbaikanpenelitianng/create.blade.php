@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
+    <li><a href="{{ route('perbaikanpenelitianng.index') }}">Penelitian</a></li>
     <li>Pengusul</li>
 @endsection
 
@@ -105,7 +105,7 @@
                                 <td>{{ $data->program}}</td>
                                 <td>
 
-                                    <form method="POST" action="{{ route('penelitianng.proposal.index', base64_encode(mt_rand(1,9).($periode+2).'/'.mt_rand(1,9).($data->id+9))) }}">
+                                    <form method="POST" action="{{ route('perbaikanpenelitianng.proposal.index', base64_encode(mt_rand(1,9).($periode+2).'/'.mt_rand(1,9).($data->id+9))) }}">
                                     {{ csrf_field() }} {{method_field('GET')}}
                                         <button type="submit" class="btn btn-success pull-right"><span class="ion ion-android-exit"></span> Lanjutkan</button>
                                     </form>

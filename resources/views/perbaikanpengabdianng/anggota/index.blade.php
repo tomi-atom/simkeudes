@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Anggota</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
@@ -152,7 +152,7 @@
     </div>
 </div>
 
-@include ('pengabdianng.anggota.formanggota')
+@include ('perbaikanpengabdianng.anggota.formanggota')
 @endsection
 
 @section('script')
@@ -165,7 +165,7 @@
             "processing" : true,
             "serverside" : true,
             "ajax" : {
-                "url" : "{{ route('pengabdianng.list',$idx)}}",
+                "url" : "{{ route('perbaikanpengabdianng.list',$idx)}}",
                 "type" : "POST",
                 "data" : {"_token" : _token},
 
@@ -180,7 +180,7 @@
         var _token = $('input[name = "_token"]').val();
             
         $.ajax({
-            url: "{{ route('pengabdianng.data') }}",
+            url: "{{ route('perbaikanpengabdianng.data') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -266,7 +266,7 @@
                     confirmButtonText: 'OK',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('pengabdianng.subtansi.index', base64_encode($proposalid+127)) }}";
+                            window.location = "{{ route('perbaikanpengabdianng.subtansi.index', base64_encode($proposalid+127)) }}";
 
                         }
                     }
@@ -304,7 +304,7 @@
         var idx = id;
         var _token = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('pengabdianng.detail') }}",
+            url: "{{ route('perbaikanpengabdianng.detail') }}",
             method: "POST",
             data: {idx: idx, _token: _token},
             success: function(result)
@@ -352,7 +352,7 @@
         var peran  = $("#peran").val();
         var tugas  = $("#judul").val();
         $.ajax({
-            url: "{{ route('pengabdianng.anggota.store',".id.") }}",
+            url: "{{ route('perbaikanpengabdianng.anggota.store',".id.") }}",
             method: "POST",
             data: {propid: propid, select: select, _token: _token, peran: peran, tugas: tugas},
             success: function(result)
@@ -388,7 +388,7 @@
                 if (isConfirm) {
 
                     $.ajax({
-                        url  : "{{route('pengabdianng.anggota.destroy',[59,''])}}/"+$id,
+                        url  : "{{route('perbaikanpengabdianng.anggota.destroy',[59,''])}}/"+$id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {

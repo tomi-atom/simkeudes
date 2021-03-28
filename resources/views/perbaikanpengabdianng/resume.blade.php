@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Ringkasan</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
@@ -368,7 +368,7 @@
                     </div>
                 </div>  
                 @if ($stat == 1)
-                <form class="form-horizontal" method="POST" action="{{ route('pengabdianng.update', base64_encode($idprop)) }}">
+                <form class="form-horizontal" method="POST" action="{{ route('perbaikanpengabdianng.update', base64_encode($idprop)) }}">
                 {{ csrf_field() }} {{method_field('PATCH')}}
                 
                 <div class="form-group row">
@@ -381,7 +381,7 @@
                 </div>
                 </form>
                 @else
-                <form class="form-horizontal" method="POST" action="{{ route('pengabdianng.index') }}">
+                <form class="form-horizontal" method="POST" action="{{ route('perbaikanpengabdianng.index') }}">
                 {{ csrf_field() }} {{ method_field('GET') }}
                 
                 <div class="form-group row">

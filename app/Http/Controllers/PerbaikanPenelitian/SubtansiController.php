@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Penelitian;
+namespace App\Http\Controllers\PerbaikanPenelitian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -45,7 +45,7 @@ class SubtansiController extends Controller
         $idtemp = $temp + 135;
         $proposalid = base64_encode(mt_rand(1,9).($temp + Auth::user()->id));
 
-        return view('penelitianng.subtansi.index', compact('person','proposalid','idtemp'));
+        return view('perbaikanpenelitianng.subtansi.index', compact('person','proposalid','idtemp'));
     }
 
     /**

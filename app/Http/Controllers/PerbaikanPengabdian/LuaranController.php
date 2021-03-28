@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengabdian;
+namespace App\Http\Controllers\PerbaikanPengabdian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -48,7 +48,7 @@ class LuaranController extends Controller
 
         $jenis = Keluaran::groupBy('jenis')->orderBy('id')->get();
 
-        return view('pengabdianng.luaran.index', compact( 'person', 'jenis', 'idprop'));
+        return view('perbaikanpengabdianng.luaran.index', compact( 'person', 'jenis', 'idprop'));
     }
 
     /**
@@ -102,7 +102,7 @@ class LuaranController extends Controller
         if($luaran)
         {
             $jenis = Keluaran::groupBy('jenis')->orderBy('id')->get();
-            return view('pengabdianng.luaran.show', compact( 'person', 'jenis', 'idprop'));
+            return view('perbaikanpengabdianng.luaran.show', compact( 'person', 'jenis', 'idprop'));
         }
     }
 

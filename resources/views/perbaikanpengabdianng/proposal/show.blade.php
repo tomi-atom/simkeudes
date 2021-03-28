@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Proposal</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <form role="form" method="POST" action="{{route('pengabdianng.proposal.update',[base64_encode(mt_rand(10,999)), base64_encode($proposal->id+81)])}}" name="formedit">
+        <form role="form" method="POST" action="{{route('perbaikanpengabdianng.proposal.update',[base64_encode(mt_rand(10,999)), base64_encode($proposal->id+81)])}}" name="formedit">
         {{ csrf_field() }} {{ method_field('PATCH') }}
 
         <div class="panel panel-primary">
@@ -232,7 +232,7 @@
                 <p>. </p>
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{route('validasipengabdian.show', base64_encode(mt_rand(10,99).($proposal->id*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>  
+                        <a href="{{route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($proposal->id*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                         <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit">
                         <span class="fa fa-floppy-o fa-fw" ></span> PERBAHARUI
                         </button>
@@ -271,7 +271,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.fetch') }}",
+            url: "{{ route('perbaikanpengabdianng.fetch') }}",
             method: "POST",
             data: {select: select, value: value, _token: _token, dependent: dependent},
             success: function(result)
@@ -289,7 +289,7 @@
             var _token = $('input[name = "_token"]').val();
             
             $.ajax({
-                url: "{{ route('pengabdianng.fetch') }}",
+                url: "{{ route('perbaikanpengabdianng.fetch') }}",
                 method: "POST",
                 data: {select: select, value: value, _token: _token, dependent: dependent},
                 success: function(result)
@@ -305,7 +305,7 @@
         var idtema = $("#tema").val();
         var _token  = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('pengabdianng.reloadtpk') }}",
+            url: "{{ route('perbaikanpengabdianng.reloadtpk') }}",
             method: "POST",
             data: {idtema: idtema, _token: _token},
             success: function(result)
@@ -346,7 +346,7 @@
         var idskema = $("#skema").val();
         var _token  = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('pengabdianng.reloadbdg') }}",
+            url: "{{ route('perbaikanpengabdianng.reloadbdg') }}",
             method: "POST",
             data: {idskema: idskema, _token: _token},
             success: function(result)

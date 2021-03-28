@@ -81,137 +81,23 @@
                 </script>
             @else
             @endif
-            <div class="panel-body">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Persyaratan Umum: </strong></div>
 
-                    <div class="panel-body">
-                        <div class="box-header">
-                            <i class="ion ion-clipboard"></i>
-                            <h4 class="box-title">Periode: 2020</h4>
-                        </div>
-
-                        <div class="box-body">
-                            <ul class="todo-list">
-                                <li>
-                                    <span class="handle">
-                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
-                                    </span>
-                                    @if($peneliti->sinta != '')
-                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Terdaftar Dalam Sinta : <b class="text-black">{{ $peneliti->sinta }}</b></span>
-                                    @else
-                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Terdaftar Dalam Sinta : <b class="text-black">Belum Terdaftar</b></span>
-                                    <small class="label label-danger"><i class="ion ion-android-person"></i> Silakan hubungi Administrator LPPM</small>
-                                    @endif
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
-                                    </span>
-                                    @if($peneliti->status == 1)
-                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Status Pegawai : <b class="text-black">Aktif Mengajar</b></span>
-                                    @else
-                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Status Pegawai : <b class="text-black">Tidak Aktif</span>
-                                    <small class="label label-danger"><i class="ion ion-android-person"></i> Silakan hubungi Administrator LPPM</small>
-                                    @endif
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
-                                    </span>
-                                    @if($peneliti->tanggungan == 0)
-                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Tanggungan Kegiatan : <b class="text-black">Tidak Ada</b></span>
-                                    @else
-                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Tanggungan Kegiatan : <b class="text-black">Ada Tangunggan</b></span>
-                                    <small class="label label-danger"><i class="ion ion-android-person"></i> Silakan hubungi Administrator LPPM</small>
-                                    @endif
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
-                                    </span>
-                                    @if(($ketua < 1) && ($member < 2))
-                                    <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Ketua Tersedia</b></span>
-                                    @elseif($member >= 2)
-                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Anggota Telah Terpenuhi</b></span><small class="label label-danger"><i class="ion ion-ios-pricetags-outline"></i> {{ $total}} Proposal</small>
-                                    @else
-                                    <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Ketua Telah Terpenuhi</b></span><small class="label label-danger"><i class="ion ion-ios-pricetags-outline"></i> {{ $ketua}} Proposal</small>
-                                    @endif
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) &&  ($ketua < 1) && ($member < 2))
-                <form class="form-horizontal" method="POST" action="{{ route('penelitianng.create') }}">
-                {{ csrf_field() }} {{method_field('GET')}}
-                @endif
-
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label class="control-label col-sm-9">Periode Pengusulan</label>
-                    </div>
-                    <div class="col-sm-2 input-group input-group-sm">
-                        <select id="idtahun" class="form-control" name="idtahun" required>
-                            <option value="">--Pilih periode--</option>
-                            {{$periodeaktif = false}}
-                            @foreach($periode as $list)
-                                @if(($waktu > $list->tanggal_mulai) && ($waktu < $list->tanggal_akhir))
-                                    {{$periodeaktif = true}}
-                                    <option value="{{ $list->id }}"> Penelitian tahun {{$list->tahun}} | Sesi {{$list->sesi}}
-                                    </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <!-- validator jalan dengan tanda dibawah
-                <div class="form-group{{ $errors->has('buka') ? ' has-error' : '' }}">
-                    <label for="buka" class="col-md-4 control-label">Name</label>
-
-                    <div class="col-sm-6 input-group input-group-sm">
-                        <input id="buka" type="text" class="form-control" name="buka" required autofocus>
-
-                        @if ($errors->has('buka'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('buka') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
-                -->
-
-                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) && ($ketua < 1)  && ($member < 2) && ($periodeaktif))
-                <div class="form-group row">
-                    <div class="col-md-8 col-md-offset-4">
-                        <button type="submit" class="btn btn-success pull-right">
-                          <span class="ion ion-android-exit"></span>
-                            LANJUTKAN
-                        </button>
-                    </div>
-                </div>
-                </form>
-                @endif
-            </div>
         </div>
 
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>Daftar Usul Penelitian Baru</strong> <small class="label label-success">{{$total}}</small>
+                        <strong>Daftar Usul Perbaikan Penelitian </strong> <small class="label label-success">{{$total}}</small>
                     </div>
 
                     <div class="panel-body">
                         @if($total == 0)
-                        <div>Belum Ada Usulan Baru..</div>
+                        <div>Belum Ada Penelitian Disetujui..</div>
                         @else
                         <div class="box-header">
                             <i class="ion ion-paper-airplane"></i>
-                            <h4 class="box-title">Periode: 2020:</h4>
+                            <h4 class="box-title">Periode : {{$periodeterbaru->tahun}}</h4>
                         </div>
 
                         <div class="box-body">
@@ -232,7 +118,7 @@
                                             &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; {{$status[$detail->status]->jenis}} &nbsp;</span>
                                              @if($detail->status == 4)
                                             <br>
-                                            &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; Dana Disetujui  Rp {{ format_uang($detail->dana)}} &nbsp;</span>                                           
+                                            &nbsp;&nbsp;<span class="text bg-green text-dark">&nbsp; Dana Disetujui  Rp {{ format_uang($detail->dana)}} &nbsp;</span>
                                             @endif
                                             @if ($minat)
                                             <span class="text bg-red text-dark">&nbsp; {{$minat}} Anggota Belum Menyetujui &nbsp;</span>
@@ -240,17 +126,28 @@
                                             <br>
                                             <br>
                                         </div>
-
                                         <div class="tools col-sm-12 pull-left">
-                                            @if($detail->aktif == 1)
-                                            <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
-                                            <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
+                                            @if($periodeterbaru->tm_perbaikan == null && $periodeterbaru->tm_perbaikan == null)
+                                                <span class="text bg-red text-dark">&nbsp;Waktu Untuk Upload Data Belum di Buka</span>
+                                            @elseif($waktu < $periodeterbaru->tm_perbaikan )
+                                                <span class="text text-dark">Waktu Untuk Upload Data di Buka Pada Tanggal</span> <span class="text bg-blue text-dark">&nbsp;{{$periodeterbaru->tm_perbaikan}}</span> - <span class="text bg-red text-dark">&nbsp;{{$periodeterbaru->tm_perbaikan}}</span>
+                                            @else
+
+                                                @if($waktu >= $periodeterbaru->tm_perbaikan && $waktu <= $periodeterbaru->ta_perbaikan )
+                                                    <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                                                    <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
+                                                    <a onclick="editProposal({{mt_rand(10,99).($detail->prosalid*2+29)}} )" class="btn btn-app btn-xs" id="edit"><i class="ion ion-edit text-red"></i>Perbaikan </a>
+
+
+                                                @elseif($waktu > $periodeterbaru->ta_perbaikan)
+                                                    <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
+                                                    <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
+                                                    <span class="text bg-red text-dark">&nbsp;Periode Upload Data Telah Habis</span>
+                                                @endif
                                             @endif
-                                            @if ($detail->status > 0 && $detail->status < 3 or $detail->status == 4 )
-                                            <a onclick="editProposal({{mt_rand(10,99).($detail->prosalid*2+29)}} )" class="btn btn-app btn-xs" id="edit"><i class="ion ion-edit text-red"></i> Validasi </a>
-                                           <!-- <a onclick="hapusProposal({{mt_rand(10,99).($detail->prosalid*3)}} )" class="btn btn-app btn-sm" id="hapus"><i class="ion ion-ios-trash text-red"></i> Hapus </a>-->
-                                            @endif
+
                                         </div>
+
                                     </div>
                                 </li>
                                 @endforeach
@@ -309,15 +206,15 @@
 <script type="text/javascript">
 
     function bacaProposalRinci(id) {
-        window.location = "{{route('penelitianng.resume', '')}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.resume', '')}}/"+btoa(id);
     }
 
     function unduhProposal(id) {
-        window.location = "{{route('penelitianng.unduh', '')}}/"+btoa(id)
+        window.location = "{{route('perbaikanpenelitianng.unduh', '')}}/"+btoa(id)
     }
 
     function editProposal(id) {
-        window.location = "{{route('validasipenelitian.show','')}}/"+btoa(id);
+        window.location = "{{route('validasiperbaikanpenelitian.show','')}}/"+btoa(id);
     }
 
     function hapusProposal(id) {
@@ -333,7 +230,7 @@
         }).then(function(isConfirm) {
                 if (isConfirm) {
                     $.ajax({
-                        url  : "{{route('penelitianng.destroy','')}}/"+id,
+                        url  : "{{route('perbaikanpenelitianng.destroy','')}}/"+id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {
@@ -342,7 +239,7 @@
                                 'Data Berhasil Dihapus',
                                 'success'
                             );
-                            window.location = "{{route('penelitianng.index')}}";
+                            window.location = "{{route('perbaikanpenelitianng.index')}}";
                         },
                         error : function() {
                             swal(
@@ -361,11 +258,11 @@
     }
 
     function setujuiProposal(id) {
-        window.location = "{{route('penelitianng.setuju','')}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.setuju','')}}/"+btoa(id);
     }
 
     function bacaProposal(id) {
-        window.location = "{{route('penelitianng.baca', '')}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.baca', '')}}/"+btoa(id);
     }
 
 

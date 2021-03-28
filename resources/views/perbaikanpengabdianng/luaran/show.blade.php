@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Luaran</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
@@ -56,7 +56,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('validasipengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
+                <a href="{{route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                 <a href="#" class="btn btn-primary pull-right" name="lanjut" id="lanjut"><span class="ion ion-android-exit"></span> PERBAHARUI</a>
             </div>
         </div>
@@ -64,7 +64,7 @@
 
     </div>
 </div>
-@include('pengabdianng.luaran.formluaran')
+@include('perbaikanpengabdianng.luaran.formluaran')
 @endsection
 
 @section('script')
@@ -74,7 +74,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-             url: "{{ route('pengabdianng.wajib') }}",
+             url: "{{ route('perbaikanpengabdianng.wajib') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -89,7 +89,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.tambah') }}",
+            url: "{{ route('perbaikanpengabdianng.tambah') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -124,7 +124,7 @@
                     confirmButtonText: 'OK!',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('validasipengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29))) }}";
+                            window.location = "{{ route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29))) }}";
                         }
                     }
                 );
@@ -136,7 +136,7 @@
         var idtarget = $("#jenis").val();
         var _token   = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('pengabdianng.target') }}",
+            url: "{{ route('perbaikanpengabdianng.target') }}",
             method: "POST",
             data: {idtarget: idtarget, _token: _token},
             success: function(result)
@@ -194,7 +194,7 @@
             var id = $('#id').val();
             var jenis = $('#kategori').val();
             $.ajax ({
-                url : "{{ route('pengabdianng.luaran.store', $idprop) }}",
+                url : "{{ route('perbaikanpengabdianng.luaran.store', $idprop) }}",
                 type : "POST",
                 data : $('#modal-luaran form').serialize(),
                 success : function(data) {
@@ -237,7 +237,7 @@
         }).then(function(isConfirm) {
                 if (isConfirm) {
                     $.ajax({
-                        url  : "{{ route('pengabdianng.luaran.destroy',[29,'']) }}/"+id,
+                        url  : "{{ route('perbaikanpengabdianng.luaran.destroy',[29,'']) }}/"+id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {

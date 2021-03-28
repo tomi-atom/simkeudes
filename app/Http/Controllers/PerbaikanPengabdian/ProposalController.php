@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengabdian;
+namespace App\Http\Controllers\PerbaikanPengabdian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -87,7 +87,7 @@ class ProposalController extends Controller
 
         $fokus = Fokus::where('aktif', '1')->get(); 
 
-        return view('pengabdianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
+        return view('perbaikanpengabdianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
 
 
     }
@@ -166,7 +166,7 @@ class ProposalController extends Controller
 
             $penelitian->save();
 
-            return Redirect::route('pengabdianng.anggota.index', base64_encode($proposal->id."/".mt_rand(10,99).(9 + $proposal->idskema)))->withInput()->withErrors(array('success' => 'succes'));
+            return Redirect::route('perbaikanpengabdianng.anggota.index', base64_encode($proposal->id."/".mt_rand(10,99).(9 + $proposal->idskema)))->withInput()->withErrors(array('success' => 'succes'));
         }
         else {
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
@@ -239,7 +239,7 @@ class ProposalController extends Controller
 
             $tahun = Penelitian::select('thnkerja')->where('prosalid', $proposal->id)->first();
         
-            return view('pengabdianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik', 'tahun'));
+            return view('perbaikanpengabdianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik', 'tahun'));
         }
     }
 
@@ -284,7 +284,7 @@ class ProposalController extends Controller
 
             $penelitian->update();
 
-            return Redirect::route('validasipengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))->withInput()->withErrors(array('success' => 'komentar'));
+            return Redirect::route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))->withInput()->withErrors(array('success' => 'komentar'));
         }else{
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
         }

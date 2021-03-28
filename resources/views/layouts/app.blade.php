@@ -339,8 +339,8 @@ desired effect
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('penelitianngperbaikan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
-            <li><a href="{{ route('pengabdianngperbaikan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
+            <li><a href="{{ route('perbaikanpenelitianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
+            <li><a href="{{ route('perbaikanpengabdianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
           </ul>
         </li>
         <li class="treeview">

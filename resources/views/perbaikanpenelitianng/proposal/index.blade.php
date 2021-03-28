@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
+    <li><a href="{{ route('perbaikanpenelitianng.index') }}">Penelitian</a></li>
     <li>Pengusul</li>
     <li>Proposal</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <form role="form" method="POST" action="{{route('penelitianng.proposal.store',base64_encode(mt_rand(10,99). $idskem.'/'.$idprog))}}">
+        <form role="form" method="POST" action="{{route('perbaikanpenelitianng.proposal.store',base64_encode(mt_rand(10,99). $idskem.'/'.$idprog))}}">
         {{ csrf_field() }}
 
         <div class="panel panel-primary">
@@ -302,7 +302,7 @@
         var _token    = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.reloadtkt') }}",
+            url: "{{ route('perbaikanpenelitianng.reloadtkt') }}",
             method: "POST",
             data: {indikator: indikator, _token: _token},
             success: function(result)
@@ -327,7 +327,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.fetch') }}",
+            url: "{{ route('perbaikanpenelitianng.fetch') }}",
             method: "POST",
             data: {select: select, value: value, _token: _token, dependent: dependent},
             success: function(result)
@@ -345,7 +345,7 @@
             var _token = $('input[name = "_token"]').val();
             
             $.ajax({
-                url: "{{ route('penelitianng.fetch') }}",
+                url: "{{ route('perbaikanpenelitianng.fetch') }}",
                 method: "POST",
                 data: {select: select, value: value, _token: _token, dependent: dependent},
                 success: function(result)
@@ -361,7 +361,7 @@
         var idtema = $("#tema").val();
         var _token  = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('penelitianng.reloadtpk') }}",
+            url: "{{ route('perbaikanpenelitianng.reloadtpk') }}",
             method: "POST",
             data: {idtema: idtema, _token: _token},
             success: function(result)
@@ -402,7 +402,7 @@
         var idskema = $("#skema").val();
         var _token  = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('penelitianng.reloadbdg') }}",
+            url: "{{ route('perbaikanpenelitianng.reloadbdg') }}",
             method: "POST",
             data: {idskema: idskema, _token: _token},
             success: function(result)

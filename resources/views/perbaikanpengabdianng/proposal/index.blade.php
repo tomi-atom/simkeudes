@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Proposal</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <form role="form" method="POST" action="{{route('pengabdianng.proposal.store',base64_encode(mt_rand(10,99). $idskem.'/'.$idprog))}}">
+        <form role="form" method="POST" action="{{route('perbaikanpengabdianng.proposal.store',base64_encode(mt_rand(10,99). $idskem.'/'.$idprog))}}">
         {{ csrf_field() }}
 
         <div class="panel panel-primary">
@@ -265,7 +265,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.fetch') }}",
+            url: "{{ route('perbaikanpengabdianng.fetch') }}",
             method: "POST",
             data: {select: select, value: value, _token: _token, dependent: dependent},
             success: function(result)
@@ -283,7 +283,7 @@
             var _token = $('input[name = "_token"]').val();
             
             $.ajax({
-                url: "{{ route('pengabdianng.fetch') }}",
+                url: "{{ route('perbaikanpengabdianng.fetch') }}",
                 method: "POST",
                 data: {select: select, value: value, _token: _token, dependent: dependent},
                 success: function(result)
@@ -299,7 +299,7 @@
         var idtema = $("#tema").val();
         var _token  = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('pengabdianng.reloadtpk') }}",
+            url: "{{ route('perbaikanpengabdianng.reloadtpk') }}",
             method: "POST",
             data: {idtema: idtema, _token: _token},
             success: function(result)
@@ -336,7 +336,7 @@
         var idskema = $("#skema").val();
         var _token  = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('pengabdianng.reloadbdg') }}",
+            url: "{{ route('perbaikanpengabdianng.reloadbdg') }}",
             method: "POST",
             data: {idskema: idskema, _token: _token},
             success: function(result)

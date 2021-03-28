@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Penelitian;
+namespace App\Http\Controllers\PerbaikanPenelitian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -87,7 +87,7 @@ class ProposalController extends Controller
 
         $fokus = Fokus::where('aktif', '1')->get(); 
 
-        return view('penelitianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
+        return view('perbaikanpenelitianng.proposal.index', compact('person', 'idprog', 'iddsn', 'program', 'skema','ttl','rumpun', 'fokus', 'idskem'));
 
         /*
         $periode = 2;
@@ -98,7 +98,7 @@ class ProposalController extends Controller
        
         $program = Program::where('kategori', 1)->where('aktif', '1')->get();
 
-        return view('penelitianng.proposal.index', compact('person', 'peneliti', 'program', 'periode'));
+        return view('perbaikanpenelitianng.proposal.index', compact('person', 'peneliti', 'program', 'periode'));
         */
     }
 
@@ -177,7 +177,7 @@ class ProposalController extends Controller
             $penelitian->save();
 
 
-            return Redirect::route('penelitianng.anggota.index', base64_encode($proposal->id."/".mt_rand(10,99).(9 + $proposal->idskema)))->withInput()->withErrors(array('success' => 'succes'));;
+            return Redirect::route('perbaikanpenelitianng.anggota.index', base64_encode($proposal->id."/".mt_rand(10,99).(9 + $proposal->idskema)))->withInput()->withErrors(array('success' => 'succes'));;
         }
         else {
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
@@ -244,12 +244,12 @@ class ProposalController extends Controller
                             ->get();
 
             $fokus = Fokus::where('aktif', '1')->get(); 
-            $tema  = Tema::select('id','tema')->where('idskema', $proposal->idskema)->orderBy('id')->get();
+            $tema  = Tema::select('id','tema')->orderBy('id')->get();
             $topik = Topik::select('id','topik')->where('idtema', $proposal->idtema)->orderBy('id')->get();
 
             $tahun = Penelitian::select('thnkerja')->where('prosalid', $proposal->id)->first();
         
-            return view('penelitianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik', 'tahun'));
+            return view('perbaikanpenelitianng.proposal.show', compact('person', 'proposal', 'iddsn', 'program','skema','ttl', 'rumpun','ilmu2','ilmu3', 'fokus','tema','topik', 'tahun'));
         }
     }
 
@@ -298,7 +298,7 @@ class ProposalController extends Controller
 
             $penelitian->update();
 
-            return Redirect::route('validasipenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))->withInput()->withErrors(array('success' => 'komentar'));
+            return Redirect::route('validasiperbaikanpenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))->withInput()->withErrors(array('success' => 'komentar'));
         }else{
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
         }

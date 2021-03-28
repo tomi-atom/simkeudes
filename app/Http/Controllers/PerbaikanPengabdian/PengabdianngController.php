@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengabdian;
+namespace App\Http\Controllers\PerbaikanPengabdian;
 
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
@@ -59,49 +59,50 @@ class PengabdianngController extends Controller
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
         $periode  = Periode::where('aktif', '1')->where('jenis','2')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
 
+        $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',2)->where('aktif','1')->first();
         $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
-            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
             ->where('tb_proposal.periodeusul',$periode[0]->id)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
-            ->where('tb_penelitian.status', '>', 0)
+            ->where('tb_penelitian.status', '=', 4)
             ->where('tb_proposal.jenis', 2)
             ->get();
-  
-        $peserta = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','thnkerja','status','prosalid','peran','setuju')
-            ->join('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                ->where('tb_proposal.periodeusul',$periode[0]->id)
-                ->where('tb_keanggota.anggotaid', $peneliti->id)
-                ->where('tb_penelitian.status', '>', 0)
-                ->where('tb_keanggota.setuju', '<', 2)
-                ->where('tb_proposal.jenis', 2)
-                ->where('tb_proposal.aktif', '1')
-                ->orderBy('tb_keanggota.peran', 'asc')
-                ->get(); 
 
-        $minat =  Proposal::join('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
-            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+        $peserta = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','thnkerja','status','prosalid','peran','setuju')
+            ->leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
+            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+            ->where('tb_proposal.periodeusul',$periode[0]->id)
+            ->where('tb_keanggota.anggotaid', $peneliti->id)
+            ->where('tb_penelitian.status', '=', 4)
+            ->where('tb_keanggota.setuju', '<', 2)
+            ->where('tb_proposal.jenis', 2)
+            // ->where('tb_proposal.aktif', '1')
+            ->orderBy('tb_keanggota.peran', 'asc')
+            ->get();
+
+        $minat =  Proposal::leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
+            ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
             ->where('tb_proposal.periodeusul',$periode[0]->id)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
             ->where('tb_penelitian.status', '>', 0)
             ->where('tb_keanggota.setuju', 0)
             ->where('tb_proposal.jenis', 2)
             ->where('tb_proposal.aktif', '1')
-            ->count(); 
+            ->count();
 
         $status = Posisi::select('jenis')->where('aktif', '1')->orderBy('id','asc')->get(); //*temp
 
         $member = Keanggotaan::leftJoin('tb_proposal', 'tb_keanggota.idpenelitian', 'tb_proposal.id')
-                        ->where('tb_keanggota.anggotaid', Auth::user()->id)
-                        ->where('tb_keanggota.setuju', 1)
-                        ->where('tb_proposal.jenis', 2)
-                        ->count(); 
+            ->where('tb_keanggota.anggotaid', Auth::user()->id)
+            ->where('tb_keanggota.setuju', 1)
+            ->where('tb_proposal.jenis', 2)
+            ->count();
 
         $ketua   = count($proposal);
         $total   = $ketua + count($peserta);
         $waktu = Carbon::now('Asia/Jakarta');
 
-        return view('pengabdianng.index', compact('person', 'peneliti', 'periode', 'proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu'));
+        return view('perbaikanpengabdianng.index', compact('person', 'peneliti', 'periode', 'periodeterbaru', 'proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu'));
     }
 
     /**
@@ -120,7 +121,7 @@ class PengabdianngController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('pengabdianng.index')
+            return redirect()->route('perbaikanpengabdianng.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -132,7 +133,7 @@ class PengabdianngController extends Controller
        
         $program = Program::where('kategori', 2)->where('aktif', '1')->get();
 
-        return view('pengabdianng.create', compact('person', 'peneliti', 'program', 'periode'));
+        return view('perbaikanpengabdianng.create', compact('person', 'peneliti', 'program', 'periode'));
     }
 
     /**
@@ -186,12 +187,12 @@ class PengabdianngController extends Controller
 
         $penelitian = Penelitian::where('prosalid', $idprop)
                                 ->where('ketuaid', Auth::user()->id)
-                                ->where('status', 1)
+                                //->where('status', 1)
                                 ->first();
         if ($penelitian) {
-            $penelitian->status = 2;
+            //$penelitian->status = 2;
             $penelitian->update();
-            return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('success' => 'komentar'));
+            return Redirect::route('perbaikanpengabdianng.index')->withInput()->withErrors(array('success' => 'komentar'));
 
         }else{
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
@@ -304,7 +305,7 @@ class PengabdianngController extends Controller
 
         $mata = Mataanggaran::select('batas')->get();
 
-        return view('pengabdianng.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+        return view('perbaikanpengabdianng.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
     }
 
     public function unduh($id)
@@ -322,7 +323,7 @@ class PengabdianngController extends Controller
         $ketua = Peneliti::select('sinta','nama','idpt','idfakultas','idprodi','hindex')->find($peneliti->ketuaid);
 
         if($usulan) {
-            $pdf = PDF::loadView('pengabdianng.unduh',compact('person','idprop','prop','usulan','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
+            $pdf = PDF::loadView('perbaikanpengabdianng.unduh',compact('person','idprop','prop','usulan','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
             return  $pdf->stream($prop->judul.".pdf");
         }
         else
@@ -375,7 +376,7 @@ class PengabdianngController extends Controller
                         ->count();
         $totabdi  += $tempory;
         
-        return view('pengabdianng.persetujuan', compact('person','proposal','toteliti','totabdi','peneliti','dosen'));
+        return view('perbaikanpengabdianng.persetujuan', compact('person','proposal','toteliti','totabdi','peneliti','dosen'));
     }
 
     public function response(Request $request, $id) 
@@ -424,14 +425,14 @@ class PengabdianngController extends Controller
             $anggota->setuju = $stat;
             $anggota->update();
             if ($stat == 1){
-                return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('bersedia' => 'bersedia'));
+                return Redirect::route('perbaikanpengabdianng.index')->withInput()->withErrors(array('bersedia' => 'bersedia'));
 
             }else if ($stat == 2) {
-                return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('tolak' => 'tolak'));
+                return Redirect::route('perbaikanpengabdianng.index')->withInput()->withErrors(array('tolak' => 'tolak'));
 
             }
             else{
-                return Redirect::route('pengabdianng.index')->withInput()->withErrors(array('sistemtolak' => 'sistemtolak'));
+                return Redirect::route('perbaikanpengabdianng.index')->withInput()->withErrors(array('sistemtolak' => 'sistemtolak'));
 
             }
         }else{
@@ -446,7 +447,7 @@ class PengabdianngController extends Controller
                 $data->setuju = 3;
                 $data->update();
             }
-            return Redirect::route('pengabdianng.index');
+            return Redirect::route('perbaikanpengabdianng.index');
         }else{
             return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
         }
@@ -505,7 +506,7 @@ class PengabdianngController extends Controller
 
         $mata = Mataanggaran::select('batas')->get();
 
-        return view('pengabdianng.baca', compact('person','idprop','prop','thn','ketua','peserta','luar','thnr','tbhn','tjln','tbrg','mata'));
+        return view('perbaikanpengabdianng.baca', compact('person','idprop','prop','thn','ketua','peserta','luar','thnr','tbhn','tjln','tbrg','mata'));
 
     }
 }

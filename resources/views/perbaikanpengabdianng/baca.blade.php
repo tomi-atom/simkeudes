@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Ringkasan</li>
 @endsection
 
@@ -211,7 +211,7 @@
                     </div>
                 </div>  
                 
-                <form class="form-horizontal" method="POST" action="{{ route('pengabdianng.index') }}">
+                <form class="form-horizontal" method="POST" action="{{ route('perbaikanpengabdianng.index') }}">
                 {{ csrf_field() }} {{ method_field('GET') }}
                 <input type="hidden" name="id" id="id" value="{{ $idprop }}" readonly>
 

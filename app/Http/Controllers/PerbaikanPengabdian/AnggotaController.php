@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengabdian;
+namespace App\Http\Controllers\PerbaikanPengabdian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -51,7 +51,7 @@ class AnggotaController extends Controller
         $idskemapro = (Integer)substr($data[1], 2, strlen($data[1]))-9;
 
 
-        return view('pengabdianng.anggota.index', compact('person', 'proposalid', 'idskemapro', 'idx'));
+        return view('perbaikanpengabdianng.anggota.index', compact('person', 'proposalid', 'idskemapro', 'idx'));
     }
 
     /**
@@ -127,7 +127,7 @@ class AnggotaController extends Controller
             $idskemapro = $skema->idskema;
             $idx = base64_encode($proposalid."/".mt_rand(10,99).(9 + $idskemapro));
 
-            return view('pengabdianng.anggota.show', compact('person', 'proposalid', 'idskemapro', 'idx'));
+            return view('perbaikanpengabdianng.anggota.show', compact('person', 'proposalid', 'idskemapro', 'idx'));
         }
 
         

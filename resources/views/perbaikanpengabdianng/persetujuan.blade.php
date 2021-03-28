@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
 	@parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Konfirmasi anggota</li>
 @endsection
 
@@ -105,11 +105,11 @@
                 <form class="form-horizontal" method="POST">
                 {{ csrf_field() }} {{method_field('PATCH')}}
                     <div class="col-md-10">
-                        <a href="{{route('pengabdianng.response', base64_encode(('2'.mt_rand(1,9).$peneliti->id)+$peneliti->anggotaid) )}}" class="btn btn-danger pull-right" name="tolak" id="tolak"><span class="glyphicon glyphicon-thumbs-down"></span> TOLAK</a>
-                        <a href="{{route('pengabdianng.index')}}" class="btn btn-default pull-left" name="lanjut" id="lanjut"><span class="fa fa-reply fa-fw"></span> Kembali</a>  
+                        <a href="{{route('perbaikanpengabdianng.response', base64_encode(('2'.mt_rand(1,9).$peneliti->id)+$peneliti->anggotaid) )}}" class="btn btn-danger pull-right" name="tolak" id="tolak"><span class="glyphicon glyphicon-thumbs-down"></span> TOLAK</a>
+                        <a href="{{route('perbaikanpengabdianng.index')}}" class="btn btn-default pull-left" name="lanjut" id="lanjut"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                     </div>
                     <div class="col-md-2">
-                        <a href="{{route('pengabdianng.response', base64_encode(('1'.mt_rand(1,9).$peneliti->id)+$peneliti->anggotaid) )}}" class="btn btn-primary pull-right" name="setuju" id="setuju"><span class="glyphicon glyphicon-thumbs-up"></span> BERSEDIA</a> &nbsp;  
+                        <a href="{{route('perbaikanpengabdianng.response', base64_encode(('1'.mt_rand(1,9).$peneliti->id)+$peneliti->anggotaid) )}}" class="btn btn-primary pull-right" name="setuju" id="setuju"><span class="glyphicon glyphicon-thumbs-up"></span> BERSEDIA</a> &nbsp;
                     </div>
                 </form>
                 </div>

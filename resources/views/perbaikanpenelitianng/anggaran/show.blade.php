@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
+    <li><a href="{{ route('perbaikanpenelitianng.index') }}">Penelitian</a></li>
     <li>Pengusul</li>
     <li>RAB</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -102,15 +102,15 @@
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('validasipenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
-                <a href="{{ route('validasipenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-primary pull-right" name="lanjut" id="lanjut"><span class="ion ion-android-exit"></span> PERBAHARUI</a>
+                <a href="{{route('validasiperbaikanpenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
+                <a href="{{ route('validasiperbaikanpenelitian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))}}" class="btn btn-primary pull-right" name="lanjut" id="lanjut"><span class="ion ion-android-exit"></span> PERBAHARUI</a>
             </div>
         </div>
 
 
     </div>
 </div>
-@include('penelitianng.anggaran.formanggaran')
+@include('perbaikanpenelitianng.anggaran.formanggaran')
 @endsection
 
 @section('script')
@@ -120,7 +120,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.showtotal') }}",
+            url: "{{ route('perbaikanpenelitianng.showtotal') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -135,7 +135,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.showhonor') }}",
+            url: "{{ route('perbaikanpenelitianng.showhonor') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -151,7 +151,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.showbahan') }}",
+            url: "{{ route('perbaikanpenelitianng.showbahan') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -167,7 +167,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.showjalan') }}",
+            url: "{{ route('perbaikanpenelitianng.showjalan') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -183,7 +183,7 @@
         var _token = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('penelitianng.showbarang') }}",
+            url: "{{ route('perbaikanpenelitianng.showbarang') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -291,7 +291,7 @@
                 if (isConfirm) {
 
                     $.ajax({
-                        url  : "{{ route('penelitianng.anggaran.destroy',[95, '']) }}/"+$id,
+                        url  : "{{ route('perbaikanpenelitianng.anggaran.destroy',[95, '']) }}/"+$id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {
@@ -333,7 +333,7 @@
             var id = $('#id').val();
             var jenis = $('#belanja').val();
             $.ajax ({
-                url : "{{ route('penelitianng.anggaran.store', $idprop) }}",
+                url : "{{ route('perbaikanpenelitianng.anggaran.store', $idprop) }}",
                 type : "POST",
                 data : $('#modal-biaya form').serialize(),
                 success : function(data) {

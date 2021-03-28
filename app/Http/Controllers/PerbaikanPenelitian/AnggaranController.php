@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Penelitian;
+namespace App\Http\Controllers\PerbaikanPenelitian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -54,7 +54,7 @@ class AnggaranController extends Controller
         $jalan  = Anggaran::where('proposalid', $idprop)->where('anggaranid', 3)->orderBy('id','asc')->get();
         $barang = Anggaran::where('proposalid', $idprop)->where('anggaranid', 4)->orderBy('id','asc')->get();
 
-        return view('penelitianng.anggaran.index', compact('idprop','skema','biaya','honor','bahan','jalan','barang','person'));
+        return view('perbaikanpenelitianng.anggaran.index', compact('idprop','skema','biaya','honor','bahan','jalan','barang','person'));
     }
 
     /**
@@ -163,7 +163,7 @@ class AnggaranController extends Controller
             $jalan  = Anggaran::where('proposalid', $idprop)->where('anggaranid', 3)->orderBy('id','asc')->get();
             $barang = Anggaran::where('proposalid', $idprop)->where('anggaranid', 4)->orderBy('id','asc')->get();
 
-            return view('penelitianng.anggaran.show', compact('idprop','skema','biaya','honor','bahan','jalan','barang','person'));
+            return view('perbaikanpenelitianng.anggaran.show', compact('idprop','skema','biaya','honor','bahan','jalan','barang','person'));
         }
 
     }

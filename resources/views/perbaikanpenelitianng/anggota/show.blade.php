@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
+    <li><a href="{{ route('perbaikanpenelitianng.index') }}">Penelitian</a></li>
     <li>Pengusul</li>
     <li>Anggota</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -137,7 +137,7 @@
                 
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{route('validasipenelitian.show', base64_encode(mt_rand(10,99).($proposalid*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a> 
+                        <a href="{{route('validasiperbaikanpenelitian.show', base64_encode(mt_rand(10,99).($proposalid*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                         <a href="#" class="btn btn-primary pull-right" name="lanjut" id="lanjut"><span class="ion ion-android-exit"></span> PERBAHARUI</a> 
                     </div>
                 </div>
@@ -149,7 +149,7 @@
     </div>
 </div>
 
-@include ('penelitianng.anggota.formanggota')
+@include ('perbaikanpenelitianng.anggota.formanggota')
 @endsection
 
 @section('script')
@@ -162,7 +162,7 @@
             "processing" : true,
             "serverside" : true,
             "ajax" : {
-                "url" : "{{ route('penelitianng.list',$idx)}}",
+                "url" : "{{ route('perbaikanpenelitianng.list',$idx)}}",
                 "type" : "POST",
                 "data" : {"_token" : _token},
 
@@ -177,7 +177,7 @@
         var _token = $('input[name = "_token"]').val();
             
         $.ajax({
-            url: "{{ route('penelitianng.data') }}",
+            url: "{{ route('perbaikanpenelitianng.data') }}",
             method: "POST",
             data: {select: select, _token: _token},
             success: function(result)
@@ -267,7 +267,7 @@
                     confirmButtonText: 'OK',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('validasipenelitian.show', base64_encode(mt_rand(10,99).($proposalid*2+29))) }}";
+                            window.location = "{{ route('validasiperbaikanpenelitian.show', base64_encode(mt_rand(10,99).($proposalid*2+29))) }}";
 
                         }
                     }
@@ -306,7 +306,7 @@
         var idx = id;
         var _token = $('input[name = "_token"]').val();
         $.ajax({
-            url: "{{ route('penelitianng.detail') }}",
+            url: "{{ route('perbaikanpenelitianng.detail') }}",
             method: "POST",
             data: {idx: idx, _token: _token},
             success: function(result)
@@ -353,7 +353,7 @@
         var peran  = $("#peran").val();
         var tugas  = $("#judul").val();
         $.ajax({
-            url: "{{ route('penelitianng.anggota.store',".id.") }}",
+            url: "{{ route('perbaikanpenelitianng.anggota.store',".id.") }}",
             method: "POST",
             data: {propid: propid, select: select, _token: _token, peran: peran, tugas: tugas},
             success: function(result)
@@ -390,7 +390,7 @@
                 if (isConfirm) {
 
                     $.ajax({
-                        url  : "{{route('penelitianng.anggota.destroy',[59,''])}}/"+$id,
+                        url  : "{{route('perbaikanpenelitianng.anggota.destroy',[59,''])}}/"+$id,
                         type : "POST",
                         data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                         success : function(data) {

@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
 	@parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Subtansi Usulan</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
@@ -153,7 +153,7 @@
 
                     <div class="row" id="trobah">
                         <div class="col-md-12">
-                            <a href="{{route('validasipengabdian.show', base64_encode(mt_rand(10,99).(($idtemp - 135)*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a> 
+                            <a href="{{route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).(($idtemp - 135)*2+29)))}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                             <button onclick="rubahSubtansi({{mt_rand(10,99).(($idtemp - 135)*2+29)}})" type="button" class="btn btn-primary pull-right" name="robah" id="robah"><span class="fa fa-floppy-o fa-fw" ></span> PERBAHARUI
                             </button>
                         </div>
@@ -177,7 +177,7 @@
     function getLatar() {
         var _token     = $('input[name = "_token"]').val();
          $.ajax({
-            url: "{{ route('pengabdianng.usulan', $proposalid) }}",
+            url: "{{ route('perbaikanpengabdianng.usulan', $proposalid) }}",
             method: "POST",
             dataType: "json",
             data: {_token: _token},
@@ -244,7 +244,7 @@
         var _token     = $('input[name = "_token"]').val();
 
         $.ajax({
-            url: "{{ route('pengabdianng.subtansi.store', $proposalid) }}",
+            url: "{{ route('perbaikanpengabdianng.subtansi.store', $proposalid) }}",
             method: "POST",
             data: {ringkasan: ringkasan, katakunci: katakunci, lbelakang: lbelakang, literatur: literatur , metode: metode, jadwal: jadwal, pustaka: pustaka, iptek: iptek, peta:peta, _token: _token},
             success: function(result)
@@ -258,7 +258,7 @@
                     confirmButtonText: 'Lanjutkan!',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('pengabdianng.luaran.index', $proposalid) }}";
+                            window.location = "{{ route('perbaikanpengabdianng.luaran.index', $proposalid) }}";
 
                         }
                     }
@@ -288,7 +288,7 @@
         var peta       = $('#peta').Editor('getText');
 
         $.ajax({
-            url: "{{ route('pengabdianng.ganti', $proposalid) }}",
+            url: "{{ route('perbaikanpengabdianng.ganti', $proposalid) }}",
             method: "POST",
             data: {ringkasan: ringkasan, katakunci: katakunci, lbelakang: lbelakang, literatur: literatur , metode: metode, jadwal: jadwal, pustaka: pustaka, iptek: iptek, peta:peta, _token: _token},
             success: function(result)
@@ -300,7 +300,7 @@
                     confirmButtonText: 'OK!',
                 }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location = "{{ route('validasipengabdian.show', '') }}/"+btoa(id);
+                            window.location = "{{ route('validasiperbaikanpengabdian.show', '') }}/"+btoa(id);
 
                         }
                     }

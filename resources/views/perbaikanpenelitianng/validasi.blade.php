@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitianng.index') }}">Penelitian</a></li>
+    <li><a href="{{ route('perbaikanpenelitianng.index') }}">Penelitian</a></li>
     <li>Pengusul</li>
     <li>Validasi</li>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -237,7 +237,7 @@
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{route('penelitianng.anggota.index', base64_encode($proposal->id.'/'.mt_rand(10,99).(9 + $proposal->idskema)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                        <a href="{{route('perbaikanpenelitianng.anggota.index', base64_encode($proposal->id.'/'.mt_rand(10,99).(9 + $proposal->idskema)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                         </td>
                                         @endif
 
@@ -431,7 +431,7 @@
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{route('penelitianng.luaran.index', base64_encode(mt_rand(1,9).($proposal->id +$dsn->id)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                        <a href="{{route('perbaikanpenelitianng.luaran.index', base64_encode(mt_rand(1,9).($proposal->id +$dsn->id)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                         </td>
                                         @endif
                                         <td data-toggle="collapse" data-target="#accordionluaran" class="clickable text-center">
@@ -521,7 +521,7 @@
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{route('penelitianng.anggaran.index', base64_encode($proposal->id+15))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                        <a href="{{route('perbaikanpenelitianng.anggaran.index', base64_encode($proposal->id+15))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                         </td>
                                         @endif
                                         <td data-toggle="collapse" data-target="#accordionanggaran" class="clickable text-center">
@@ -616,7 +616,7 @@
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Submit</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{ route('penelitianng.resume', base64_encode('1'.mt_rand(1,9).($proposal->id*2))) }}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                        <a href="{{ route('perbaikanpenelitianng.resume', base64_encode('1'.mt_rand(1,9).($proposal->id*2))) }}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                         </td>
                                         @endif
                                         <td class="text-center"> 
@@ -643,17 +643,17 @@
                                         @if($err6 == 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
-                                         <a href="{{ route('validasipenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                         <a href="{{ route('validasiperbaikanpenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}"  class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
                                         </td>
                                         @elseif($err6 < 99)
                                         <td class="text-center" colspan="2"><span class="label label-warning">Belum Lengkap</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{ route('validasipenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                        <a href="{{ route('validasiperbaikanpenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
                                         </td>
                                         @else
                                         <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                         <td class="text-center" colspan="2">
-                                        <a href="{{ route('validasipenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                        <a href="{{ route('validasiperbaikanpenelitian.edit',base64_encode(mt_rand(10,99).$proposal->id) )}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                         </td>
                                         @endif
                                         <td data-toggle="collapse" data-target="#accordionunggah" class="clickable text-center">
@@ -741,12 +741,12 @@
                 @if($penelitian->status == 4)
                 @else
                 @if(!$err2 && !$err3 && !$err4 && !$err5 && !$err6)
-                <form class="form-horizontal" method="POST" action="{{route('validasipenelitian.destroy', $proposal->id)}}">
+                <form class="form-horizontal" method="POST" action="{{route('validasiperbaikanpenelitian.destroy', $proposal->id)}}">
                 {{ csrf_field() }} {{method_field('DELETE')}}
                 
                 <div class="form-group row">
                     <div class="col-md-12 ">
-                        <a href="{{route('penelitianng.index')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a> 
+                        <a href="{{route('perbaikanpenelitianng.index')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                         <button type="submit" class="btn btn-primary pull-right">
                           <span class="ion ion-android-checkbox-outline"></span>
                             VALIDASI
@@ -758,7 +758,7 @@
                 @else
                 <div class="form-group row">
                     <div class="col-md-12 ">
-                        <a href="{{route('penelitianng.index')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a> 
+                        <a href="{{route('perbaikanpenelitianng.index')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
                         <button type="button" class="btn btn-primary pull-right" disabled>
                           <span class="ion ion-android-checkbox-outline"></span>
                             VALIDASI
@@ -780,33 +780,33 @@
 <script type="text/javascript">
 
     function editProposal(id) {
-        window.location = "{{route('penelitianng.proposal.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.proposal.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
     }
 
     function bukaProposal(id) {
-        window.location = "{{route('penelitianng.proposal.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.proposal.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
     }
 
     function editAnggota(id) {
-        window.location = "{{route('penelitianng.anggota.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.anggota.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
     }
 
 
     function editSubtansi(id) {
-        window.location = "{{route('penelitianng.subtansi.index', base64_encode($proposal->id+127))}}";
+        window.location = "{{route('perbaikanpenelitianng.subtansi.index', base64_encode($proposal->id+127))}}";
     }
 
     function bukaSubtansi(id) {
-        window.location = "{{route('penelitianng.subtansi.index', base64_encode($proposal->id+127))}}";
+        window.location = "{{route('perbaikanpenelitianng.subtansi.index', base64_encode($proposal->id+127))}}";
     }
 
     function editLuaran(id) {
-        window.location = "{{route('penelitianng.luaran.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.luaran.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
     }
 
 
     function editAnggaran(id) {
-        window.location = "{{route('penelitianng.anggaran.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
+        window.location = "{{route('perbaikanpenelitianng.anggaran.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengabdian;
+namespace App\Http\Controllers\PerbaikanPengabdian;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -173,7 +173,7 @@ class ValidasiController extends Controller
             else
                 $err6 = 99;
 
-            return view('pengabdianng.validasi', compact('person', 'dsn', 'proposal','penelitian', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
+            return view('perbaikanpengabdianng.validasi', compact('person', 'dsn', 'proposal','penelitian', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
 
         }
     }
@@ -194,7 +194,7 @@ class ValidasiController extends Controller
         $proposal = Proposal::select('id','pengesahan','usulan')->find($idprop);
         if ($proposal) {
 
-            return view ('pengabdianng.unggahan', compact('person','proposal'));
+            return view ('perbaikanpengabdianng.unggahan', compact('person','proposal'));
         }
     }
 
@@ -263,7 +263,7 @@ class ValidasiController extends Controller
 
             if ($proposal){
                 $proposal->update();
-                return Redirect::route('validasipengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))->withInput()->withErrors(array('unggah' => 'komentar'));
+                return Redirect::route('validasiperbaikanpengabdian.show', base64_encode(mt_rand(10,99).($idprop*2+29)))->withInput()->withErrors(array('unggah' => 'komentar'));
 
             }else{
                 return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
@@ -285,10 +285,10 @@ class ValidasiController extends Controller
 
         if ($penelitian) {
             //ubah ke 3 untuk default
-            $penelitian->status = 4;
+            //$penelitian->status = 4;
 
             $penelitian->update();
         }
-        return Redirect::route('pengabdianng.index');
+        return Redirect::route('perbaikanpengabdianng.index');
     }
 }

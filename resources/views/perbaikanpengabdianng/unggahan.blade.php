@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('pengabdianng.index') }}">Pengabdian</a></li>
+    <li><a href="{{ route('perbaikanpengabdianng.index') }}">Pengabdian</a></li>
     <li>Pengusul</li>
     <li>Validasi</li>
     <li>Unggah Proposal</li>
@@ -22,7 +22,7 @@
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading"><strong>Ungahan Dokumen</strong></div>
-            <form action="{{ route('validasipengabdian.update', $proposal->id) }}" method="POST" class="form form-horizontal"  enctype="multipart/form-data" >
+            <form action="{{ route('validasiperbaikanpengabdian.update', $proposal->id) }}" method="POST" class="form form-horizontal"  enctype="multipart/form-data" >
                 {{ csrf_field() }} {{method_field('PATCH')}}
 
                 @if($errors->first('success'))
