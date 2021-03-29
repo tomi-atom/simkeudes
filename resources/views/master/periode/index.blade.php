@@ -23,12 +23,35 @@
 
                 <div class="panel-body">
                     <br>
+                    @if($errors->first('success'))
+                        <script type="text/javascript">
+                            "use strict";
+                            swal(
+                                'Selamat!',
+                                'Password Berhasil Diperbaharui',
+                                'success'
+                            );
+                        </script>
+                    @elseif($errors->first('error'))
+                        <script type="text/javascript">
+
+                            "use strict";
+                            swal(
+                                'Terjadi Kesalahan!',
+                                'Password Gagal Diperbaharui',
+                                'error'
+                            );
+                        </script>
+
+                    @endif
+
 
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong>Periode Penelitian dan Pengabdian </strong><div class="pull-right"><strong></strong></div></div>
                         <div class="panel-body">
                             <div class="box-header with-border">
-                                <button class="btn btn-primary pull-right create"><i class="glyphicon glyphicon-plus"></i> Tambah</button>
+                                <a href="{{route('periode.create')}}" class="btn btn-primary pull-right tambah"><i class="glyphicon glyphicon-plus"></i> Tambah</a>
+
                             </div>
                             <br>
                             <div class="table-responsive">
@@ -36,11 +59,13 @@
                                     <thead class="thead-light">
                                     <tr>
                                         <th scope="col" class="text-left" width="4%">No.</th>
-                                        <th scope="col" class="text-center" width="20%">Tahun</th>
-                                        <th scope="col" class="text-center" width="20%">Sesi</th>
-                                        <th scope="col" class="text-center" width="20%">Jenis</th>
-                                        <th scope="col" class="text-left" width="10%">Tanggal Mulai</th>
-                                        <th scope="col" class="text-left" width="10%">Tanggal Akhir</th>
+                                        <th scope="col" class="text-center" width="10%">Tahun</th>
+                                        <th scope="col" class="text-center" width="5%">Sesi</th>
+                                        <th scope="col" class="text-center" width="10%">Jenis</th>
+                                        <th scope="col" class="text-center" width="10%">Program</th>
+                                        <th scope="col" class="text-left" width="20%">Proposal</th>
+                                        <th scope="col" class="text-left" width="20%">Monev Kemajuan</th>
+                                        <th scope="col" class="text-left" width="20%">Monev Akhir</th>
                                         <th scope="col" class="text-left" width="10%">Aktif</th>
 
                                         <th scope="col" class="text-left" width="10%">Aksi</th>
@@ -183,7 +208,7 @@
                 serverSide: true,
                 ajax: 'periode/get_data',
                 columns: [{
-                    data: 'rownum',
+                    data: 'id',
                     orderable: false,
                     searchable: false
                 },
@@ -197,10 +222,16 @@
                         data: 'jenis'
                     },
                     {
-                        data: 'tanggal_mulai'
+                        data: 'program'
                     },
                     {
-                        data: 'tanggal_akhir'
+                        data: 'proposal'
+                    },
+                    {
+                        data: 'kemajuan'
+                    },
+                    {
+                        data: 'akhir'
                     },
                     {
                         data: 'aktif'

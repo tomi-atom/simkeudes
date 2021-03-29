@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Fakultas;
+use App\Fungsional;
+use App\Pendidikan;
+use App\Peneliti;
 use App\Periode;
+use App\Posisi;
+use App\Prodi;
+use App\Program;
+use App\Rumpun;
+use App\Skema;
+use App\Struktural;
+use App\Universitas;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Carbon\Carbon;
 use App\Proposal;
 use App\Keanggotaan;
 
@@ -40,7 +52,11 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        //
+        $program = Program::get();
+
+
+        return view('master.periode.create', compact( 'program' ));
+
     }
 
     /**
@@ -55,7 +71,8 @@ class PeriodeController extends Controller
         {
             $periode = Periode::create($request->all());
 
-            return response()->json(['success' => $periode], 200);
+            return Redirect::route('periode.index')->withInput()->withErrors(array('success' => 'succes'));
+
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -77,8 +94,7 @@ class PeriodeController extends Controller
         try
         {
             DB::statement(DB::raw('set @rownum=0'));
-            $periodes = Periode::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id', 'tahun','sesi','jenis','tanggal_mulai','tanggal_akhir', 'aktif']);
-
+            $periodes = Periode::get();
             return DataTables::of($periodes)
                 ->addColumn('jenis', function($periodes) {
                     if ($periodes->jenis == 1){
@@ -87,6 +103,37 @@ class PeriodeController extends Controller
                     else{
                         return '<small class="label label-warning">Pengabdian</small>';
                     }
+                })
+                ->addColumn('program', function($periodes) {
+                    $prog = Program::select('program')
+                        ->where('id',$periodes->program)
+                        ->first();
+                        return '<small>'.$prog->program.'</small>';
+
+                })
+                ->addColumn('proposal', function($periodes) {
+
+                    return '<small class="label label-success">Mulai</small><small class="label label-primary">' . $periodes->tanggal_mulai . '</small><br>
+                    <small class="label label-danger">Akhir</small><small class="label label-primary">' . $periodes->tanggal_akhir . '</small>
+                   
+                    ';
+
+                })
+                ->addColumn('kemajuan', function($periodes) {
+
+                    return '<small class="label label-success">Mulai</small><small class="label label-primary">' . $periodes->tm_laporankemajuan . '</small><br>
+                    <small class="label label-danger">Akhir</small><small class="label label-primary">' . $periodes->ta_laporankemajuan . '</small>
+                   
+                    ';
+
+                })
+                ->addColumn('akhir', function($periodes) {
+
+                    return '<small class="label label-success">Mulai</small><small class="label label-primary">' . $periodes->tm_laporanakhir. '</small><br>
+                    <small class="label label-danger">Akhir</small><small class="label label-primary">' . $periodes->ta_laporanakhir . '</small>
+                   
+                    ';
+
                 })
             
                 ->addColumn('aktif', function($periodes) {
@@ -98,10 +145,10 @@ class PeriodeController extends Controller
                     }
                 })
                 ->addColumn('action', function ($periodes) {
-                    return '<button id="' . $periodes->id . '" class="btn btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
-                    <button id="' . $periodes->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
+                    return ' <a  href="'. route('periode.edit',base64_encode($periodes->id) ).'" class="btn btn-xs  title="Edit"><i class="glyphicon glyphicon-edit"></i> </a>
+                   <button id="' . $periodes->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
                 })
-                ->rawColumns(['jenis','aktif', 'action'])
+                ->rawColumns(['jenis','program','aktif','proposal','kemajuan','akhir', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -115,17 +162,23 @@ class PeriodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Periode $periode)
+    public function edit($id)
     {
+        $temp = base64_decode($id);
+
         try
         {
-            return response()->json(['success' => 'successfull retrieve data', 'data' => $periode->toJson()], 200);
 
+            $periode = Periode::find($temp);
+            $program = Program::get();
+            $tanggal_mulai=date('Y-m-d h:i:s', strtotime($periode->tanggal_mulai));
+
+
+            return view('master.periode.show', compact('temp','periode','program','tanggal_mulai'));
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
-
     /**
      * Update the specified resource in storage.
      *
