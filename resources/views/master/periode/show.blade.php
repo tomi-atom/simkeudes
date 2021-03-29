@@ -92,7 +92,8 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control tanggal_mulai" name="tanggal_mulai" value="{{old($tanggal_mulai)}}"  required>
+                                    <input type="date" class="form-control tanggal_mulai" name="tanggal_mulai" value="{{ Carbon\Carbon::parse($tanggal_mulai)->format('m/d/Y')}}"  required>
+
                                 </div>
                             </div>
                         </div>
