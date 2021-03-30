@@ -7,6 +7,7 @@ use App\Keanggotaan;
 use App\Peneliti;
 use App\Periode;
 use App\Posisi;
+use App\Program;
 use App\Proposal;
 use App\Skema;
 use Illuminate\Http\Request;
@@ -155,28 +156,35 @@ class SkemaController extends Controller
         {
             DB::statement(DB::raw('set @rownum=0'));
             $skema = Skema::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-                'adm_skema.id',
-                'adm_program.program',
-                'adm_skema.skema',
-                'adm_skema.minpeserta',
-                'adm_skema.maxpeserta',
-                'adm_skema.mindidik1',
-                'adm_skema.minjabat1',
-                'adm_skema.mindidik2',
-                'adm_skema.minjabat2',
-                'adm_skema.maxjabat',
-                'adm_skema.dana',
-                'adm_skema.mintkt',
-                'adm_skema.minluaran',
-                'adm_skema.kuota',
-                'adm_skema.aktif'])
-                ->leftJoin('adm_program', 'adm_program.id', 'adm_skema.idprogram');
+                'idprogram',
+                'skema',
+                'minpeserta',
+                'maxpeserta',
+                'mindidik1',
+                'minjabat1',
+                'mindidik2',
+                'minjabat2',
+                'maxjabat',
+                'dana',
+                'mintkt',
+                'minluaran',
+                'kuota',
+                'aktif']);
 
             return DataTables::of($skema)
+
+                ->addColumn('program', function ($skema) {
+                    $prog = Program::select('program')
+                        ->where('id',$skema->idprogram)
+                        ->first();
+                    return '<small>'.$prog->program.'</small>';
+
+                })
                 ->addColumn('action', function ($skema) {
                     return '<button id="' . $skema->id . '" class="btn btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
                     <button id="' . $skema->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
                 })
+                ->rawColumns(['program', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             dd($e->getMessage());

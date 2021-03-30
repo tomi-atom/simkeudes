@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Identitas Usulan Penelitian
+    Edit Periode
 @endsection
 
 @section('breadcrumb')
@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            <form role="form" method="POST" action="{{route('periode.update',[ base64_encode($proposal->id)])}}" name="formedit">
+            <form role="form" method="POST" action="{{route('periode.update',$periode->id)}}" name="formedit">
                 {{ csrf_field() }} {{ method_field('PATCH') }}
 
 
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="date" class="form-control tanggal_mulai" name="tanggal_mulai" value="{{ Carbon\Carbon::parse($tanggal_mulai)->format('m/d/Y')}}"  required>
+                                    <input type="text" class="form-control tanggal_mulai" name="tanggal_mulai" value="{{ Carbon\Carbon::parse($periode->tanggal_mulai)->format('Y/m/d h:i:s')}}"  required>
 
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control tanggal_akhir" name="tanggal_akhir" value="{{$periode->tanggal_akhir}}" required>
+                                    <input type="text" class="form-control tanggal_akhir" name="tanggal_akhir" value="{{ Carbon\Carbon::parse($periode->tanggal_akhir)->format('Y/m/d h:i:s')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control tm_perbaikan" name="tm_perbaikan"  required>
+                                    <input type="text" class="form-control tm_perbaikan" name="tm_perbaikan" value="{{ Carbon\Carbon::parse($periode->tm_perbaikan)->format('Y/m/d h:i:s')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control ta_perbaikan" name="ta_perbaikan" required>
+                                    <input type="text" class="form-control ta_perbaikan" name="ta_perbaikan" value="{{ Carbon\Carbon::parse($periode->ta_perbaikan)->format('Y/m/d h:i:s')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control tm_laporankemajuan" name="tm_laporankemajuan" placeholder="Tanggal Mulai Perbaikan Proposal" required>
+                                    <input type="text" class="form-control tm_laporankemajuan" name="tm_laporankemajuan" value="{{ Carbon\Carbon::parse($periode->tm_laporankemajuan)->format('Y/m/d h:i:s')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control ta_laporankemajuan" name="ta_laporankemajuan" placeholder="Tanggal Akhir Perbaikan Proposal" required>
+                                    <input type="text" class="form-control ta_laporankemajuan" name="ta_laporankemajuan" value="{{ Carbon\Carbon::parse($periode->ta_laporankemajuan)->format('Y/m/d h:i:s' )}}" required>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control tm_laporanakhir" name="tm_laporanakhir" placeholder="Tanggal Mulai Perbaikan Proposal" required>
+                                    <input type="text" class="form-control tm_laporanakhir" name="tm_laporanakhir" value="{{ Carbon\Carbon::parse($periode->tm_laporanakhir)->format('Y/m/d h:i:s')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="datetime-local" class="form-control ta_laporanakhir" name="ta_laporanakhir" placeholder="Tanggal Akhir Perbaikan Proposal" required>
+                                    <input type="text" class="form-control ta_laporanakhir" name="ta_laporanakhir" value="{{ Carbon\Carbon::parse($periode->ta_laporanakhir)->format('Y/m/d h:i:s')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -192,8 +192,8 @@
                             <div class="col-sm-8">
                                 <div class="col-sm-6 input-group input-group-sm">
                                     <select class="form-control" id="aktif" name="aktif" required>
-                                        <option value="1"> Aktif</option>
-                                        <option value="0"> Tidak Aktif </option>
+                                        <option value="1"{{ $periode->aktif == 1 ? 'selected' : '' }}> Aktif</option>
+                                        <option value="0"{{ $periode->aktif == 0 ? 'selected' : '' }}> Tidak Aktif </option>
                                     </select>
                                 </div>
                             </div>
@@ -216,61 +216,24 @@
 @endsection
 
 @section('script')
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
     <script type="text/javascript">
-
-        $(document).ready(function() {
-            if (!$("#jenis").val()) {
-
-                // $("#program").attr('disabled', true);
-            }
+        $(function () {
+            $('.tanggal_mulai').datetimepicker();
+            $('.tanggal_akhir').datetimepicker();
+            $('.tm_perbaikan').datetimepicker();
+            $('.ta_perbaikan').datetimepicker();
+            $('.tm_laporankemajuan').datetimepicker();
+            $('.ta_laporankemajuan').datetimepicker();
+            $('.tm_laporanakhir').datetimepicker();
+            $('.ta_laporanakhir').datetimepicker();
         });
-        /*
-            function reloadProgram() {
-                var indikator = $('#jenis').val();
-                var _token    = $('input[name = "_token"]').val();
-
-            }
-        */
-        $("#tkt1").change(function() {
-            reloadTKT();
-        });
-
-        function reloadIlmu() {
-            var select = 'ilmu2';
-            var value  = $('#ilmu2').val();
-            var dependent = 'ilmu3';
-            var _token = $('input[name = "_token"]').val();
-
-            $.ajax({
-                url: "{{ route('penelitianng.fetch') }}",
-                method: "POST",
-                data: {select: select, value: value, _token: _token, dependent: dependent},
-                success: function(result)
-                {
-                    $('#ilmu3').html(result);
-                }
-            });
-        }
-
-        $(".dynamic").change(function() {
-            if($(this).val() != '') {
-                var select = $(this).attr("id");
-                var value  = $(this).val();
-                var dependent = $(this).data('dependent');
-                var _token = $('input[name = "_token"]').val();
-
-                $.ajax({
-                    url: "{{ route('penelitianng.fetch') }}",
-                    method: "POST",
-                    data: {select: select, value: value, _token: _token, dependent: dependent},
-                    success: function(result)
-                    {
-                        $('#'+dependent).html(result);
-                        reloadIlmu().load();
-                    }
-                })
-            }
-        });
-
     </script>
 @endsection

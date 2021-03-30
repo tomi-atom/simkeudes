@@ -28,7 +28,7 @@
                             "use strict";
                             swal(
                                 'Selamat!',
-                                'Password Berhasil Diperbaharui',
+                                'Data Berhasil Diperbaharui',
                                 'success'
                             );
                         </script>
@@ -38,7 +38,7 @@
                             "use strict";
                             swal(
                                 'Terjadi Kesalahan!',
-                                'Password Gagal Diperbaharui',
+                                'Data Gagal Diperbaharui',
                                 'error'
                             );
                         </script>

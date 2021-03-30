@@ -186,21 +186,41 @@ class PeriodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Periode $periode)
+    public function update(Request $request, $id)
     {
         try
         {
 
-            $periode = Periode::findOrFail($periode->id);
-            $periode->tahun = $request->tahun;
-            $periode->sesi = $request->sesi;
-            $periode->jenis = $request->jenis;
-            $periode->tanggal_mulai = $request->tanggal_mulai;
-            $periode->tanggal_akhir = $request->tanggal_akhir;
-            $periode->aktif = $request->aktif;
-            $periode->update();
+            $periode = Periode::findOrFail($id);
+            if($periode){
+                $periode->tahun = $request->tahun;
+                $periode->sesi = $request->sesi;
+                $periode->jenis = $request->jenis;
 
-            return response()->json(['success' => 'data is successfully updated'], 200);
+                $tanggal_mulai = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $tanggal_akhir = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $tm_perbaikan = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $ta_perbaikan = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $tm_laporankemajuan = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $ta_laporankemajuan = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $tm_laporanakhir = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+                $ta_laporanakhir = \Carbon\Carbon::parse($request->tanggal_mulai)->format('Y/m/d h:i:s');
+
+                $periode->tanggal_mulai = $tanggal_mulai;
+                $periode->tanggal_akhir =  $tanggal_akhir;
+                $periode->tm_perbaikan = $request->tm_perbaikan;
+                $periode->ta_perbaikan = $request->ta_perbaikan;
+                $periode->tm_laporankemajuan = $request->tm_laporankemajuan;
+                $periode->ta_laporankemajuan = $request->ta_laporankemajuan;
+                $periode->tm_laporanakhir = $request->tm_laporanakhir;
+                $periode->ta_laporanakhir = $request->ta_laporanakhir;
+
+                $periode->aktif = $request->aktif;
+                $periode->update();
+
+                return Redirect::route('periode.index')->withInput()->withErrors(array('success' => 'succes'));
+            }
+
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
