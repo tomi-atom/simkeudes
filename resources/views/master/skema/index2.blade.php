@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
+
 @endsection
 
 @section('content')
@@ -274,7 +275,7 @@
                     data: 'rownum',
                     orderable: false,
                     searchable: false
-                },
+                    },
                     {
                         data: 'program'
                     },
@@ -325,6 +326,7 @@
                     }
                 ]
             });
+
             function refresh() {
                 var table = $('#mytable').DataTable();
                 table.ajax.reload(null, false);
@@ -366,7 +368,6 @@
             });
 
             //edit
-            //edit
             $(document).on('click', '.edit', function (e) {
                 e.preventDefault();
                 var id = $(this).attr('id');
@@ -374,37 +375,6 @@
                 token();
 
                 $.ajax({
-                    url: 'mataanggaran/' + id + '/edit',
-                    method: 'get',
-                    success: function (result) {
-
-                        if (result.success) {
-                            let json = jQuery.parseJSON(result.data);
-
-                            $('.id').val(json.id);
-                            $('.jenis').val(json.jenis);
-                            $('.batas').val(json.batas);
-                            $('.aktif').val(json.aktif);
-
-
-                            $('#modalEdit').modal('show');
-                            $('.modal-title').text('Update Data');
-                        }
-
-                    }
-                });
-
-
-            });
-
-            $(document).on('click', '.edit2', function (e) {
-                e.preventDefault();
-                var id = $(this).attr('id');
-
-                token();
-
-                $.ajax({
-
                     url: 'skema/' + id + '/edit',
                     method: 'get',
                     success: function (result) {
@@ -554,33 +524,32 @@
                         if (isConfirm) {
 
                             token();
+
                             $.ajax({
-                                url  : "{{route('skema.delete','')}}/"+id,
-                                type : "POST",
-                                data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
-                                success : function(data) {
-                                    swal(
-                                        'Selamat!',
-                                        'Data Berhasil Dihapus',
-                                        'success'
-                                    );
-                                    window.location = "{{route('skema.index')}}";
-                                },
-                                error : function() {
-                                    swal(
-                                        'Terjadi Kesalahan!',
-                                        'Data Gagal Dihapus',
-                                        'error'
-                                    );
+                                url: 'skema/' + id,
+                                method: 'DELETE',
+                                dataType: 'json',
+                                data: {id:id,"_token": "{{ csrf_token() }}"},
+
+                                success: function (result) {
+                                    if (result.success) {
+                                        refresh();
+                                        cleaner();
+                                        swal(
+                                            'Dihapus!',
+                                            'Data berhasil dihapus.',
+                                            'success'
+                                        );
+                                    }
                                 }
-
                             });
-
                         }
                     }
                 );
 
             });
+
+
         });
     </script>
 @endsection

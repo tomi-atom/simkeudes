@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Controllers\Admin\Pemantauan\BerkasSeminarController;
 use App\Keanggotaan;
 use App\Peneliti;
 use App\Periode;
@@ -10,6 +9,7 @@ use App\Posisi;
 use App\Program;
 use App\Proposal;
 use App\Skema;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -250,11 +250,26 @@ class SkemaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Skema $skema)
+    public function destroy($id)
     {
         try
         {
-            Skema::destroy($skema->id);
+            $dosen = Skema::find($id);
+
+            $dosen->delete();
+
+            return response()->json(['success' => 'data is successfully deleted'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+    public function delete($id)
+    {
+        try
+        {
+            $skema = Skema::find($id);
+
+            $skema->delete();
 
             return response()->json(['success' => 'data is successfully deleted'], 200);
         } catch (\Exception $e) {

@@ -194,8 +194,6 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
     Route::resource('catatanharian.catatan', 'Pelaksanaan\CatatanController');
      Route::GET('catatanharian/resume/{id}','Pelaksanaan\CatatanController@resume')->name('catatanharian.resume');
 
-    Route::get('catatanharian_data/get_data', 'PelaksanaanCatatanController@show');
-
     Route::RESOURCE('catatanharian.subtansi', 'Pelaksanaan\SubtansiController');
     Route::RESOURCE('catatanharian_subtansi', 'Pelaksanaan\SubtansiController');
     Route::POST('catatanharian.subtansi/update/{id}','Pelaksanaan\SubtansiController@update')->name('catatanharian.ganti');
@@ -203,9 +201,6 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
     Route::GET('catatanharian/destroy/{id}','Pelaksanaan\CatatanController@destroy')->name('catatanharian.destroy');
     Route::POST('catatanharian.subtansi/get/{id}','Pelaksanaan\SubtansiController@getusulan')->name('catatanharian.usulan');
 
-    Route::resource('unggahcatatan', 'Pelaksanaan\UnggahCatatan');
-    Route::get('unggahcatatan_data/get_data', 'Pelaksanaan\UnggahCatatan@show');
-    Route::get('unggahcatatan_data/get_data', 'Pelaksanaan\CatatanHarianController@show');
     Route::RESOURCE('laporankemajuan', 'Pelaksanaan\LaporanKemajuanController');
     
     Route::RESOURCE('luarankemajuan', 'Pelaksanaan\LuaranKemajuanController');
@@ -545,6 +540,7 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
     //
     Route::RESOURCE('skema',   'Master\SkemaController');
     Route::get('skema/get_data', 'Master\SkemaController@show');
+    Route::delete("skema/delete/{id}", "Master\SkemaController@delete")->name('skema.delete');
 
     //
     //Route::RESOURCE('status',   'Master\StatusController');
