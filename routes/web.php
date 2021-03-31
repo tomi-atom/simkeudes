@@ -533,6 +533,10 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
     Route::get('program/get_data', 'Master\ProgramController@show');
 
     //
+    Route::RESOURCE('skema2',   'Master\Skema2Controller');
+    Route::get('skema2/get_data', 'Master\Skema2Controller@show');
+
+    //
     Route::RESOURCE('rumpun',   'Master\RumpunController');
     Route::get('rumpun/get_data', 'Master\RumpunController@show');
 

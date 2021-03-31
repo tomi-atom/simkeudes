@@ -149,15 +149,17 @@ class SkemaController extends Controller
     {
         return view('datatables.eloquent.rownum');
     }
+
     public function show()
     {
         // return DataTables::eloquent(Skema::query())->make(true);
         try
         {
             DB::statement(DB::raw('set @rownum=0'));
-            $skema = Skema::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-                'idprogram',
+            $prodis = Skema::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+                'id',
                 'skema',
+                'idprogram',
                 'minpeserta',
                 'maxpeserta',
                 'mindidik1',
@@ -169,20 +171,21 @@ class SkemaController extends Controller
                 'mintkt',
                 'minluaran',
                 'kuota',
-                'aktif']);
+                'aktif'
+            ])
+            ;
 
-            return DataTables::of($skema)
-
-                ->addColumn('program', function ($skema) {
+            return DataTables::of($prodis)
+                ->addColumn('program', function ($prodis) {
                     $prog = Program::select('program')
-                        ->where('id',$skema->idprogram)
+                        ->where('id',$prodis->idprogram)
                         ->first();
                     return '<small>'.$prog->program.'</small>';
 
                 })
-                ->addColumn('action', function ($skema) {
-                    return '<button id="' . $skema->id . '" class="btn btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
-                    <button id="' . $skema->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
+                ->addColumn('action', function ($prodis) {
+                    return '<button id="' . $prodis->id . '" class="btn btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
+                    <button id="' . $prodis->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
                 })
                 ->rawColumns(['program', 'action'])
                 ->make(true);
@@ -191,6 +194,7 @@ class SkemaController extends Controller
         }
 
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -254,20 +258,8 @@ class SkemaController extends Controller
     {
         try
         {
-            $dosen = Skema::find($id);
+            $skema = Skema::where('id',$id);
 
-            $dosen->delete();
-
-            return response()->json(['success' => 'data is successfully deleted'], 200);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-    }
-    public function delete($id)
-    {
-        try
-        {
-            $skema = Skema::find($id);
 
             $skema->delete();
 
@@ -276,6 +268,7 @@ class SkemaController extends Controller
             dd($e->getMessage());
         }
     }
+
 
 
 

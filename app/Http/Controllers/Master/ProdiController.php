@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Prodi;
+use App\Skema;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -58,7 +59,7 @@ class ProdiController extends Controller
     {
         try
         {
-            Prodi::create($request->all());
+            Skema::create($request->all());
 
             return response()->json(['success' => 'data berhasil ditambahkan'], 200);
         } catch (\Exception $e) {
@@ -78,17 +79,15 @@ class ProdiController extends Controller
     }
     public function show()
     {
-        // return DataTables::eloquent(Prodi::query())->make(true);
+        // return DataTables::eloquent(Skema::query())->make(true);
         try
         {
             DB::statement(DB::raw('set @rownum=0'));
-            $prodis = Prodi::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-                'adm_prodi.id',
-                'adm_fakultas.fakultas',
-                'adm_prodi.prodi',
-                'adm_prodi.sinonim',
-                'adm_prodi.aktif'])
-                ->leftJoin('adm_fakultas', 'adm_fakultas.id', 'adm_prodi.idfakultas');
+            $prodis = Skema::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+                'id',
+                'skema',
+               ])
+               ;
 
             return DataTables::of($prodis)
                 ->addColumn('action', function ($prodis) {
@@ -131,7 +130,7 @@ class ProdiController extends Controller
         try
         {
 
-            $prodi = Prodi::findOrFail($prodi->id);
+            $prodi = Skema::findOrFail($prodi->id);
             $prodi->idfakultas = $request->idfakultas;
             $prodi->prodi = $request->prodi;
             $prodi->sinonim = $request->sinonim;
@@ -150,11 +149,11 @@ class ProdiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prodi $prodi)
+    public function destroy(Skema $prodi)
     {
         try
         {
-            Prodi::destroy($prodi->id);
+            Skema::destroy($prodi->id);
 
             return response()->json(['success' => 'data is successfully deleted'], 200);
         } catch (\Exception $e) {

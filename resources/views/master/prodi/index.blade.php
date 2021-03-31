@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('fokus.index') }}">Prodi</a></li>
+    <li><a href="{{ route('prodi.index') }}">Prodi</a></li>
     <li>Prodi</li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
@@ -143,16 +143,16 @@
                     searchable: false
                 },
                     {
-                        data: 'fakultas'
+                        data: 'id'
                     },
                     {
-                        data: 'prodi'
+                        data: 'skema'
                     },
                     {
-                        data: 'sinonim'
+                        data: 'skema'
                     },
                     {
-                        data: 'aktif'
+                        data: 'skema'
                     },
                     {
                         data: 'action',
@@ -200,7 +200,7 @@
                 token();
 
                 $.ajax({
-                    url: 'fokus/' + id + '/edit',
+                    url: 'prodi/' + id + '/edit',
                     method: 'get',
                     success: function (result) {
 
@@ -270,7 +270,7 @@
                 };
 
                 $.ajax({
-                    url: "fokus/" + id,
+                    url: "prodi/" + id,
                     method: 'PUT',
                     data: data,
                     success: function (result) {
@@ -315,7 +315,7 @@
                             token();
 
                             $.ajax({
-                                url: 'fokus/' + id,
+                                url: 'prodi/' + id,
                                 method: 'DELETE',
                                 dataType: 'json',
                                 data: {id:id,"_token": "{{ csrf_token() }}"},

@@ -131,9 +131,17 @@ class PengabdianngController extends Controller
 
         $person = PengabdianngController::countPersonil();
         $peneliti = Peneliti::find(Auth::user()->id);
-       
-        $program = Program::where('kategori', 2)->where('aktif', '1')->get();
 
+        $periode = $request['idtahun'];
+        $waktu = Carbon::now('Asia/Jakarta');
+        $periodeterbaru  = Periode::where('jenis',2)
+            ->where('aktif','1')
+            ->where('tanggal_mulai','<',$waktu)
+            ->where('tanggal_akhir','>',$waktu) ->pluck('program')->toArray();
+
+
+        $program = Program::where('kategori', 2)->where('aktif', '1')
+            ->whereIn('id', $periodeterbaru)->get();
         return view('pengabdianng.create', compact('person', 'peneliti', 'program', 'periode'));
     }
 

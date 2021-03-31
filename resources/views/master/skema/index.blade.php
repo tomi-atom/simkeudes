@@ -173,8 +173,13 @@
                         <input type="hidden" name="id" class="id">
                         <div class="form-group">
                             <label for="idprogram">Program</label>
-                            <input type="text" class="form-control idprogram" name="idprogram" placeholder="Program" required>
-                        </div>
+                            <select name="idprogram" id="idprogram" class="form-control" required>
+                                <option value="">Pilih Program</option>
+                                @foreach($program as $listprogram)
+                                    <option value="{{ $listprogram->id }}">{{ $listprogram->program}}</option>
+
+                                @endforeach
+                            </select>   </div>
                         <div class="form-group">
                             <label for="skema">Skema</label>
                             <input type="text" class="form-control skema" name="skema" placeholder="Skema" required>
@@ -374,37 +379,6 @@
                 token();
 
                 $.ajax({
-                    url: 'mataanggaran/' + id + '/edit',
-                    method: 'get',
-                    success: function (result) {
-
-                        if (result.success) {
-                            let json = jQuery.parseJSON(result.data);
-
-                            $('.id').val(json.id);
-                            $('.jenis').val(json.jenis);
-                            $('.batas').val(json.batas);
-                            $('.aktif').val(json.aktif);
-
-
-                            $('#modalEdit').modal('show');
-                            $('.modal-title').text('Update Data');
-                        }
-
-                    }
-                });
-
-
-            });
-
-            $(document).on('click', '.edit2', function (e) {
-                e.preventDefault();
-                var id = $(this).attr('id');
-
-                token();
-
-                $.ajax({
-
                     url: 'skema/' + id + '/edit',
                     method: 'get',
                     success: function (result) {
@@ -413,7 +387,7 @@
                             let json = jQuery.parseJSON(result.data);
 
                             $('.id').val(json.id);
-                            $('.idprogram').val(json.idprogram);
+                            $('.idprogram select').val(json.idprogram);
                             $('.skema').val(json.skema);
                             $('.minpeserta').val(json.minpeserta);
                             $('.maxpeserta').val(json.maxpeserta);
@@ -432,6 +406,25 @@
                             $('#modalEdit').modal('show');
                             $('.modal-title').text('Update Data');
                         }
+                    }
+                });
+
+
+            });
+
+            $(document).on('click', '.edit2', function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+
+                token();
+
+                $.ajax({
+
+                    url: 'skema/' + id + '/edit',
+                    method: 'get',
+                    success: function (result) {
+
+
 
                     }
                 });
@@ -555,7 +548,7 @@
 
                             token();
                             $.ajax({
-                                url  : "{{route('skema.delete','')}}/"+id,
+                                url: 'skema/' + id,
                                 type : "POST",
                                 data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
                                 success : function(data) {
