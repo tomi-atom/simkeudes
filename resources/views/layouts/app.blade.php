@@ -535,7 +535,7 @@ desired effect
               <!--<li><a href="{{ route('prodi.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Prodi</a></li>-->
               <li><a href="{{ route('program.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Program</a></li>
               <li><a href="{{ route('rumpun.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Rumpun Ilmu</a></li>
-              <li><a href="{{ route('skema2.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Skema</a></li>
+              <li><a href="{{ route('skema.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Skema</a></li>
               <li><a href="{{ route('struktural.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Struktural</a></li>
               <li><a href="{{ route('tema.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Tema</a></li>
               <li><a href="{{ route('topik.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Topik</a></li>

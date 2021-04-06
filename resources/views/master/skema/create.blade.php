@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <form role="form" method="POST" action="{{route('periode.store')}}">
+        <form role="form" method="POST" action="{{route('skema.store')}}">
         {{ csrf_field() }}
 
 
@@ -85,24 +85,25 @@
                 </div>
 
                 <p></p>
+
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Mulai Input Proposal</label>
+                        <label class="control-label col-sm-offset-2">Skema</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control tanggal_mulai" name="tanggal_mulai" placeholder="Tanggal Mulai" required>
+                            <input type="text" class="form-control skema" name="skema" placeholder="Skema" required>
                         </div>
                     </div>
                 </div>
                 <p></p>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Akhir Input Proposal</label>
+                        <label class="control-label col-sm-offset-2">Minimimal Peserta</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control tanggal_akhir" name="tanggal_akhir" placeholder="Tanggal Akhir" required>
+                            <input type="text" class="form-control minpeserta" name="minpeserta" placeholder="Min Peserta" required>
                         </div>
                     </div>
                 </div>
@@ -110,22 +111,56 @@
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Mulai Perbaikan Proposal</label>
+                        <label class="control-label col-sm-offset-2">Maksimal Peserta</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control tm_perbaikan" name="tm_perbaikan" placeholder="Tanggal Mulai Perbaikan Proposal" required>
+                            <input type="text" class="form-control maxpeserta" name="maxpeserta" placeholder="Max Peserta" required>
                         </div>
                     </div>
                 </div>
                 <p></p>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Akhir Perbaikan Proposal</label>
+                        <label class="control-label col-sm-offset-2">Minimal Pendidikan 1</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control ta_perbaikan" name="ta_perbaikan" placeholder="Tanggal Akhir Perbaikan Proposal" required>
+                            <input type="text" class="form-control mindidik1" name="mindidik1" placeholder="Min Didik 1" required>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-offset-2">Minimal Pendidikan 2</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="col-sm-6 input-group input-group-sm">
+                            <input type="text" class="form-control mindidik2" name="mindidik2" placeholder="Min Didik 2" required>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-offset-2">Minimal Jabatan 1</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="col-sm-6 input-group input-group-sm">
+                            <input type="text" class="form-control minjabat1" name="minjabat1" placeholder="Min Jabat 1" required>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-offset-2">Minimal Jabatan 2</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="col-sm-6 input-group input-group-sm">
+                            <input type="text" class="form-control minjabat2" name="minjabat2" placeholder="Min Jabat 2" required>
                         </div>
                     </div>
                 </div>
@@ -134,18 +169,18 @@
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Mulai Monev Kemajuan</label>
+                        <label class="control-label col-sm-offset-2">Max Jabatan</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control tm_laporankemajuan" name="tm_laporankemajuan" placeholder="Tanggal Mulai Perbaikan Proposal" required>
+                            <input type="number" class="form-control dana" name="dana" placeholder="Dana" required>
                         </div>
                     </div>
                 </div>
                 <p></p>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Akhir Monev Kemajuan</label>
+                        <label class="control-label col-sm-offset-2">Dana</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
@@ -154,25 +189,24 @@
                     </div>
                 </div>
                 <p></p>
-
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Mulai Monev Hasil</label>
+                        <label class="control-label col-sm-offset-2">Minimal TKT</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control tm_laporanakhir" name="tm_laporanakhir" placeholder="Tanggal Mulai Perbaikan Proposal" required>
+                            <input type="text" class="form-control mintkt" name="mintkt" placeholder="Min TKT" required>
                         </div>
                     </div>
                 </div>
                 <p></p>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                        <label class="control-label col-sm-offset-2">Tanggal Akhir Monev Hasil</label>
+                        <label class="control-label col-sm-offset-2">Kuota</label>
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-6 input-group input-group-sm">
-                            <input type="datetime-local" class="form-control ta_laporanakhir" name="ta_laporanakhir" placeholder="Tanggal Akhir Perbaikan Proposal" required>
+                            <input type="text" class="form-control mintkt" name="mintkt" placeholder="Min TKT" required>
                         </div>
                     </div>
                 </div>
@@ -193,6 +227,23 @@
                                 <option value="1"> Aktif</option>
                                 <option value="0"> Tidak Aktif </option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="control-label col-sm-offset-2"> Minimal Luaran</label><br>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <code>Pilih Minimal 2 Pusat Studi dan Maksimal 5 Pusat Studi</code>
+                        <div class="col-sm-12 input-group input-group-sm">
+                            @foreach($luaran as $list)
+
+                                <li><input type="checkbox" name="pusatstudi[]" id="pusatstudi" value="{{$list->id}}"> <small>{{$list->jenis}}</small></li>
+
+                            @endforeach
                         </div>
                     </div>
                 </div>

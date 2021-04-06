@@ -27,7 +27,8 @@
                         <div class="panel-heading"><strong>Daftar Skema  </strong><div class="pull-right"><strong></strong></div></div>
                         <div class="panel-body">
                             <div class="box-header with-border">
-                                <button class="btn btn-primary pull-right create"><i class="glyphicon glyphicon-plus"></i> Tambah</button>
+                                <a href="{{route('skema.create')}}" class="btn btn-primary pull-right tambah"><i class="glyphicon glyphicon-plus"></i> Tambah</a>
+
                             </div>
                             <br>
                             <div class="table-responsive">

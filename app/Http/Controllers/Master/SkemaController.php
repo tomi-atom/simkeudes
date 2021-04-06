@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Fungsional;
 use App\Keanggotaan;
+use App\Keluaran;
+use App\Luaran;
+use App\Pendidikan;
 use App\Peneliti;
 use App\Periode;
 use App\Posisi;
 use App\Program;
 use App\Proposal;
 use App\Skema;
+use App\Topik;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -118,7 +123,16 @@ class SkemaController extends Controller
      */
     public function create()
     {
-        //
+
+        $program = Program::get();
+
+        $pendidikan = Pendidikan::get();
+        $fungsional = Fungsional::get();
+        $skema = Skema::get();
+        $tkt = Topik::get();
+        $luaran = Keluaran::groupBy('jenis')->get();
+        return view('master.skema.create', compact( 'program','skema','pendidikan','fungsional','tkt','luaran' ));
+
     }
 
     /**
