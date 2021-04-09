@@ -33,82 +33,83 @@ Route::resource('bidang', 'BidangtktController');
 Route::resource('indikator', 'IndikatortktController');
 
 Route::group(['middleware' => ['web', 'cekuser:1']], function() {
+   Route::RESOURCE('penelitianng', 'Penelitian\PenelitianngController');
+   Route::RESOURCE('penelitianngperbaikan', 'Penelitian\PenelitianngPerbaikanController');
+   Route::GET('penelitianng/resume/{id}','Penelitian\PenelitianngController@resume')->name('penelitianng.resume');
+   Route::GET('penelitianng/unduh/{id}','Penelitian\PenelitianngController@unduh')->name('penelitianng.unduh');
+   Route::GET('penelitianng/penyetujuan/{id}', 'Penelitian\PenelitianngController@setuju')->name('penelitianng.setuju');
+   Route::GET('penelitianng/response/{id}','Penelitian\PenelitianngController@response')->name('penelitianng.response');
+   Route::GET('penelitianng/catatan/{id}','Penelitian\PenelitianngController@baca')->name('penelitianng.baca');
 
-    Route::RESOURCE('penelitianng', 'Penelitian\PenelitianngController');
-    Route::GET('penelitianng/resume/{id}','Penelitian\PenelitianngController@resume')->name('penelitianng.resume');
-    Route::GET('penelitianng/unduh/{id}','Penelitian\PenelitianngController@unduh')->name('penelitianng.unduh');
-    Route::GET('penelitianng/penyetujuan/{id}', 'Penelitian\PenelitianngController@setuju')->name('penelitianng.setuju');
-    Route::GET('penelitianng/response/{id}','Penelitian\PenelitianngController@response')->name('penelitianng.response');
-    Route::GET('penelitianng/catatan/{id}','Penelitian\PenelitianngController@baca')->name('penelitianng.baca');
+   Route::RESOURCE('penelitianng.proposal',   'Penelitian\ProposalController');
+   Route::POST('penelitianng.proposal/fetch','Penelitian\ProposalController@fetchilmu')->name('penelitianng.fetch');
+   Route::POST('penelitianng.proposal/tkt',   'Penelitian\ProposalController@loadtkt')->name('penelitianng.reloadtkt');
+   Route::POST('penelitianng.proposal/topik','Penelitian\ProposalController@loadtpk') ->name('penelitianng.reloadtpk');
+   Route::POST('penelitianng.proposal/bidang','Penelitian\ProposalController@loadbdg')->name('penelitianng.reloadbdg');
 
-    Route::RESOURCE('penelitianng.proposal',   'Penelitian\ProposalController');
-    Route::POST('penelitianng.proposal/fetch','Penelitian\ProposalController@fetchilmu')->name('penelitianng.fetch');
-    Route::POST('penelitianng.proposal/tkt',   'Penelitian\ProposalController@loadtkt')->name('penelitianng.reloadtkt');
-    Route::POST('penelitianng.proposal/topik','Penelitian\ProposalController@loadtpk') ->name('penelitianng.reloadtpk');
-    Route::POST('penelitianng.proposal/bidang','Penelitian\ProposalController@loadbdg')->name('penelitianng.reloadbdg');
+   Route::RESOURCE('penelitianng.anggota', 'Penelitian\AnggotaController');
+   Route::POST('penelitianng.anggota/data/{id}','Penelitian\AnggotaController@loadanggota')->name('penelitianng.list');
+   Route::POST('penelitianng.anggota/peserta','Penelitian\AnggotaController@reloadpeserta')->name('penelitianng.data');
+   Route::POST('penelitianng.anggota/rincian','Penelitian\AnggotaController@rincipeserta')->name('penelitianng.detail');
 
-    Route::RESOURCE('penelitianng.anggota', 'Penelitian\AnggotaController');
-    Route::POST('penelitianng.anggota/data/{id}','Penelitian\AnggotaController@loadanggota')->name('penelitianng.list');
-    Route::POST('penelitianng.anggota/peserta','Penelitian\AnggotaController@reloadpeserta')->name('penelitianng.data');
-    Route::POST('penelitianng.anggota/rincian','Penelitian\AnggotaController@rincipeserta')->name('penelitianng.detail');
+   Route::RESOURCE('penelitianng.subtansi', 'Penelitian\SubtansiController');
+   Route::POST('penelitianng.subtansi/get/{id}','Penelitian\SubtansiController@getusulan')->name('penelitianng.usulan');
+   Route::POST('penelitianng.subtansi/update/{id}','Penelitian\SubtansiController@perbaru')->name('penelitianng.ganti');
 
-    Route::RESOURCE('penelitianng.subtansi', 'Penelitian\SubtansiController');
-    Route::POST('penelitianng.subtansi/get/{id}','Penelitian\SubtansiController@getusulan')->name('penelitianng.usulan');
-    Route::POST('penelitianng.subtansi/update/{id}','Penelitian\SubtansiController@perbaru')->name('penelitianng.ganti');
+   Route::RESOURCE('penelitianng.luaran', 'Penelitian\LuaranController');
+   Route::POST('penelitianng.luaran/wajib','Penelitian\LuaranController@luaranwajib')->name('penelitianng.wajib');
+   Route::POST('penelitianng.luaran/tambah','Penelitian\LuaranController@luarantambah')->name('penelitianng.tambah');
+   Route::POST('penelitianng.luaran/target','Penelitian\LuaranController@loadtarget')->name('penelitianng.target');
 
-    Route::RESOURCE('penelitianng.luaran', 'Penelitian\LuaranController');
-    Route::POST('penelitianng.luaran/wajib','Penelitian\LuaranController@luaranwajib')->name('penelitianng.wajib');
-    Route::POST('penelitianng.luaran/tambah','Penelitian\LuaranController@luarantambah')->name('penelitianng.tambah');
-    Route::POST('penelitianng.luaran/target','Penelitian\LuaranController@loadtarget')->name('penelitianng.target');
-
-    Route::RESOURCE('penelitianng.anggaran',   'Penelitian\AnggaranController');
+   Route::RESOURCE('penelitianng.anggaran',   'Penelitian\AnggaranController');
     Route::GET('penelitianng.anggaran/edit/{id}','Penelitian\AnggaranController@edit')->name('penelitiananggaran.edit');
     Route::POST('penelitianng.anggaran/total', 'Penelitian\AnggaranController@showtotal')->name('penelitianng.showtotal');
-    Route::POST('penelitianng.anggaran/honor', 'Penelitian\AnggaranController@showhonor')->name('penelitianng.showhonor');
-    Route::POST('penelitianng.anggaran/bahan', 'Penelitian\AnggaranController@showbahan')->name('penelitianng.showbahan');
-    Route::POST('penelitianng.anggaran/jalan', 'Penelitian\AnggaranController@showjalan')->name('penelitianng.showjalan');
-    Route::POST('penelitianng.anggaran/barang','Penelitian\AnggaranController@showbrng')->name('penelitianng.showbarang');
+   Route::POST('penelitianng.anggaran/honor', 'Penelitian\AnggaranController@showhonor')->name('penelitianng.showhonor');
+   Route::POST('penelitianng.anggaran/bahan', 'Penelitian\AnggaranController@showbahan')->name('penelitianng.showbahan');
+   Route::POST('penelitianng.anggaran/jalan', 'Penelitian\AnggaranController@showjalan')->name('penelitianng.showjalan');
+   Route::POST('penelitianng.anggaran/barang','Penelitian\AnggaranController@showbrng')->name('penelitianng.showbarang');
 
-    Route::RESOURCE('validasipenelitian', 'Penelitian\ValidasiController');
+   Route::RESOURCE('validasipenelitian', 'Penelitian\ValidasiController');
 
 
-    Route::RESOURCE('pengabdianng', 'Pengabdian\PengabdianngController');
-    Route::GET('pengabdianng/resume/{id}','Pengabdian\PengabdianngController@resume')->name('pengabdianng.resume');
-    Route::GET('pengabdianng/unduh/{id}','Pengabdian\PengabdianngController@unduh')->name('pengabdianng.unduh');
-    Route::GET('pengabdianng/penyetujuan/{id}', 'Pengabdian\PengabdianngController@setuju')->name('pengabdianng.setuju');
-    Route::GET('pengabdianng/response/{id}','Pengabdian\PengabdianngController@response')->name('pengabdianng.response');
-    Route::GET('pengabdianng/catatan/{id}','Pengabdian\PengabdianngController@baca')->name('pengabdianng.baca');
+   Route::RESOURCE('pengabdianng', 'Pengabdian\PengabdianngController');
+   Route::RESOURCE('pengabdianngperbaikan', 'Pengabdian\PengabdianngPerbaikanController');
+   Route::GET('pengabdianng/resume/{id}','Pengabdian\PengabdianngController@resume')->name('pengabdianng.resume');
+   Route::GET('pengabdianng/unduh/{id}','Pengabdian\PengabdianngController@unduh')->name('pengabdianng.unduh');
+   Route::GET('pengabdianng/penyetujuan/{id}', 'Pengabdian\PengabdianngController@setuju')->name('pengabdianng.setuju');
+   Route::GET('pengabdianng/response/{id}','Pengabdian\PengabdianngController@response')->name('pengabdianng.response');
+   Route::GET('pengabdianng/catatan/{id}','Pengabdian\PengabdianngController@baca')->name('pengabdianng.baca');
 
-    Route::RESOURCE('pengabdianng.proposal',   'Pengabdian\ProposalController');
-    Route::POST('pengabdianng.proposal/fetch','Pengabdian\ProposalController@fetchilmu')->name('pengabdianng.fetch');
-    Route::POST('pengabdianng.proposal/topik','Pengabdian\ProposalController@loadtpk') ->name('pengabdianng.reloadtpk');
-    Route::POST('pengabdianng.proposal/bidang','Pengabdian\ProposalController@loadbdg')->name('pengabdianng.reloadbdg');
+   Route::RESOURCE('pengabdianng.proposal',   'Pengabdian\ProposalController');
+   Route::POST('pengabdianng.proposal/fetch','Pengabdian\ProposalController@fetchilmu')->name('pengabdianng.fetch');
+   Route::POST('pengabdianng.proposal/topik','Pengabdian\ProposalController@loadtpk') ->name('pengabdianng.reloadtpk');
+   Route::POST('pengabdianng.proposal/bidang','Pengabdian\ProposalController@loadbdg')->name('pengabdianng.reloadbdg');
 
-    Route::RESOURCE('pengabdianng.anggota', 'Pengabdian\AnggotaController');
-    Route::POST('pengabdianng.anggota/data/{id}','Pengabdian\AnggotaController@loadanggota')->name('pengabdianng.list');
-    Route::POST('pengabdianng.anggota/peserta','Pengabdian\AnggotaController@reloadpeserta')->name('pengabdianng.data');
-    Route::POST('pengabdianng.anggota/rincian','Pengabdian\AnggotaController@rincipeserta')->name('pengabdianng.detail');
+   Route::RESOURCE('pengabdianng.anggota', 'Pengabdian\AnggotaController');
+   Route::POST('pengabdianng.anggota/data/{id}','Pengabdian\AnggotaController@loadanggota')->name('pengabdianng.list');
+   Route::POST('pengabdianng.anggota/peserta','Pengabdian\AnggotaController@reloadpeserta')->name('pengabdianng.data');
+   Route::POST('pengabdianng.anggota/rincian','Pengabdian\AnggotaController@rincipeserta')->name('pengabdianng.detail');
 
-    Route::RESOURCE('pengabdianng.subtansi', 'Pengabdian\SubtansiController');
-    Route::POST('pengabdianng.subtansi/get/{id}','Pengabdian\SubtansiController@getusulan')->name('pengabdianng.usulan');
-    Route::POST('pengabdianng.subtansi/update/{id}','Pengabdian\SubtansiController@perbaru')->name('pengabdianng.ganti');
+   Route::RESOURCE('pengabdianng.subtansi', 'Pengabdian\SubtansiController');
+   Route::POST('pengabdianng.subtansi/get/{id}','Pengabdian\SubtansiController@getusulan')->name('pengabdianng.usulan');
+   Route::POST('pengabdianng.subtansi/update/{id}','Pengabdian\SubtansiController@perbaru')->name('pengabdianng.ganti');
 
-    Route::RESOURCE('pengabdianng.luaran', 'Pengabdian\LuaranController');
-    Route::POST('pengabdianng.luaran/wajib','Pengabdian\LuaranController@luaranwajib')->name('pengabdianng.wajib');
-    Route::POST('pengabdianng.luaran/tambah','Pengabdian\LuaranController@luarantambah')->name('pengabdianng.tambah');
-    Route::POST('pengabdianng.luaran/target','Pengabdian\LuaranController@loadtarget')->name('pengabdianng.target');
+   Route::RESOURCE('pengabdianng.luaran', 'Pengabdian\LuaranController');
+   Route::POST('pengabdianng.luaran/wajib','Pengabdian\LuaranController@luaranwajib')->name('pengabdianng.wajib');
+   Route::POST('pengabdianng.luaran/tambah','Pengabdian\LuaranController@luarantambah')->name('pengabdianng.tambah');
+   Route::POST('pengabdianng.luaran/target','Pengabdian\LuaranController@loadtarget')->name('pengabdianng.target');
 
-    Route::RESOURCE('pengabdianng.anggaran',   'Pengabdian\AnggaranController');
+   Route::RESOURCE('pengabdianng.anggaran',   'Pengabdian\AnggaranController');
     Route::GET('pengabdianng.anggaran/edit/{id}', 'Pengabdian\AnggaranController@edit')->name('pengabdiananggaran.edit');
-    Route::POST('pengabdianng.anggaran/total','Pengabdian\AnggaranController@showtotal')->name('pengabdianng.showtotal');
-    Route::POST('pengabdianng.anggaran/honor','Pengabdian\AnggaranController@showhonor')->name('pengabdianng.showhonor');
-    Route::POST('pengabdianng.anggaran/bahan','Pengabdian\AnggaranController@showbahan')->name('pengabdianng.showbahan');
-    Route::POST('pengabdianng.anggaran/jalan','Pengabdian\AnggaranController@showjalan')->name('pengabdianng.showjalan');
-    Route::POST('pengabdianng.anggaran/barang','Pengabdian\AnggaranController@showbrng')->name('pengabdianng.showbarang');
+   Route::POST('pengabdianng.anggaran/total','Pengabdian\AnggaranController@showtotal')->name('pengabdianng.showtotal');
+   Route::POST('pengabdianng.anggaran/honor','Pengabdian\AnggaranController@showhonor')->name('pengabdianng.showhonor');
+   Route::POST('pengabdianng.anggaran/bahan','Pengabdian\AnggaranController@showbahan')->name('pengabdianng.showbahan');
+   Route::POST('pengabdianng.anggaran/jalan','Pengabdian\AnggaranController@showjalan')->name('pengabdianng.showjalan');
+   Route::POST('pengabdianng.anggaran/barang','Pengabdian\AnggaranController@showbrng')->name('pengabdianng.showbarang');
 
-    Route::RESOURCE('validasipengabdian', 'Pengabdian\ValidasiController');
-
-
+   Route::RESOURCE('validasipengabdian', 'Pengabdian\ValidasiController');
+   
+   
    Route::RESOURCE('perbaikanpenelitianng', 'PerbaikanPenelitian\PenelitianngController');
    Route::GET('perbaikanpenelitianng/resume/{id}','PerbaikanPenelitian\PenelitianngController@resume')->name('perbaikanpenelitianng.resume');
    Route::GET('perbaikanpenelitianng/unduh/{id}','PerbaikanPenelitian\PenelitianngController@unduh')->name('perbaikanpenelitianng.unduh');
@@ -184,6 +185,7 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
    Route::RESOURCE('validasiperbaikanpengabdian', 'PerbaikanPengabdian\ValidasiController');
 
 
+
     Route::GET('rancangan/resume/{id}','Pelaksanaan\RancanganController@resume')->name('rancangan.resume');
     Route::GET('rancangan/penyetujuan/{id}', 'Pelaksanaan\RancanganController@setuju')->name('rancangan.setuju');
     Route::GET('rancangan/response/{id}','Pelaksanaan\RancanganController@response')->name('rancangan.response');
@@ -194,6 +196,8 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
     Route::resource('catatanharian.catatan', 'Pelaksanaan\CatatanController');
      Route::GET('catatanharian/resume/{id}','Pelaksanaan\CatatanController@resume')->name('catatanharian.resume');
 
+    Route::get('catatanharian_data/get_data', 'PelaksanaanCatatanController@show');
+
     Route::RESOURCE('catatanharian.subtansi', 'Pelaksanaan\SubtansiController');
     Route::RESOURCE('catatanharian_subtansi', 'Pelaksanaan\SubtansiController');
     Route::POST('catatanharian.subtansi/update/{id}','Pelaksanaan\SubtansiController@update')->name('catatanharian.ganti');
@@ -201,6 +205,9 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
     Route::GET('catatanharian/destroy/{id}','Pelaksanaan\CatatanController@destroy')->name('catatanharian.destroy');
     Route::POST('catatanharian.subtansi/get/{id}','Pelaksanaan\SubtansiController@getusulan')->name('catatanharian.usulan');
 
+    Route::resource('unggahcatatan', 'Pelaksanaan\UnggahCatatan');
+    Route::get('unggahcatatan_data/get_data', 'Pelaksanaan\UnggahCatatan@show');
+    Route::get('unggahcatatan_data/get_data', 'Pelaksanaan\CatatanHarianController@show');
     Route::RESOURCE('laporankemajuan', 'Pelaksanaan\LaporanKemajuanController');
     
     Route::RESOURCE('luarankemajuan', 'Pelaksanaan\LuaranKemajuanController');
@@ -532,7 +539,6 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
     Route::RESOURCE('program',   'Master\ProgramController');
     Route::get('program/get_data', 'Master\ProgramController@show');
 
-
     //
     Route::RESOURCE('rumpun',   'Master\RumpunController');
     Route::get('rumpun/get_data', 'Master\RumpunController@show');
@@ -541,7 +547,6 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
     //
     Route::RESOURCE('skema',   'Master\SkemaController');
     Route::get('skema/get_data', 'Master\SkemaController@show');
-    Route::delete("skema/delete/{id}", "Master\SkemaController@delete")->name('skema.delete');
 
     //
     //Route::RESOURCE('status',   'Master\StatusController');
@@ -666,7 +671,6 @@ Route::group(['middleware' => ['cekuser:3' OR'cekuser:4']], function(){
 
 
 
-
 Route::resource('penelitianlanjut', 'PenelitianlanjutController');
 Route::resource('pengabdianlanjut', 'PengabdianlanjutController');
 
@@ -676,6 +680,6 @@ Auth::routes();
 Route::RESOURCE('home','HomeController');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::GET('home/gantiperan/{id}','HomeController@gantiperan')->name('gantiperan');
+Route::RESOURCE('profile','ProfilController');
 Route::get('/grafik', 'GrafikController@index')->name('grafik');
 Route::get('grafik/chart','GrafikController@chart');
-Route::RESOURCE('profile','ProfilController');

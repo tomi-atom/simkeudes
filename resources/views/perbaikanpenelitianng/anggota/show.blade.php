@@ -43,9 +43,7 @@
             @endif
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-12">
-                      <input type="button" class="btn btn-success pull-right" id="tambah" name="tambah" value="Tambah"/>
-                    </div>
+                    
                 </div>
 
                  <p></p>

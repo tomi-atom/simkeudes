@@ -1049,7 +1049,7 @@
                 $("#nilai10").val(total10);
                 hitung();
             });
-
+         
            
 
         });

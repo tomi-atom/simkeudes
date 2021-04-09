@@ -226,8 +226,18 @@
 
     <script type="text/javascript">
         $(function () {
-            $('.tanggal_mulai').datetimepicker();
-            $('.tanggal_akhir').datetimepicker();
+            $('#tanggal_mulai').datetimepicker({
+                showOn: "button",
+                showSecond: true,
+                dateFormat: "yy-mm-dd",
+                timeFormat: "HH:mm:ss"
+            });
+            $('.tanggal_akhir').datetimepicker(
+                showOn: "button",
+                showSecond: true,
+                dateFormat: "yy-mm-dd",
+                timeFormat: "HH:mm:ss"
+        });
             $('.tm_perbaikan').datetimepicker();
             $('.ta_perbaikan').datetimepicker();
             $('.tm_laporankemajuan').datetimepicker();

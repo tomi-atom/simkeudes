@@ -238,7 +238,7 @@ class ProposalController extends Controller
                             ->get();
 
             $fokus = Fokus::where('aktif', '1')->get(); 
-            $tema  = Tema::select('id','tema')->where('idskema', $proposal->idskema)->orderBy('id')->get();
+            $tema  = Tema::select('id','tema')->orderBy('id')->get();
             $topik = Topik::select('id','topik')->where('idtema', $proposal->idtema)->orderBy('id')->get();
             $pusatstudi = PusatStudi::select('id','pusatstudi')->where('id','13')->orderBy('id')->get();
             $idpusatstudi =explode("/", $proposal->idpusatstudi); ;
@@ -360,7 +360,7 @@ class ProposalController extends Controller
         $idskema = $request->get('idskema'); 
         $_token  = $request->get('_token');
 
-        $tema    = Tema::where('idskema', $idskema)->where('aktif', '1')->get();
+        $tema    = Tema::where('aktif', '1')->get();
         $output = '<option value=""> -- Pilih Tema Pengabdian --</option>';
         foreach ($tema as $row) 
         {

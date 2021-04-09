@@ -59,19 +59,33 @@ class PengabdianngController extends Controller
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
         $periode  = Periode::where('aktif', '1')->where('jenis','2')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->get();
         $periodeterbaru  = Periode::orderBy('tahun', 'desc')->where('jenis','2')->orderBy('sesi', 'desc')->first();
+        $periodetahun  = Periode::where('jenis',2)
+            ->where('aktif','1')
+            ->where('tahun',$periodeterbaru->tahun)
+            ->pluck('id')->toArray();
+
 
         $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
             ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_proposal.periodeusul',$periode[0]->id)
+            ->whereIn('tb_proposal.periodeusul',$periodetahun)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
             ->where('tb_penelitian.status', '>', 0)
             ->where('tb_proposal.jenis', 2)
             ->get();
   
+        $proposalditerima = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','dana','prosalid')
+            ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+            ->whereIn('tb_proposal.periodeusul',$periodetahun)
+            ->where('tb_penelitian.ketuaid', $peneliti->id)
+            ->where('tb_penelitian.status', 4)
+            ->where('tb_proposal.jenis', 2)
+            ->get();
+  
+  
         $peserta = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','thnkerja','status','prosalid','peran','setuju')
             ->join('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
             ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                ->where('tb_proposal.periodeusul',$periode[0]->id)
+                ->whereIn('tb_proposal.periodeusul',$periodetahun)
                 ->where('tb_keanggota.anggotaid', $peneliti->id)
                 ->where('tb_penelitian.status', '>', 0)
                 ->where('tb_keanggota.setuju', '<', 2)
@@ -82,7 +96,7 @@ class PengabdianngController extends Controller
 
         $minat =  Proposal::join('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
             ->join('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            ->where('tb_proposal.periodeusul',$periode[0]->id)
+           ->whereIn('tb_proposal.periodeusul',$periodetahun)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
             ->where('tb_penelitian.status', '>', 0)
             ->where('tb_keanggota.setuju', 0)
@@ -95,15 +109,16 @@ class PengabdianngController extends Controller
         $member = Keanggotaan::leftJoin('tb_proposal', 'tb_keanggota.idpenelitian', 'tb_proposal.id')
                         ->where('tb_keanggota.anggotaid', Auth::user()->id)
                         ->where('tb_keanggota.setuju', 1)
-                        ->where('tb_proposal.periodeusul',$periode[0]->id)
+                       ->whereIn('tb_proposal.periodeusul',$periodetahun)
                         ->where('tb_proposal.jenis', 2)
                         ->count(); 
 
         $ketua   = count($proposal);
+         $ketuaditerima   = count($proposalditerima);
         $total   = $ketua + count($peserta);
         $waktu = Carbon::now('Asia/Jakarta');
 
-        return view('pengabdianng.index', compact('person', 'peneliti', 'periode', 'periodeterbaru','proposal', 'total','ketua','peserta','member', 'status', 'minat', 'waktu'));
+        return view('pengabdianng.index', compact('person', 'peneliti', 'periode', 'periodeterbaru','proposal', 'total','ketua','ketuaditerima','peserta','member', 'status', 'minat', 'waktu'));
     }
 
     /**

@@ -461,7 +461,7 @@ desired effect
             <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Penetapan Tahapan</a></li>
            <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian  Proposal</a></li>
             <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Kemajuan</a></li>
-            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Hasil</a></li>
+            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Seminar Hasil</a></li>
             <li><a href="{{ route('hasilakhirluaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Luaran Lainnya</a></li>
 
 
@@ -548,6 +548,7 @@ desired effect
           </form>
         </li>
         @elseif(Auth::user()->level == 4)
+        
         <li class="treeview">
           <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan</span>
             <span class="pull-right-container">
@@ -555,7 +556,6 @@ desired effect
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('usulan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan</a></li>
             <li><a href="{{ route('usulandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan Didanai</a></li>
           </ul>
         </li>
@@ -567,9 +567,9 @@ desired effect
           </a>
           <ul class="treeview-menu">
  
-           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Penilaian Proposal</a></li>
+         
             <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Kemajuan</a></li>
-            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Hasil</a></li>
+            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Seminar Hasil</a></li>
 
            <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->
           </ul>

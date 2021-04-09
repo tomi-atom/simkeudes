@@ -119,7 +119,7 @@
                                     <span class="handle">
                                         <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
                                     </span>
-                                    @if(($ketua < 1) && ($member < 2)) 
+                                    @if(($ketuaditerima < 1) && ($member < 2)) 
                                     <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Ketua Tersedia</b></span> 
                                     @elseif($member >= 2)
                                     <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Anggota Telah Terpenuhi</b></span><small class="label label-danger"><i class="ion ion-ios-pricetags-outline"></i> {{ $total}} Proposal</small> 
@@ -133,7 +133,7 @@
                     </div>
                 </div> 
 
-                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) &&  ($ketua < 1) && ($member < 2))
+                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) &&  ($ketuaditerima < 1) && ($member < 2))
                 <form class="form-horizontal" method="POST" action="{{ route('pengabdianng.create') }}">
                 {{ csrf_field() }} {{method_field('GET')}}
                 @endif 
@@ -149,7 +149,7 @@
                             @foreach($periode as $list)
                                 @if(($waktu > $list->tanggal_mulai) && ($waktu < $list->tanggal_akhir))
                                     {{$periodeaktif = true}}
-                                    <option value="{{ $list->id }}"> Pengabdian tahun {{$list->tahun}} | Sesi {{$list->sesi}}
+                                    <option value="{{ $list->id }}"> Pengabdian tahun {{$list->tahun}} |  {{$list->idprogram->program}}
                                     </option>
                                 @endif
                             @endforeach
@@ -173,7 +173,7 @@
                 </div>
                 -->
                 
-                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) && ($ketua < 1)  && ($member < 2) && ($periodeaktif))
+                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) && ($ketuaditerima < 1)  && ($member < 2) && ($periodeaktif))
                 <div class="form-group row">
                     <div class="col-md-8 col-md-offset-4">
                         <button type="submit" class="btn btn-success pull-right">
@@ -231,19 +231,19 @@
                                         </div>
                                         
                                         <div class="tools col-sm-12 pull-left">
-                                            @if($periodeterbaru->tanggal_mulai == null && $periodeterbaru->tanggal_mulai == null)
+                                            @if($detail->periode->tanggal_mulai == null && $detail->periode->tanggal_mulai == null)
                                                 <span class="text bg-red text-dark">&nbsp;Waktu Untuk Upload Data Belum di Buka</span>
-                                            @elseif($waktu < $periodeterbaru->tanggal_mulai )
-                                                <span class="text text-dark">Waktu Untuk Upload Data di Buka Pada Tanggal</span> <span class="text bg-blue text-dark">&nbsp;{{$periodeterbaru->tanggal_mulai}}</span> - <span class="text bg-red text-dark">&nbsp;{{$periodeterbaru->tanggal_mulai}}</span>
+                                            @elseif($waktu < $detail->periode->tanggal_mulai )
+                                                <span class="text text-dark">Waktu Untuk Upload Data di Buka Pada Tanggal</span> <span class="text bg-blue text-dark">&nbsp;{{$detail->periode->tanggal_mulai}}</span> - <span class="text bg-red text-dark">&nbsp;{{$detail->periode->tanggal_mulai}}</span>
                                             @else
 
-                                                @if($waktu >= $periodeterbaru->tanggal_mulai && $waktu <= $periodeterbaru->tanggal_akhir )
+                                                @if($waktu >= $detail->periode->tanggal_mulai && $waktu <= $detail->periode->tanggal_mulai )
                                                      <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
                                                         <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
                                                     <a onclick="editProposal({{mt_rand(10,99).($detail->prosalid*2+29)}} )" class="btn btn-app btn-xs" id="edit"><i class="ion ion-edit text-red"></i> Validasi </a>
 
 
-                                                @elseif($waktu > $periodeterbaru->tanggal_akhir)
+                                                @elseif($waktu > $detail->periode->tanggal_mulai)
                                                   
                                                         <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
                                                         <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>

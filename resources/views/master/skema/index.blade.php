@@ -27,8 +27,7 @@
                         <div class="panel-heading"><strong>Daftar Skema  </strong><div class="pull-right"><strong></strong></div></div>
                         <div class="panel-body">
                             <div class="box-header with-border">
-                                <a href="{{route('skema.create')}}" class="btn btn-primary pull-right tambah"><i class="glyphicon glyphicon-plus"></i> Tambah</a>
-
+                                <button class="btn btn-primary pull-right create"><i class="glyphicon glyphicon-plus"></i> Tambah</button>
                             </div>
                             <br>
                             <div class="table-responsive">
@@ -388,7 +387,7 @@
                             let json = jQuery.parseJSON(result.data);
 
                             $('.id').val(json.id);
-                            $('.idprogram select').val(json.idprogram);
+                            $('.idprogram').val(json.idprogram);
                             $('.skema').val(json.skema);
                             $('.minpeserta').val(json.minpeserta);
                             $('.maxpeserta').val(json.maxpeserta);

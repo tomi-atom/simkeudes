@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Tambah Periode
+    Identitas Usulan Penelitian
 @endsection
 
 @section('breadcrumb')

@@ -62,9 +62,9 @@ class HasilMonevController extends Controller
 
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
         $periode  = Periode::where('aktif','1')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
-            ->get();
+        ->get();
         $aperiode  = Periode::where('aktif','0')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
-            ->get();
+        ->get();
         $proposal = Proposal::select('judul','idprogram','idskema','periodeusul','idfokus','aktif','thnkerja','status','prosalid')
             ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
             //->where('tb_proposal.periodeusul',$periode[0]->id)
@@ -87,7 +87,7 @@ class HasilMonevController extends Controller
 
         $minat =  Proposal::leftJoin('tb_keanggota', 'tb_proposal.id', 'tb_keanggota.idpenelitian')
             ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-            //  ->where('tb_proposal.periodeusul',$periode[0]->id)
+          //  ->where('tb_proposal.periodeusul',$periode[0]->id)
             ->where('tb_penelitian.ketuaid', $peneliti->id)
             ->where('tb_penelitian.status', '>', 0)
             ->where('tb_keanggota.setuju', 0)
@@ -167,8 +167,8 @@ class HasilMonevController extends Controller
     {
         return view('datatables.eloquent.rownum');
     }
-
-
+    
+    
     public function show(Request $request)
     {
 
@@ -179,199 +179,199 @@ class HasilMonevController extends Controller
             {
 
                 try
-                {
-                    DB::statement(DB::raw('set @rownum=0'));
+            {
+                DB::statement(DB::raw('set @rownum=0'));
 
-                    $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','tb_proposal.idtkt','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_penelitian.dana','tb_penelitian.status','tb_proposal.jenis'])
-                        ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                        ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
-                        ->where('tb_proposal.periodeusul', $request->filter_thn)
-                        ->where('tb_penelitian.status', 4)
-                        ->groupBy('tb_proposal.id')
-                    ;
+                $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','tb_proposal.idtkt','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_penelitian.dana','tb_penelitian.status','tb_proposal.jenis'])
+                ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+                ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
+                ->where('tb_proposal.periodeusul', $request->filter_thn)
+                ->where('tb_penelitian.status', 4)
+                ->groupBy('tb_proposal.id')
+                ;
 
 
-                    return DataTables::of($proposal)
+                return DataTables::of($proposal)
 
-                        ->addColumn('judul', function($proposal) {
-                            $anggota = Keanggotaan::select('nama')
-                                ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
-                                ->where('idpenelitian',$proposal->prosalid)
-                                ->get();
+                ->addColumn('judul', function($proposal) {
+                    $anggota = Keanggotaan::select('nama')
+                        ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
+                        ->where('idpenelitian',$proposal->prosalid)
+                        ->get();
                             $data = '';
-                            // here we prepare the options
-                            foreach ($anggota as $list) {
-                                //$data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
-                                $data .= '<small class="label label-primary">'. $list->nama. '</small><div style="line-height:15%;"><br></div>'
+                        // here we prepare the options
+                        foreach ($anggota as $list) {
+                            //$data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
+                            $data .= '<small class="label label-primary">'. $list->nama. '</small><div style="line-height:15%;"><br></div>'
                                 ;
-                            }
-                            $return =
-                                '<td class="text-left">' .$proposal->judul . '</td><br>
+                        }
+                        $return =
+                            '<td class="text-left">' .$proposal->judul . '</td><br>
                                 <td class="text-left">' .$data . '</td>
                            ';
-                            return $return;
-                        })
-                        ->addColumn('reviewer', function($proposal) {
-                            $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','tb_ploting_reviewer.iddosen','nama','adm_status.jenis')
-                                ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
-                                ->leftJoin('adm_status','adm_status.id','tb_ploting_reviewer.jenis' )
-                                ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
-                                ->where('tb_ploting_reviewer.jenis', 52)
-                                ->orderBy('tb_ploting_reviewer.iddosen','ASC')
-                                ->orderBy('tb_ploting_reviewer.jenis','ASC')
-                                ->get();
-                            $data = '';
-                            $temp = '';
-                            $rata = array();
-                            // here we prepare the options
-                            foreach ($ploting as $list) {
-                                $nilai = NilaiLaporanKemajuan::where('prosalid',$proposal->id)
-                                    ->where('iddosen',$list->iddosen)->first();
-
-                                $nilai2 = Nilai2LaporanKemajuan::where('prosalid',$proposal->id)
-                                    ->where('iddosen',$list->iddosen)->first();
-                                $totalnilai = $nilai->nilai1 + $nilai->nilai2 + $nilai->nilai3 + $nilai->nilai4 + $nilai->nilai5 + $nilai->nilai6 + $nilai->nilai7 + $nilai->nilai8 + $nilai->nilai9 + $nilai->nilai10 + $nilai->nilai11  ;
-
-                                $rata[] = $totalnilai;
-                                if ($temp != $list->nama){
-                                    $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br><small class="label label-success">' . $totalnilai . '</small><br>
+                        return $return;
+                })
+                ->addColumn('reviewer', function($proposal) {
+                    $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','tb_ploting_reviewer.iddosen','nama','adm_status.jenis')
+                        ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
+                        ->leftJoin('adm_status','adm_status.id','tb_ploting_reviewer.jenis' )
+                        ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
+                        ->where('tb_ploting_reviewer.jenis', 52)
+                        ->orderBy('tb_ploting_reviewer.iddosen','ASC')
+                        ->orderBy('tb_ploting_reviewer.jenis','ASC')
+                        ->get();
+                    $data = '';
+                    $temp = '';
+                    $rata = array();
+                    // here we prepare the options
+                     foreach ($ploting as $list) {
+                        $nilai = NilaiLaporanKemajuan::where('prosalid',$proposal->id)
+                        ->where('iddosen',$list->iddosen)->first();
+                       
+                        $nilai2 = Nilai2LaporanKemajuan::where('prosalid',$proposal->id)
+                        ->where('iddosen',$list->iddosen)->first();
+                        $totalnilai = $nilai->nilai1 + $nilai->nilai2 + $nilai->nilai3 + $nilai->nilai4 + $nilai->nilai5 + $nilai->nilai6 + $nilai->nilai7 + $nilai->nilai8 + $nilai->nilai9 + $nilai->nilai10 + $nilai->nilai11  ;
+                        
+                        $rata[] = $totalnilai;
+                         if ($temp != $list->nama){
+                            $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br><small class="label label-success">' . $totalnilai . '</small><br>
                             <a  href="'. route('hasilmonev.resumenilai',base64_encode(mt_rand(10,99).$nilai->id) ).'" class="btn btn-xs edit btn-warning" title="Penilaian Monev"><i class="glyphicon glyphicon-edit"></i> </a>
                             <a  href="'. route('hasilmonev.resumenilai2',base64_encode(mt_rand(10,99).$nilai2->id) ).'" class="btn btn-xs edit btn-primary" title="Tanggapan Reviewer"><i class="glyphicon glyphicon-edit"></i> </a><br>
                           
                             '
-                                    ;
-                                    $temp = $list->nama;
-                                }else{
-                                    $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
+                            ;
+                            $temp = $list->nama;
+                        }else{
+                            $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
                             '
-                                    ;
-                                }
+                            ;
+                        }
 
-                            }
-                            $return =
-                                '<td class="text-left">' .$data . '</td><br>
+                    }
+                    $return =
+                        '<td class="text-left">' .$data . '</td><br>
                         <td class="text-left">Rata-Rata : <small class="label label-primary"> '  . array_sum($rata)/count($rata) . '</small></td>
                            ';
-                            if ($data == null){
-                                return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
-                            }else{
-                                return $return;
-                            }
+                    if ($data == null){
+                        return '<td class="text-left">Reviewer Belum Di tambahkan</td>';
+                    }else{
+                        return $return;
+                    }
 
 
-                        })
+                })
+                
+                
+                ->addColumn('skema', function ($proposal) {
+                     $skema = DB::table('adm_skema')
+                        ->select('id','skema')
+                        ->groupBy('skema')
+                        ->where('id', $proposal->idskema)
+                        ->first();
+                   
+                        return $skema->skema;
+                   
+                })
+                ->addColumn('jenis', function ($proposal) {
+                    if ($proposal->jenis == 1){
+                        return '<a class="btn-info btn-sm center-block ">Penelitian</a>';
+                    }else{
+                        return '<a class="btn-warning btn-sm center-block ">Pengabdian</a>';
 
-
-                        ->addColumn('skema', function ($proposal) {
-                            $skema = DB::table('adm_skema')
-                                ->select('id','skema')
-                                ->groupBy('skema')
-                                ->where('id', $proposal->idskema)
-                                ->first();
-
-                            return $skema->skema;
-
-                        })
-                        ->addColumn('jenis', function ($proposal) {
-                            if ($proposal->jenis == 1){
-                                return '<a class="btn-info btn-sm center-block ">Penelitian</a>';
-                            }else{
-                                return '<a class="btn-warning btn-sm center-block ">Pengabdian</a>';
-
-                            }
-                        })
-                        ->addColumn('komentar', function ($proposal) {
-                            $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','tb_ploting_reviewer.iddosen','nama','adm_status.jenis')
-                                ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
-                                ->leftJoin('adm_status','adm_status.id','tb_ploting_reviewer.jenis' )
-                                ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
-                                ->where('tb_ploting_reviewer.jenis', 52)
-                                ->orderBy('tb_ploting_reviewer.iddosen','ASC')
-                                ->orderBy('tb_ploting_reviewer.jenis','ASC')
-                                ->get();
-                            $data = '';
-                            $temp = '';
-                            $rata = array();
-                            // here we prepare the options
-                            foreach ($ploting as $list) {
-                                $nilai = NilaiLaporanKemajuan::select('komentar')
-                                    ->where('prosalid',$proposal->id)
-                                    ->where('iddosen',$list->iddosen)->first();
-                                $totalnilai = $nilai->komentar ;
-
-                                $rata[] = $totalnilai;
-                                if ($temp != $list->nama){
-                                    $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br>' . $totalnilai . '<br>
+                    }
+                })
+                ->addColumn('komentar', function ($proposal) {
+                    $ploting = PlotingReviwer::select('tb_ploting_reviewer.id','tb_ploting_reviewer.iddosen','nama','adm_status.jenis')
+                    ->leftJoin('tb_peneliti','tb_peneliti.id','tb_ploting_reviewer.iddosen' )
+                    ->leftJoin('adm_status','adm_status.id','tb_ploting_reviewer.jenis' )
+                    ->where('tb_ploting_reviewer.prosalid',$proposal->prosalid)
+                    ->where('tb_ploting_reviewer.jenis', 52)
+                    ->orderBy('tb_ploting_reviewer.iddosen','ASC')
+                    ->orderBy('tb_ploting_reviewer.jenis','ASC')
+                    ->get();
+                $data = '';
+                $temp = '';
+                $rata = array();
+                // here we prepare the options
+                 foreach ($ploting as $list) {
+                    $nilai = NilaiLaporanKemajuan::select('komentar')
+                    ->where('prosalid',$proposal->id)
+                    ->where('iddosen',$list->iddosen)->first();
+                    $totalnilai = $nilai->komentar ;
+                    
+                    $rata[] = $totalnilai;
+                     if ($temp != $list->nama){
+                        $data .= '<strong><td class="text-left">- '. $list->nama. '</td></strong><br>' . $totalnilai . '<br>
 
                         '
-                                    ;
-                                    $temp = $list->nama;
-                                }else{
-                                    $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
+                        ;
+                        $temp = $list->nama;
+                    }else{
+                        $data .= '<small class="label label-success">' . $totalnilai . '</small><br>
                         '
-                                    ;
-                                }
+                        ;
+                    }
 
-                            }
-                            $return =
-                                '<td class="text-left">' .$data . '</td><br>
+                }
+                $return =
+                    '<td class="text-left">' .$data . '</td><br>
                        ';
-                            if ($data == null){
-                                return '<td class="text-left">Komentar Belum Di tambahkan</td>';
-                            }else{
-                                return $return;
-                            }
+                if ($data == null){
+                    return '<td class="text-left">Komentar Belum Di tambahkan</td>';
+                }else{
+                    return $return;
+                }
+                      
+                  
+               })
+                ->addColumn('dana', function ($proposal) {
+                           
+                    if ($proposal->dana != null){
+                        return '<small class="label label-success">Rp. '.format_uang($proposal->dana).'</small>';
+                    }
+                    else{
 
+                        return '<small class="label label-danger">Dana Belum Ditambahkan</small>';
 
-                        })
-                        ->addColumn('dana', function ($proposal) {
+                    }
+                })
+                ->addColumn('status', function ($proposal) {
+                    $admstatus = Posisi::select('jenis')
+                        ->where('id',$proposal->status)
+                        ->first();
+                    if ($proposal->status == 6 or $proposal->status == 4){
+                        return '<small class="label label-success">'.$admstatus->jenis.'</small>';
+                    }
+                    else{
 
-                            if ($proposal->dana != null){
-                                return '<small class="label label-success">Rp. '.format_uang($proposal->dana).'</small>';
-                            }
-                            else{
+                        return '<small class="label label-danger">'.$admstatus->jenis.'</small>';
 
-                                return '<small class="label label-danger">Dana Belum Ditambahkan</small>';
-
-                            }
-                        })
-                        ->addColumn('status', function ($proposal) {
-                            $admstatus = Posisi::select('jenis')
-                                ->where('id',$proposal->status)
-                                ->first();
-                            if ($proposal->status == 6 or $proposal->status == 4){
-                                return '<small class="label label-success">'.$admstatus->jenis.'</small>';
-                            }
-                            else{
-
-                                return '<small class="label label-danger">'.$admstatus->jenis.'</small>';
-
-                            }
-                        })
-                        ->addColumn('action', function ($proposal) {
-                            return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a>
+                    }
+                })
+                ->addColumn('action', function ($proposal) {
+                    return '<a  href="'. route('usulan.resume',base64_encode(mt_rand(10,99).$proposal->prosalid) ).'" class="btn btn-xs edit btn-warning" title="Detail"><i class="glyphicon glyphicon-file"></i> </a>
                    ';
+                    
 
-
-                        })
-                        ->rawColumns(['judul','skema','jenis','dana','komentar','status','reviewer', 'action'])
-                        ->make(true);
-                }  catch (\Exception $e) {
+                })
+                ->rawColumns(['judul','skema','jenis','dana','komentar','status','reviewer', 'action'])
+                ->make(true);
+          }  catch (\Exception $e) {
                     dd($e->getMessage());
                 }
 
             }
         }
 
-
-
+       
+       
     }
-
+    
     public function resumenilai($id)
     {
         $person = HasilMonevController::countPersonil();
-        $idn = base64_decode($id);
-       //  = (Integer)substr($temp, 2, strlen($temp));
+       $temp = base64_decode($id);
+        $idn = (Integer)substr($temp, 2, strlen($temp));
 
 
         $nilai =  NilaiLaporanKemajuan ::  where('id',$idn)->first();
@@ -448,7 +448,7 @@ class HasilMonevController extends Controller
 
         $idprop = $nilai->prosalid;
         $prop = Proposal::find($idprop);
-
+      
         //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
 
         $peneliti = Penelitian::where('prosalid', $idprop)->first();
@@ -518,7 +518,7 @@ class HasilMonevController extends Controller
             $output[] = $nilai->kriteria9;
             $output[] = $nilai->kriteria10;
             $output[] = $nilai->kriteria11;
-
+            
             $output[] = $nilai->nilai1; //12
             $output[] = $nilai->nilai2; //13
             $output[] = $nilai->nilai3; //14
@@ -531,8 +531,8 @@ class HasilMonevController extends Controller
             $output[] = $nilai->nilai10; //21
             $output[] = $nilai->nilai11; //22
             $output[] = $nilai->rekomdana; //23
-
-
+            
+        
             return json_encode($output);
         }
         else
@@ -552,15 +552,15 @@ class HasilMonevController extends Controller
             $output[] = $nilai->kriteria5;
             $output[] = $nilai->kriteria6;
             $output[] = $nilai->kriteria7;
-
-
-
+           
+            
+        
             return json_encode($output);
         }
         else
             return json_encode(0);
     }
-
+   
     public function resumeberkas($id)
     {
         $temp = base64_decode($id);
@@ -608,7 +608,7 @@ class HasilMonevController extends Controller
             }
         }
     }
-
+ 
 
     /**
      * Show the form for editing the specified resource.

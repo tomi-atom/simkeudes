@@ -343,7 +343,8 @@
             $("#ilmu3").attr('disabled', true);
             $("#sbk").attr('disabled', true);
             $("#bidang").attr('disabled', true);
-            
+               $("#tema").attr('disabled', true);
+            $("#topik").attr('disabled', true);
             $("#submit").attr('disabled', true);
         } else {
             $("#ilmu1").attr('disabled', false);
@@ -351,6 +352,8 @@
             $("#ilmu3").attr('disabled', false);
             $("#sbk").attr('disabled', false);
             $("#bidang").attr('disabled', false);
+               $("#tema").attr('disabled', false);
+            $("#topik").attr('disabled', false);
         
             $("#submit").attr('disabled', false);
         }
@@ -362,6 +365,11 @@
             method: "POST",
             data: {idskema: idskema, _token: _token},
             success: function(result)
+            {
+                $("#tema").html(result);
+                reloadTopik().load();
+            },
+            error : function() 
             {
                 $("#tema").html(result);
                 reloadTopik().load();

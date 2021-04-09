@@ -13,5 +13,8 @@ class Periode extends Model
     public function proposal() {
     	return $this->hasMany('App\Proposal', 'id');
     }
+    public function idprogram() {
+        return $this->belongsTo('App\Program', 'program');
+    }
 
 }

@@ -430,6 +430,11 @@
             {
                 $("#tema").html(result);
                 reloadTopik().load();
+            },
+            error : function() 
+            {
+                $("#tema").html(result);
+                reloadTopik().load();
             }
         })
     });

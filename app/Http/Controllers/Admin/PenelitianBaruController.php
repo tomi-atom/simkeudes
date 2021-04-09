@@ -106,7 +106,7 @@ class PenelitianBaruController extends Controller
         $skema = DB::table('adm_skema')
             ->select('id','skema')
             ->groupBy('skema')
-            ->where('idprogram','1')
+           
             ->orderBy('id', 'ASC')
             ->get();
 

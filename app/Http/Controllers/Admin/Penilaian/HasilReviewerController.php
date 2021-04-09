@@ -352,7 +352,7 @@ class HasilReviewerController extends Controller
                         // ->leftJoin('tb_plotingreviewer', 'tb_plotingreviewer.prosalid', 'tb_proposal.id')
                         ->where('tb_proposal.periodeusul', $request->filter_thn)
                     //->where('tb_penelitian.status', 4)
-                        ->where('tb_proposal.jenis', 1)
+                        //->where('tb_proposal.jenis', 1)
                         ->where('tb_ploting_reviewer.jenis', 50)
                             ->whereIn('tb_penelitian.status',[4,6])
                             ->orderBy('tb_proposal.idskema', 'desc')

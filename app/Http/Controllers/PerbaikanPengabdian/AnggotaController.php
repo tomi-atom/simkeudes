@@ -255,9 +255,7 @@ class AnggotaController extends Controller
                     $output .= '</font> 
                     <br/>
                     Tugas: '.$data->tugas.'
-                    </td>
-                    <td align="right" style="widows: 80px"><a onclick="deleteData('.$data->id.')" class="btn btn-app btn-sm" id="hapus"><i class="ion ion-ios-trash-outline text-red"></i> Hapus </a>
-                    </td>
+                    
                 </tr>';
         }
 

@@ -79,13 +79,6 @@ class HomeController extends Controller
             return view('home.operator');
 
     }
-    public function grafik()
-    {
-
-
-        return view('home.grafik');
-
-    }
     public function error() 
     {
         $person = HomeController::countPersonil();
