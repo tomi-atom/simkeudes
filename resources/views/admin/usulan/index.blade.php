@@ -109,53 +109,34 @@
                                         <div class="row">
                                             <br>
                                             <div class="col-md-10">
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="periode">Periode</label>
-                                                        <select name="filter_thn" id="filter_thn" class="form-control" required>
-                                                            <option value="">Pilih Tahun</option>
-                                                            @foreach($periode as $listperiode)
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="periode">Periode</label>
+                                            <select name="filter_thn" id="filter_thn" class="form-control" required>
+                                                <option value="">Pilih Tahun</option>
+                                                @foreach($periode as $listperiode)
+                                                    @if($listperiode->tanggal_mulai == null && $listperiode->tanggal_akhir== null)
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block">Waktu Belum di set -</a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
+                                                    @else
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }}  {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <span class="text text-green">Mulai : {{ $listperiode->tanggal_mulai }} </span><span class="text text-green">- Akhir : {{ $listperiode->tanggal_akhir }} -</span>@if($listperiode->aktif == 1) Aktif @else Tidak Aktif @endif </option>
 
-                                                                <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }}</option>
+                                                    @endif
 
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="periode">Jenis</label>
-                                                        <div class="form-group">
-                                                            <select name="filter_jenis" id="filter_jenis" class="form-control" required>
-                                                                <option value="">Pilih Jenis</option>
-                                                                <option value="1">Penelitian</option>
-                                                                <option value="2">Pengabdian</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="skema">Skema</label>
-                                                        <select name="filter_skema" id="filter_skema" class="form-control" required>
-                                                            <option value="">Pilih Skema</option>
-                                                            @foreach($skema as $listskema)
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-">
+                                        <br>
+                                        <div class="form-group" align="center">
+                                            <button type="button" name="filter" id="filter" class="btn btn-info">Tampilkan</button>
 
-                                                                <option value="{{ $listskema->id }}">{{ $listskema->skema }}</option>
+                                            <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
+                                        </div>
 
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <br>
-                                                    <div class="form-group" align="center">
-                                                        <button type="button" name="filter" id="filter" class="btn btn-info">Tampilkan</button>
+                                    </div>
 
-                                                        <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
                                         </div>
                                         <div class="table-responsive" >
                                             <table id="mytable" class="table" hidden>
@@ -163,17 +144,22 @@
                                                 <tr>
                                                     <th scope="col" class="text-left" width="4%">No.</th>
                                                     <th scope="col" class="text-center" width="10%">NIDN</th>
-                                                    <th scope="col" class="text-center" width="10%">Ketua</th>
-                                                    <th scope="col" class="text-center" width="30%">Judul</th>
-                                                    <th scope="col" class="text-left" width="10%">Status</th>
-                                                    <th scope="col" class="text-left" width="10%">Aksi</th>
+                                                    <th scope="col" class="text-center" width="10%">Nama</th>
+                                                    <th scope="col" class="text-center" width="10%">Skema</th>
+                                                    <th scope="col" class="text-center" width="5%">TKT</th>
+                                                
+                                                    <th scope="col" class="text-left" width="30%">Judul</th>
+                                                  
+                                                    <th scope="col" class="text-left" width="10%">Dana di Usulkan</th>
+                                                    <th scope="col" class="text-left" width="5%">Status</th>
+            
+                                                    <th scope="col" class="text-left" width="2%">Aksi</th>
+                                            
                                                 </tr>
                                                 </thead>
-
+            
                                             </table>
                                         </div>
-
-                                        </table>
                                     </div>
 
                                 </div>
@@ -288,34 +274,68 @@
 
            // fill_datatable();
 
-            function fill_datatable(filter_thn = '',filter_jenis = '',filter_skema = '')
+             function fill_datatable(filter_thn)
             {
                 $('#mytable').DataTable({
                     processing: true,
                     serverSide: true,
+                    dom: '<"html5buttons">Blfrtip',
+                    language: {
+                            buttons: {
+                                colvis : 'show / hide', // label button show / hide
+                                colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
+                            }
+                    },
+
+                    buttons : [
+                                {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
+                                {extend:'csv'},
+                                {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU '},
+                                {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU'},
+                                {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU '},
+                    ],
                     ajax: {
                         url: 'usulan/get_data',
-                        data:{filter_thn:filter_thn,filter_jenis:filter_jenis,filter_skema:filter_skema}
+                        data:{filter_thn:filter_thn}
                     },
                     columns: [{
                         data: 'rownum',
                         orderable: false,
                         searchable: false
                     },
-                        {
-                            data: 'nidn',
+                    {
+                        data: 'nidn',
+                        searchable: false
 
-                        },
-                        {
-                            data: 'nama'
-                        },
-                        {
-                            data: 'judul',
-                        },
-                        {
-                            data: 'status',
-                        },
+                    },
+                    {
+                        data: 'nama',
+                        name:'tb_peneliti.nama'
 
+                    },
+                    {
+                        data: 'skema',
+                        name:'tb_proposal.idskema'
+
+                    },
+                    {
+                        data: 'idtkt',
+                        searchable: false
+
+                    },
+                    {
+                        data: 'judul',
+
+                    },
+                  
+                  
+                    {
+                            data: 'dana',
+                    },
+                    {
+                        data: 'status',
+
+                    },
                         {
                             data: 'action',
                             orderable: false,
@@ -326,16 +346,14 @@
             }
 
 
-            $('#filter').click(function(){
+              $('#filter').click(function(){
                 var filter_thn = $('#filter_thn').val();
-                var filter_jenis = $('#filter_jenis').val();
-                var filter_skema = $('#filter_skema').val();
 
-                if(filter_thn != '' &&  filter_jenis != ''&&  filter_skema != '')
+                if(filter_thn != '' )
                 {
                     $('#mytable').DataTable().destroy();
                     $('#mytable').show();
-                    fill_datatable(filter_thn,filter_jenis,filter_skema);
+                    fill_datatable(filter_thn);
                 }
                 else
                 {
@@ -345,8 +363,7 @@
 
             $('#reset').click(function(){
                 $('#filter_thn').val('');
-                $('#filter_jenis').val('');
-                $('#filter_skema').val('');
+
                 $('#mytable').DataTable().destroy();
                 $('#mytable').hide();
                 //fill_datatable();
@@ -356,7 +373,7 @@
                 var table = $('#mytable').DataTable();
                 table.ajax.reload(null, false);
             }
-
+            
             function cleaner() {
                 $('.id').val('');
                 $('.bidang').val('');

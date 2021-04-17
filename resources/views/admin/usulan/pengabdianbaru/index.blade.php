@@ -56,23 +56,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
-                                <table id="mytable" class="table" hidden>
-                                    <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col" class="text-left" width="4%">No.</th>
-                                        <th scope="col" class="text-center" width="10%">NIDN</th>
-                                        <th scope="col" class="text-center" width="10%">Ketua</th>
-                                        <th scope="col" class="text-center" width="30%">Judul</th>
-                                        <th scope="col" class="text-left" width="10%">Usulan Dana</th>
-                                        <th scope="col" class="text-left" width="10%">Status</th>
-                                        <th scope="col" class="text-left" width="10%">Aksi</th>
-                                    </tr>
-                                    </thead>
-
-                                </table>
-                            </div>
-
+                            <div class="table-responsive" >
+                                            <table id="mytable" class="table" hidden>
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col" class="text-left" width="4%">No.</th>
+                                                    <th scope="col" class="text-center" width="10%">NIDN</th>
+                                                    <th scope="col" class="text-center" width="10%">Nama</th>
+                                                    <th scope="col" class="text-center" width="10%">Skema</th>
+                                                    <th scope="col" class="text-center" width="5%">TKT</th>
+                                                
+                                                    <th scope="col" class="text-left" width="30%">Judul</th>
+                                                  
+                                                    <th scope="col" class="text-left" width="10%">Dana di Usulkan</th>
+                                                    <th scope="col" class="text-left" width="5%">Status</th>
+            
+                                                    <th scope="col" class="text-left" width="2%">Aksi</th>
+                                            
+                                                </tr>
+                                                </thead>
+            
+                                            </table>
+                                        </div>
 
                         </div>
 
@@ -170,7 +175,7 @@
 
         $(function () {
             //fill_datatable();
- function fill_datatable(filter_skema = '')
+   function fill_datatable(filter_skema)
             {
                 $('#mytable').DataTable({
                     processing: true,
@@ -186,12 +191,12 @@
                     buttons : [
                                 {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
                                 {extend:'csv'},
-                                {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU  '},
-                                {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU '},
+                                {extend: 'pdf', title:'SIMPPM UNIVERSITAS RIAU '},
+                                {extend: 'excel', title: 'SIMPPM UNIVERSITAS RIAU'},
                                 {extend:'print',title: 'SIMPPM UNIVERSITAS RIAU '},
                     ],
                     ajax: {
-                       url: 'pengabdianbaru/get_data',
+                        url: 'pengabdianbaru/get_data',
                         data:{filter_skema:filter_skema}
                     },
                     columns: [{
@@ -199,30 +204,39 @@
                         orderable: false,
                         searchable: false
                     },
-                        {
-                            data: 'email',
-                            name:'users.email'
+                    {
+                        data: 'nidn',
+                        searchable: false
 
-                        },
-                        {
-                            data: 'name',
-                            name:'users.name'
-                        },
-                        {
-                            data: 'judul',
-                            name:'tb_proposal.judul'
-                        },
-                        {
+                    },
+                    {
+                        data: 'nama',
+                        name:'tb_peneliti.nama'
+
+                    },
+                    {
+                        data: 'skema',
+                        name:'tb_proposal.idskema'
+
+                    },
+                    {
+                        data: 'idtkt',
+                        searchable: false
+
+                    },
+                    {
+                        data: 'judul',
+
+                    },
+                  
+                  
+                    {
                             data: 'dana',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'status',
-                            orderable: false,
-                            searchable: false
-                        },
+                    },
+                    {
+                        data: 'status',
 
+                    },
                         {
                             data: 'action',
                             orderable: false,
@@ -231,7 +245,7 @@
                     ]
                 });
             }
-           
+
 
 
             $('#filter').click(function(){

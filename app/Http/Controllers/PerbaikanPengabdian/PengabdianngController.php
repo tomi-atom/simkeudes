@@ -308,26 +308,30 @@ class PengabdianngController extends Controller
         return view('perbaikanpengabdianng.resume', compact('person','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
     }
 
-    public function unduh($id)
+   public function unduh($id)
     {
 
         $temp = base64_decode($id);
         $idprop = (Integer)substr($temp, 2, strlen($temp));
         $idprop /= 2;
-        //$prop  = Proposal::where('id', $idprop)->Where('iddosen', Auth::user()->id)->orWhere('iddosen', 0)->first();
-        $prop = Proposal::find($idprop);
-        $usulan = Substansi::where('proposalid', $idprop)->first();
-        $peneliti = Penelitian::where('prosalid', $idprop)->first();
-        $thn = $peneliti->tahun_ke;
+         
 
-        $ketua = Peneliti::select('sinta','nama','idpt','idfakultas','idprodi','hindex')->find($peneliti->ketuaid);
-
-        if($usulan) {
-            $pdf = PDF::loadView('perbaikanpengabdianng.unduh',compact('person','idprop','prop','usulan','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
-            return  $pdf->stream($prop->judul.".pdf");
+        $penelitian = Proposal::find($idprop);
+        $file_path = public_path('docs/periode2/proposal/').$penelitian->usulan;
+        if($penelitian){
+            $headers = array(
+                'Content-Type: pdf',
+                'Content-Disposition: attachment; filename='.$penelitian->usulan,
+            );
+            if ( $file_path  ) {
+                // Show pdf
+                return response()->file( $file_path, $headers );
+            } else {
+                
+                $message = 'Dokumen Tidak Ditemukan..';
+                return Redirect::back()->withInput()->withErrors(array('kesalahan' => $message));
+            }
         }
-        else
-            return Redirect::back()->withInput()->withErrors(array('error0' => 'error'));
     }
     public function setuju($id) {
         $person = PengabdianngController::countPersonil();

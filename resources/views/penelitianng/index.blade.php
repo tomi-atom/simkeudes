@@ -242,7 +242,7 @@
                                         </div>
 
                                         <div class="tools col-sm-12 pull-left">
-                                            @if($detail->periode->tanggal_mulai == null && $detail->periode->tanggal_mulai == null)
+                                            @if($detail->periode->tanggal_mulai == null)
                                                 <span class="text bg-red text-dark">&nbsp;Waktu Untuk Upload Data Belum di Buka</span>
                                             @elseif($waktu < $detail->periode->tanggal_mulai )
                                                 <span class="text text-dark">Waktu Untuk Upload Data di Buka Pada Tanggal</span> <span class="text bg-blue text-dark">&nbsp;{{$detail->periode->tanggal_mulai}}</span> - <span class="text bg-red text-dark">&nbsp;{{$detail->periode->tanggal_mulai}}</span>

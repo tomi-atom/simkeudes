@@ -231,23 +231,23 @@
                                         </div>
                                         
                                         <div class="tools col-sm-12 pull-left">
-                                            @if($detail->periode->tanggal_mulai == null && $detail->periode->tanggal_mulai == null)
+                                            @if($detail->periode->tanggal_mulai == null )
                                                 <span class="text bg-red text-dark">&nbsp;Waktu Untuk Upload Data Belum di Buka</span>
                                             @elseif($waktu < $detail->periode->tanggal_mulai )
                                                 <span class="text text-dark">Waktu Untuk Upload Data di Buka Pada Tanggal</span> <span class="text bg-blue text-dark">&nbsp;{{$detail->periode->tanggal_mulai}}</span> - <span class="text bg-red text-dark">&nbsp;{{$detail->periode->tanggal_mulai}}</span>
                                             @else
 
-                                                @if($waktu >= $detail->periode->tanggal_mulai && $waktu <= $detail->periode->tanggal_mulai )
+                                                @if($waktu >= $detail->periode->tanggal_mulai && $waktu <= $detail->periode->tanggal_akhir )
                                                      <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
                                                         <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
                                                     <a onclick="editProposal({{mt_rand(10,99).($detail->prosalid*2+29)}} )" class="btn btn-app btn-xs" id="edit"><i class="ion ion-edit text-red"></i> Validasi </a>
 
 
-                                                @elseif($waktu > $detail->periode->tanggal_mulai)
+                                                @elseif($waktu > $detail->periode->tanggal_akhir)
                                                   
                                                         <a onclick="bacaProposalRinci({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="baca"><i class="ion ion-ios-book-outline text-blue"></i> Baca </a>
                                                         <a onclick="unduhProposal({{'2'.mt_rand(1,9).($detail->prosalid*2)}})" class="btn btn-app btn-sm" id="down"><i class="ion ion-ios-cloud-download-outline text-blue"></i> Unduh </a>
-                                                        <span class="text bg-red text-dark">&nbsp;Periode Upload Data Telah Habis</span>
+                                                        <span class="text bg-red text-dark">&nbsp;Periode Upload Data Telah Habis {{$waktu}}{{$detail->periode->tanggal_mulai}}</span>
 
                                                    
                                                 @endif

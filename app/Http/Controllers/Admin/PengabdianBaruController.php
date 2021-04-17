@@ -102,12 +102,14 @@ class PengabdianBaruController extends Controller
         $total   = $ketua + count($peserta);
 
 
+     
         $skema = DB::table('adm_skema')
             ->select('id','skema')
             ->groupBy('skema')
-            ->where('idprogram','2')
+            ->where('idprogram',$periodeterbaru->program)
             ->orderBy('id', 'ASC')
             ->get();
+
 
 
         return view('admin.usulan.pengabdianbaru.index', compact('skema','person', 'peneliti', 'periode','periodeterbaru', 'proposal', 'total','ketua','peserta','member', 'status', 'minat'));
@@ -154,65 +156,67 @@ class PengabdianBaruController extends Controller
     }
     public function show(Request $request)
     {
+         $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',2)->where('aktif','1')->first();
 
-        $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',2)->where('aktif','1')->first();
-
-        if(request()->ajax())
+       if(request()->ajax())
         {
 
-            if(!empty($request->filter_skema))
+              try
             {
+                DB::statement(DB::raw('set @rownum=0'));
 
-                try
-                {
-                    DB::statement(DB::raw('set @rownum=0'));
-
-
-                    $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','ketuaid','users.email','users.name','judul','tb_proposal.jenis','tb_penelitian.status','tb_penelitian.dana'])
-                        ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                        ->leftJoin('users', 'tb_penelitian.ketuaid', 'users.id')
-                        ->where('tb_proposal.periodeusul', $periodeterbaru->id)
-                       // ->where('tb_proposal.jenis', $request->filter_jenis)
-                        ->where('tb_proposal.idskema', $request->filter_skema)
-                        //->where('tb_penelitian.status', 4)
-                         ->where('tb_proposal.jenis', 2)
-                    ;
+                $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','tb_proposal.idtkt','tb_proposal.periodeusul','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_penelitian.dana','tb_penelitian.status','tb_proposal.jenis'])
+                ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
+                ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
+                ->where('tb_proposal.periodeusul', $periodeterbaru->id)
+                ->where('tb_proposal.idskema', $request->filter_skema)
+           
+                ->groupBy('tb_proposal.id')
+                ;
 
 
-                    return DataTables::of($proposal)
+                return DataTables::of($proposal)
 
-                        ->addColumn('judul', function($proposal) {
-                            $anggota = Keanggotaan::select('nama')
-                                ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
-                                ->where('idpenelitian',$proposal->id)
-                                ->get();
+                ->addColumn('judul', function($proposal) {
+                    $anggota = Keanggotaan::select('nama')
+                        ->leftJoin('tb_peneliti','tb_keanggota.anggotaid', 'tb_peneliti.id')
+                        ->where('idpenelitian',$proposal->prosalid)
+                        ->get();
                             $data = '';
-                            // here we prepare the options
-                            foreach ($anggota as $list) {
-                                $data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
+                        // here we prepare the options
+                        foreach ($anggota as $list) {
+                            //$data .= '<strong><td class="text-left">-'. $list->nama. '</td></strong><br>'
+                            $data .= '<small class="label label-primary">'. $list->nama. '</small><div style="line-height:15%;"><br></div>'
                                 ;
-                            }
-                            $return =
-                                '<td class="text-left">' .$proposal->judul . '</td><br>
+                        }
+                        $return =
+                            '<td class="text-left">' .$proposal->judul . '</td><br>
                                 <td class="text-left">' .$data . '</td>
                            ';
-                            return $return;
-                        })
+                        return $return;
+                })
+              
+                
+                ->addColumn('skema', function ($proposal) {
+                     $skema = DB::table('adm_skema')
+                        ->select('id','skema')
+                        ->groupBy('skema')
+                        ->where('id', $proposal->idskema)
+                        ->first();
+                   
+                        return $skema->skema;
+                   
+                })
+                ->addColumn('jenis', function ($proposal) {
+                    if ($proposal->jenis == 1){
+                        return '<a class="btn-info btn-sm center-block ">Penelitian</a>';
+                    }else{
+                        return '<a class="btn-warning btn-sm center-block ">Pengabdian</a>';
 
-                        ->addColumn('status', function ($proposal) {
-                            $admstatus = Posisi::select('jenis')
-                                ->where('id',$proposal->status)
-                                ->first();
-                            if ($proposal->status == 6 or $proposal->status == 4){
-                                return '<small class="label label-success">'.$admstatus->jenis.'</small>';
-                            }
-                            else{
-
-                                return '<small class="label label-danger">'.$admstatus->jenis.'</small>';
-
-                            }
-                        })
-                        ->addColumn('dana', function ($proposal) {
+                    }
+                })
+              
+              ->addColumn('dana', function ($proposal) {
                             $subtot = Anggaran::select('volume', 'biaya')->where('proposalid', $proposal->id)->get();
                             $grand  = 0;
                             foreach ($subtot as $list) {
@@ -222,56 +226,267 @@ class PengabdianBaruController extends Controller
                             return '<small class="label label-success">Rp. '.format_uang($grand).'</small>';
 
                         })
-                        ->addColumn('action', function ($proposal) {
-                             if(Auth::user()->level == 3){
-                                  $subtansi = Substansi::where('proposalid', $proposal->id)->first();
-                            if ($subtansi){
-                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
-                                <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>     
-                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
-                                <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>
-                               ';
+                ->addColumn('status', function ($proposal) {
+                    $admstatus = Posisi::select('jenis')
+                        ->where('id',$proposal->status)
+                        ->first();
+                    if ($proposal->status == 6 or $proposal->status == 4){
+                        return '<small class="label label-success">'.$admstatus->jenis.'</small>';
+                    }
+                    else{
 
-                            }else{
-                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>     
+                        return '<small class="label label-danger">'.$admstatus->jenis.'</small>';
+
+                    }
+                })
+                  ->addColumn('action', function ($proposal) 
+                        {
+                            if($proposal->periode->aktif == 1 ){
+
+                                if(Auth::user()->level == 3){
+                                    $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                                    if ($subtansi){
+                                        if ($proposal->status > 1 && $proposal->status != 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>    
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
-                                <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>
+                                <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi"><i class="glyphicon glyphicon-check"></i> </button>';
+
+                                        }elseif ($proposal->status == 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>                      
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                               
                                 ';
 
-
-                            }
-                             }else{
-                                  $subtansi = Substansi::where('proposalid', $proposal->id)->first();
-                            if ($subtansi){
-                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
-                                    
+                                        }elseif ($proposal->status == 4 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>                       
                                 <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                                 ';
 
-                            }else{
-                                return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>     
-                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                        }else{
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                     <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>
+                                      <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                       
+                                ';
+
+                                        }
+
+                                    }else{
+                                        if ($proposal->status > 4 && $proposal->status != 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>  
+                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                <button id="'.$proposal->id . '" class="btn btn-xs verifikasi" title="Verifikasi">'.$proposal->status . '<i class="glyphicon glyphicon-check"></i> </button>';
+
+                                        }elseif ($proposal->status == 6 )
+                                        {
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>    
+                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
                               ';
 
+                                        }elseif ($proposal->status == 4 )
+                                        {
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
 
+                                        }else
+                                        {
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                ';
+
+                                        }
+
+                                    }
+                                }else{
+                                    $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                                    if ($subtansi){
+                                        if ($proposal->status > 4 && $proposal->status != 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                               
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                             ';
+
+                                        }elseif ($proposal->status == 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                              
+                                ';
+
+                                        }elseif ($proposal->status == 4 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                 
+                                <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                ';
+
+                                        }else{
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                   
+                                      <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                      
+                                ';
+
+                                        }
+
+                                    }else{
+                                        if ($proposal->status > 4 && $proposal->status != 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>  
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                       ';
+        
+                                                }elseif ($proposal->status == 6 )
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>    
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                        ';
+        
+                                                }elseif ($proposal->status == 4 )
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                        ';
+        
+                                                }else
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                        ';
+        
+                                                }
+        
+                                            }
+                                        }
+                                
+                                
+                            }else{
+
+                                        if(Auth::user()->level == 3){
+                                            $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                                            if ($subtansi){
+                                                if ($proposal->status > 4 && $proposal->status != 6 ){
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                    <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>    
+                                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                    ';
+        
+                                                }elseif ($proposal->status == 6 ){
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                    <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>                      
+                                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                   
+                                                    ';
+        
+                                                }elseif ($proposal->status == 4 ){
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                    <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>                       
+                                                    <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                    ';
+        
+                                                }else{
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                                         <a  href="'. route('usulan.unduh',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh"><i class="glyphicon glyphicon-download"></i> </a>
+                                                          <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                    ';
+        
+                                                }
+        
+                                            }else{
+                                                if ($proposal->status > 4 && $proposal->status != 6 ){
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>  
+                                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                        ';
+                        
+                                                }elseif ($proposal->status == 6 )
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>    
+                                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                      ';
+                        
+                                                }elseif ($proposal->status == 4 )
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                                        <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                    ';
+                    
+                                                }else
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                        ';
+        
+                                                }
+        
+                                            }
+                                }else{
+                                    $subtansi = Substansi::where('proposalid', $proposal->id)->first();
+                                    if ($subtansi){
+                                        if ($proposal->status > 4 && $proposal->status != 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                           
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                         ';
+            
+                                                    }elseif ($proposal->status == 6 ){
+                                                        return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                            
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                          
+                                            ';
+            
+                                                    }elseif ($proposal->status == 4 ){
+                                                        return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                                             
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                            ';
+            
+                                                    }else{
+                                                        return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                               
+                                                  <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                                  
+                                            ';
+            
+                                                    }
+
+                                    }else{
+                                        if ($proposal->status > 4 && $proposal->status != 6 ){
+                                            return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>  
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                       ';
+        
+                                                }elseif ($proposal->status == 6 )
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>    
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                        ';
+        
+                                                }elseif ($proposal->status == 4 )
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>   
+                                            <a  href="'. route('usulan.resumeberkas',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Unduh Proposal"><i class="glyphicon glyphicon-download-alt"></i> </a>
+                                        ';
+        
+                                                }else
+                                                {
+                                                    return '<a  href="'. route('pengabdianbaru.resume',base64_encode(mt_rand(10,99).$proposal->id) ).'" class="btn btn-xs " title="Detail"><i class="glyphicon glyphicon-file"></i> </a>                       
+                                        ';
+        
+                                                }
+        
+                                            }
+                                        }
                             }
-                             }
+                           
                            
 
                         })
-                        ->rawColumns(['status','judul','upload','dana', 'action'])
-                        ->make(true);
-                } catch (\Exception $e) {
+                ->rawColumns(['judul','skema','jenis','dana','komentar','status','reviewer', 'action'])
+                ->make(true);
+          }  catch (\Exception $e) {
                     dd($e->getMessage());
                 }
-
-            }
-
-
         }
-
-
-        // return view('custom_search', compact('country_name'));
 
 
 
