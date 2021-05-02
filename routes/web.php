@@ -347,6 +347,8 @@ Route::group(['middleware' => ['cekuser:2' OR'cekuser:3' OR'cekuser:4']], functi
     
     Route::resource('rn_laporankemajuan', 'Reviewer\Penilaian\PenilaianLaporanKemajuanController');
     Route::get('rn_laporankemajuan/get_data', 'Reviewer\Penilaian\PenilaianLaporanKemajuanController@show');
+      Route::get('rn_laporankemajuanlama/get_data', 'Reviewer\Penilaian\PenilaianLaporanKemajuanController@showlama');
+    
     Route::GET('rn_laporankemajuan/resume/{id}','Reviewer\Penilaian\PenilaianLaporanKemajuanController@resume')->name('rn_laporankemajuan.resume');
     Route::GET('rn_laporankemajuan/resumenilai/{id}','Reviewer\Penilaian\PenilaianLaporanKemajuanController@resumenilai')->name('rn_laporankemajuan.resumenilai');
     Route::GET('rn_laporankemajuan/resumenilai2/{id}','Reviewer\Penilaian\PenilaianLaporanKemajuanController@resumenilai2')->name('rn_laporankemajuan.resumenilai2');

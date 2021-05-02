@@ -445,14 +445,18 @@ class PenelitianReviewerController extends Controller
         {
             DB::statement(DB::raw('set @rownum=0'));
             $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',1)->first();
-
+            $periodetahun  = Periode::where('jenis',1)
+                    ->where('aktif','1')
+                    ->where('tahun',$periodeterbaru->tahun)
+                    ->pluck('id')->toArray();
             $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_proposal.jenis'])
                 ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
                 ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
                 ->leftJoin('tb_ploting_reviewer', 'tb_ploting_reviewer.prosalid', 'tb_proposal.id')
                 ->where('tb_ploting_reviewer.iddosen', Auth::user()->id)
                 //->where('tb_penelitian.status', 4)
-                ->where('tb_proposal.periodeusul', $periodeterbaru->id)
+                 ->where('tb_ploting_reviewer.jenis', 50)
+                ->whereIn('tb_proposal.periodeusul', $periodetahun)
                 ->where('tb_proposal.jenis', 1)
             ;
 
@@ -564,15 +568,20 @@ class PenelitianReviewerController extends Controller
         {
             DB::statement(DB::raw('set @rownum=0'));
 
-
-            $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_proposal.jenis'])
+         $periodeterbaru  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')->where('jenis',1)->first();
+            $periodetahun  = Periode::where('jenis',1)
+                    ->where('aktif','1')
+                    ->where('tahun','!=',$periodeterbaru->tahun)
+                    ->pluck('id')->toArray();
+            $proposal = Proposal::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'tb_proposal.id','tb_proposal.idskema','ketuaid','tb_peneliti.nidn','tb_peneliti.nama','judul','tb_penelitian.prosalid','tb_proposal.jenis'])
                 ->leftJoin('tb_penelitian', 'tb_penelitian.prosalid', 'tb_proposal.id')
                 ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
                 ->leftJoin('tb_ploting_reviewer', 'tb_ploting_reviewer.prosalid', 'tb_proposal.id')
                 ->where('tb_ploting_reviewer.iddosen', Auth::user()->id)
-                //  ->where('tb_proposal.periodeusul', $request->filter_thn)
-                ->where('tb_penelitian.status', 4)
-                ->where('tb_proposal.jenis', '1')
+                //->where('tb_penelitian.status', 4)
+                 ->where('tb_ploting_reviewer.jenis', 50)
+                ->whereIn('tb_proposal.periodeusul', $periodetahun)
+                ->where('tb_proposal.jenis', 1)
             ;
 
 

@@ -59,7 +59,7 @@ class HasilReviewerController extends Controller
         $person = HasilReviewerController::countPersonil();
 
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
-        $periode  = Periode::where('aktif','1')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
+        $periode  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
         ->get();
         $aperiode  = Periode::where('aktif','0')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
         ->get();
@@ -854,6 +854,8 @@ class HasilReviewerController extends Controller
             return view('admin.penilaian.seleksi.penelitian.resumeguru', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==7){
             return view('admin.penilaian.seleksi.penelitian.resumedosenmuda', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
+        }elseif($prop->idskema==9){
+            return view('admin.penilaian.seleksi.penelitian.resumekolaborasi', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata'));
         }else if($prop->idskema == 6 ){
             return view('admin.penilaian.seleksi.pengabdian.resumedesa', compact('person','periode','nilai','idprop','prop','thn','ketua','peserta','luar','biaya','thnr','tbhn','tjln','tbrg','mata','stat'));
         }elseif($prop->idskema==5){

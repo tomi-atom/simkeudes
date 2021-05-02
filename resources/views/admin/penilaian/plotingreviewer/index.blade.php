@@ -42,29 +42,35 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <br>
-                                            <div class="col-md-10">
-                                                <div class="col-md-8">
-                                                    <div class="form-group">
-                                                        <label for="periode">Periode</label>
-                                                        <select name="filter_thn" id="filter_thn" class="form-control" required>
-                                                            <option value="">Pilih Tahun</option>
-                                                            @foreach($periode as $listperiode)
-                                                            <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} - @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block"></a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
+                                          <div class="col-md-10">
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="periode">Periode</label>
+                                            <select name="filter_thn" id="filter_thn" class="form-control" required>
+                                                <option value="">Pilih Tahun</option>
+                                                @foreach($periode as $listperiode)
+                                                    @if($listperiode->tanggal_mulai == null && $listperiode->tanggal_akhir== null)
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block">Waktu Belum di set -</a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
+                                                    @else
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }}  {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <span class="text text-green">Mulai : {{ $listperiode->tanggal_mulai }} </span><span class="text text-green">- Akhir : {{ $listperiode->tanggal_akhir }} -</span>@if($listperiode->aktif == 1) Aktif @else Tidak Aktif @endif </option>
 
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                              
-                                                <div class="col-md-3">
-                                                    <br>
-                                                    <div class="form-group" align="center">
-                                                        <button type="button" name="filter" id="filter" class="btn btn-info">Tampilkan</button>
+                                                    @endif
 
-                                                        <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-">
+                                        <br>
+                                        <div class="form-group" align="center">
+                                            <button type="button" name="filter" id="filter" class="btn btn-info">Tampilkan</button>
+
+                                            <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
                                         </div>
                                         <br>
                                         <div class="table-responsive">
@@ -104,13 +110,18 @@
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label for="periode">Periode</label>
-                                                        <select name="filter_thn2" id="filter_thn2" class="form-control" required>
-                                                            <option value="">Pilih Tahun</option>
-                                                            @foreach($periode as $listperiode)
-                                                            <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} - @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block"></a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
+                                                           <select name="filter_thn2" id="filter_thn2" class="form-control" required>
+                                                <option value="">Pilih Tahun</option>
+                                                @foreach($periode as $listperiode)
+                                                    @if($listperiode->tanggal_mulai == null && $listperiode->tanggal_akhir== null)
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block">Waktu Belum di set -</a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
+                                                    @else
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }}  {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <span class="text text-green">Mulai : {{ $listperiode->tanggal_mulai }} </span><span class="text text-green">- Akhir : {{ $listperiode->tanggal_akhir }} -</span>@if($listperiode->aktif == 1) Aktif @else Tidak Aktif @endif </option>
 
-                                                            @endforeach
-                                                        </select>
+                                                    @endif
+
+                                                @endforeach
+                                            </select>
                                                     </div>
                                                 </div>
                                               

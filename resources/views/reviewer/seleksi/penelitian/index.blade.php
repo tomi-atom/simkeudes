@@ -27,7 +27,7 @@
                     <div class="nav-tabs-custom">
                         <!-- Tabs within a box -->
                         <ul class="nav nav-tabs pull-left">
-                            <li class="active"><a href="#revenue-chart" data-toggle="tab">Penelitian {{$periodeterbaru->tahun}} sesi {{$periodeterbaru->sesi}}</a></li>
+                            <li class="active"><a href="#revenue-chart" data-toggle="tab">Penelitian {{$periodeterbaru->tahun}} </a></li>
                             <li><a href="#sales-chart" data-toggle="tab">Periode Sebelumnya</a></li>
                         </ul>
                         <div class="tab-content no-padding">
@@ -37,7 +37,7 @@
                                 <div class="panel panel-default">
 
 
-                                    <div class="panel-heading"><strong>Daftar Usulan Penelitian <span class="label label-primary">Tahun {{$periodeterbaru->tahun}} sesi {{$periodeterbaru->sesi}}</span>  </strong><div class="pull-right"><strong></strong></div></div>
+                                    <div class="panel-heading"><strong>Daftar Usulan Penelitian <span class="label label-primary">Tahun {{$periodeterbaru->tahun}} </span>  </strong><div class="pull-right"><strong></strong></div></div>
                                     <div class="panel-body">
 
                                         <br>

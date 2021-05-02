@@ -41,7 +41,7 @@
             <div class="panel-body">
                 
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Periode: 2020 | Batch 1</strong></div>
+                    <div class="panel-heading"><strong>Periode: 2021</strong></div>
             
                     <div class="panel-body">
                         <div class="">

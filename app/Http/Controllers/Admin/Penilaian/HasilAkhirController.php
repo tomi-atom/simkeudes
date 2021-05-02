@@ -64,7 +64,7 @@ class HasilAkhirController extends Controller
         $person = HasilAkhirController::countPersonil();
 
         $peneliti = Peneliti::select('id','hindex','sinta','status','tanggungan')->find(Auth::user()->id);
-        $periode  = Periode::where('aktif','1')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
+        $periode  = Periode::orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
         ->get();
         $aperiode  = Periode::where('aktif','0')->orderBy('tahun', 'desc')->orderBy('sesi', 'desc')
         ->get();

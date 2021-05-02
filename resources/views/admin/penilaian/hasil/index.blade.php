@@ -40,16 +40,16 @@
 
                                 <br>
                                 <div class="col-md-10">
-                                    <div class="col-md-6">
+                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="periode">Periode</label>
                                             <select name="filter_thn" id="filter_thn" class="form-control" required>
                                                 <option value="">Pilih Tahun</option>
                                                 @foreach($periode as $listperiode)
-                                                    @if($listperiode->tm_anggaran == null && $listperiode->ta_anggaran== null)
-                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block">Waktu Belum di set -</a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
+                                                    @if($listperiode->tanggal_mulai == null && $listperiode->tanggal_akhir== null)
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <a class="btn-danger btn-sm center-block">Waktu Belum di set -</a> @if($listperiode->aktif ==1) Aktif  @else Tidak Aktif @endif </option>
                                                     @else
-                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <span class="text text-green">Mulai : {{ $listperiode->tm_anggaran }} </span><span class="text text-green">- Akhir : {{ $listperiode->ta_anggaran }} -</span>@if($listperiode->aktif == 1) Aktif @else Tidak Aktif @endif </option>
+                                                        <option value="{{ $listperiode->id }}">{{ $listperiode->tahun }} sesi {{ $listperiode->sesi }}  {{$listperiode->idprogram->program}} -  @if($listperiode->jenis==1)<span>Penelitian</span> @else <span>Pengabdian </span> @endif - <span class="text text-green">Mulai : {{ $listperiode->tanggal_mulai }} </span><span class="text text-green">- Akhir : {{ $listperiode->tanggal_akhir }} -</span>@if($listperiode->aktif == 1) Aktif @else Tidak Aktif @endif </option>
 
                                                     @endif
 

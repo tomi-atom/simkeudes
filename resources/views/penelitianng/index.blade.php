@@ -130,7 +130,7 @@
                                     <span class="handle">
                                         <i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
                                     </span>
-                                    @if(($ketuaditerima < 1) && ($member < 2))
+                                    @if(($ketuaditerima < 3) && ($member < 2))
                                     <i class="glyphicon glyphicon-ok-circle text-green"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Ketua Tersedia</b></span>
                                     @elseif($member >= 2)
                                     <i class="glyphicon glyphicon-remove-circle text-red"></i><span class="text text-blue"> Kuota Usulan : <b class="text-black">Kuota Usulan Sebagai Anggota Telah Terpenuhi</b></span><small class="label label-danger"><i class="ion ion-ios-pricetags-outline"></i> {{ $total}} Proposal</small>
@@ -144,7 +144,7 @@
                     </div>
                 </div>
 
-                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) &&  ($ketuaditerima < 1) && ($member < 2))
+                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) &&  ($ketuaditerima < 3) && ($member < 2))
                 <form class="form-horizontal" method="POST" action="{{ route('penelitianng.create') }}">
                 {{ csrf_field() }} {{method_field('GET')}}
                 @endif
@@ -184,7 +184,7 @@
                 </div>
                 -->
 
-                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) && ($ketuaditerima < 1)  && ($member < 2) && ($periodeaktif))
+                @if(($peneliti->sinta != '') && ($peneliti->status == 1) && ($peneliti->tanggungan == 0) && ($ketuaditerima < 3)  && ($member < 2) && ($periodeaktif))
                 <div class="form-group row">
                     <div class="col-md-8 col-md-offset-4">
                         <button type="submit" class="btn btn-success pull-right">

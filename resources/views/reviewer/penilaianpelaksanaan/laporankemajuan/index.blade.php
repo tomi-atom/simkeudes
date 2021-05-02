@@ -22,10 +22,21 @@
             <div class="panel panel-primary">
                 <div class="panel-heading"> <div class="pull-right"><strong></strong></div></div>
 
-                <div class="panel-body">
-                    <div class="panel panel-default">
+ <div class="panel-body">
+                    <br>
+                    <div class="nav-tabs-custom">
+                        <!-- Tabs within a box -->
+                        <ul class="nav nav-tabs pull-left">
+                            <li class="active"><a href="#revenue-chart" data-toggle="tab">Penilaian Monev Kemajuan {{$periodeterbaru->tahun}} </a></li>
+                            <li><a href="#sales-chart" data-toggle="tab">Periode Sebelumnya</a></li>
+                        </ul>
+                        <div class="tab-content no-padding">
+                            <!-- Morris chart - Sales -->
+                            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; ">
+                                <br>
+                               <div class="panel panel-default">
 
-                        <div class="panel-heading"><strong>Daftar Penilaian Laporan Kemajuan  </strong><div class="pull-right"><strong></strong></div></div>
+                        <div class="panel-heading"><strong>Daftar Penilaian Laporan Kemajuan  </strong><span class="label label-primary">Tahun {{$periodeterbaru->tahun}} </span> <div class="pull-right"><strong></strong></div></div>
                         <div class="panel-body">
                             <div class="row">
                                 @if($errors->first('kesalahan'))
@@ -62,6 +73,50 @@
 
                     </div>
 
+
+                            </div>
+                            <div class="chart tab-pane" id="sales-chart" style="position: relative; ">
+                                <br>
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading"><strong>Daftar Penilaian Sebelumnya </strong><div class="pull-right"><strong></strong></div></div>
+                                    <div class="panel-body">
+
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table id="tablelama" class="table">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col" class="text-left" width="4%">No.</th>
+                                                    <th scope="col" class="text-center" width="10%">NIDN</th>
+                                                    <th scope="col" class="text-center" width="10%">Ketua</th>
+                                                    <th scope="col" class="text-center" width="30%">Judul</th>
+                                                    <th scope="col" class="text-left" width="10%">Jenis</th>
+                                                    <th scope="col" class="text-left" width="10%">Skema</th>
+                                                    <th scope="col" class="text-left" width="10%">Status</th>
+                                                    <th scope="col" class="text-left" width="10%">Upload</th>
+            
+                                                    <th scope="col" class="text-left" width="10%">Aksi</th>
+                                                </tr>
+                                                </thead>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                <br><br>
+
+                </div>
+                <div class="panel-body">
+                    
                 </div>
             </div>
         </div>
@@ -155,7 +210,50 @@
                     ]
                 });
 
-           
+            $('#tablelama').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: 'rn_laporankemajuanlama/get_data',
+                    columns: [{
+                        data: 'rownum',
+                        orderable: false,
+                        searchable: false
+                    },
+                        {
+                            data: 'nidn',
+                            searchable: false
+
+                        },
+                        {
+                            data: 'nama',
+                            name: 'tb_peneliti.nama'
+                            
+
+                        },
+                        {
+                            data: 'judul',
+
+                        },
+                        {
+                            data: 'jenis',
+                        },
+                        {
+                            data: 'skema',
+                        },
+                        {
+                            data: 'status',
+                        },
+                        {
+                            data: 'upload',
+                        },
+
+                        {
+                            data: 'action',
+                            orderable: false,
+                            searchable: false
+                        }
+                    ]
+                });
             //update
             $(document).on('submit', '#modalEdit', function (e) {
                 e.preventDefault();
@@ -208,8 +306,11 @@
 
             function refresh() {
                 var table = $('#mytable').DataTable();
+                 var tablelama = $('#tablelama').DataTable();
                 table.ajax.reload(null, false);
+                 tablelama.ajax.reload(null, false);
             }
+             
 
             function cleaner() {
                 $('.id').val('');
