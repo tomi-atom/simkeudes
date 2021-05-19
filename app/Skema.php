@@ -17,4 +17,11 @@ class Skema extends Model
     public function tema() {
     	return $this->hasMany('App\Tema', 'id');
     }
+    public function program() {
+        return $this->belongsTo('App\Program', 'idprogram');
+    }
+    public function mindidik1() {
+        return $this->belongsTo('App\Pendidikan', 'mindidik1');
+    }
+
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Fungsional;
 use App\Keanggotaan;
+use App\Pendidikan;
 use App\Peneliti;
 use App\Periode;
 use App\Posisi;
@@ -156,7 +158,7 @@ class SkemaController extends Controller
         try
         {
             DB::statement(DB::raw('set @rownum=0'));
-            $prodis = Skema::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            $skema = Skema::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),
                 'id',
                 'skema',
                 'idprogram',
@@ -175,19 +177,55 @@ class SkemaController extends Controller
             ])
             ;
 
-            return DataTables::of($prodis)
-                ->addColumn('program', function ($prodis) {
+            return DataTables::of($skema)
+                ->addColumn('program', function ($skema) {
                     $prog = Program::select('program')
-                        ->where('id',$prodis->idprogram)
+                        ->where('id',$skema->idprogram)
                         ->first();
                     return '<small>'.$prog->program.'</small>';
 
                 })
-                ->addColumn('action', function ($prodis) {
-                    return '<button id="' . $prodis->id . '" class="btn btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
-                    <button id="' . $prodis->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
+                ->addColumn('mindidik1', function ($skema) {
+                    $prog = Pendidikan::select('pendidikan')
+                        ->where('id',$skema->mindidik1)
+                        ->first();
+                    return '<small>'.$prog->pendidikan.'</small>';
+
                 })
-                ->rawColumns(['program', 'action'])
+
+                ->addColumn('mindidik2', function ($skema) {
+                    $prog = Pendidikan::select('pendidikan')
+                        ->where('id',$skema->mindidik2)
+                        ->first();
+                    return '<small>'.$prog->pendidikan.'</small>';
+
+                })
+                ->addColumn('minjabat1', function ($skema) {
+                    $prog = Fungsional::select('fungsional')
+                        ->where('id',$skema->minjabat1)
+                        ->first();
+                    return '<small>'.$prog->fungsional.'</small>';
+
+                })
+                ->addColumn('minjabat2', function ($skema) {
+                    $prog = Fungsional::select('fungsional')
+                        ->where('id',$skema->minjabat2)
+                        ->first();
+                    return '<small>'.$prog->fungsional.'</small>';
+
+                })
+                ->addColumn('maxjabat', function ($skema) {
+                    $prog = Fungsional::select('fungsional')
+                        ->where('id',$skema->maxjabat)
+                        ->first();
+                    return '<small>'.$prog->fungsional.'</small>';
+
+                })
+                ->addColumn('action', function ($skema) {
+                    return '<button id="' . $skema->id . '" class="btn btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
+                    <button id="' . $skema->id . '" class="btn btn-xs  delete" ><i class="glyphicon glyphicon-trash"></i> </button>';
+                })
+                ->rawColumns(['program','mindidik1','mindidik2','minjabat1','minjabat2','maxjabat','program', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             dd($e->getMessage());
