@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>Simlitabmas-UNRI | Log in</title>
+  <title>SIMPPM-UNRI | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -41,7 +41,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Simlitabmas</b>UNRI</a>
+    <a href="#"><b>SIMPPM</b>UNRI</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
