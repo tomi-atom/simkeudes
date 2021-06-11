@@ -271,8 +271,8 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="text-center">E</td>
-                                    <td class="text-left" colspan="6">PENGGUNAAN ANGGARAN</td>
+                                        <td class="text-center">G</td>
+                                    <td class="text-left" colspan="6">MAHASISWA KUKERTA</td>
                                         @if($err5 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
@@ -307,7 +307,59 @@
                                     <tr>
                                         <td colspan="12"></td>
                                     </tr>
+                                @if($proposal->jenis == 2)
+                                    <tr>
+                                        <td colspan="12"></td>
+                                    </tr>
 
+                                    <tr>
+                                        <td class="text-center">C</td>
+                                        <td class="text-left" colspan="6">LUARAN TAMBAHAN</td>
+                                        @if($err3 > 0)
+                                            <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
+                                            <td class="text-center" colspan="2">
+                                                <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                            </td>
+
+                                        @else
+                                            <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
+                                            <td class="text-center" colspan="2">
+                                                @if($err2 > 0)
+                                                    <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                                @else
+                                                    <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center disabled"><i class="fa fa-pencil"></i> Lengkapi</a>
+
+                                                @endif
+                                            </td>
+                                        @endif
+                                        <td data-toggle="collapse" data-target="#accordionsubtansi" class="clickable text-center">
+                                            <a onclick="#" class="btn btn-sm btn-info btn-flat center"><i class="fa  fa-folder-open-o"></i> Rincikan</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="12">
+                                            <tbody id="accordionsubtansi" class="collapse table-bordered">
+                                            @foreach($luarantambahan as $list)
+                                                <tr>
+                                                    <td class="text-right">{{++$no2}}</td>
+                                                    <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->judul}}</td>
+                                                    <td class="text-left"  colspan="5">&nbsp;&nbsp;&nbsp;{{$list->publish}}</td>
+
+                                                    <td class="text-center"><span class="label label-success">{{$list->judul}}</span></td>
+
+                                                </tr>
+                                            @endforeach
+                                            <tr>
+                                                <td colspan="12"></td>
+                                            </tr>
+                                            </tbody>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="12"></td>
+                                    </tr>
+
+                            @endif
                                    <!--  <tr>
                                         <td class="text-center">F</td>
                                         <td class="text-left" colspan="6">SUBMIT USULAN</td>

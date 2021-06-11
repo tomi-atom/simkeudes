@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Pelaksanaan\LaporanAkhir;
+use App\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -113,11 +114,15 @@ class ValidasiController extends Controller
             if($anggaranakhir != null){
                 $err5 = 1;
             }
+            $mahasiswa = Mahasiswa::where('prosalid', $proposal->id)->first();
+            if($mahasiswa != null){
+                $err6 = 1;
+            }
           
 
 
 
-            return view('pelaksanaan.laporanakhir.validasi', compact('person','laporanakhir','anggaranakhir', 'dsn','luaranlainnya','luaranwajib','luarantambahan', 'proposal','penelitian','periode', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5','hnr','bhn','jln','brg','pagu', 'err6'));
+            return view('pelaksanaan.laporanakhir.validasi', compact('person','laporanakhir','anggaranakhir', 'dsn','luaranlainnya','luaranwajib','luarantambahan', 'mahasiswa', 'proposal','penelitian','periode', 'err','judul','mtkt', 'err2','tim','ttim','skema', 'err3', 'err4','luar','wajib','data', 'err5', 'err6','hnr','bhn','jln','brg','pagu', 'err6'));
         } 
     }
 
