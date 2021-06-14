@@ -90,7 +90,13 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
    Route::POST('pengabdianng.anggota/peserta','Pengabdian\AnggotaController@reloadpeserta')->name('pengabdianng.data');
    Route::POST('pengabdianng.anggota/rincian','Pengabdian\AnggotaController@rincipeserta')->name('pengabdianng.detail');
 
-   Route::RESOURCE('pengabdianng.subtansi', 'Pengabdian\SubtansiController');
+    Route::RESOURCE('pengabdianng.mahasiswa', 'Pengabdian\MahasiswaController');
+    Route::POST('pengabdianng.mahasiswa/data/{id}','Pengabdian\MahasiswaController@loadmahasiswa')->name('pengabdianng.listmahasiswa');
+    Route::POST('pengabdianng.mahasiswa/peserta','Pengabdian\Mahasiswa@reloadmahasiswa')->name('pengabdianng.datamahasiswa');
+    Route::POST('pengabdianng.mahasiswa/rincian','Pengabdian\AnggotaController@rincimahasiswa')->name('pengabdianng.detailmahasiswa');
+
+
+    Route::RESOURCE('pengabdianng.subtansi', 'Pengabdian\SubtansiController');
    Route::POST('pengabdianng.subtansi/get/{id}','Pengabdian\SubtansiController@getusulan')->name('pengabdianng.usulan');
    Route::POST('pengabdianng.subtansi/update/{id}','Pengabdian\SubtansiController@perbaru')->name('pengabdianng.ganti');
 
@@ -222,7 +228,13 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
     Route::RESOURCE('validasilaporanakhir', 'Pelaksanaan\LaporanAkhir\ValidasiController');
     Route::GET('validasilaporanakhir/bacalaporan/{id}','Pelaksanaan\LaporanAkhir\ValidasiController@bacalaporan')->name('validasilaporanakhir.bacalaporan');
     Route::GET('validasilaporanakhir/bacaanggaran/{id}','Pelaksanaan\LaporanAkhir\ValidasiController@bacaanggaran')->name('validasilaporanakhir.bacaanggaran');
-   
+    Route::RESOURCE('validasilaporanakhir.mahasiswa', 'Pelaksanaan\LaporanAkhir\MahasiswaController');
+    Route::RESOURCE('validasilaporanakhirmahasiswa', 'Pelaksanaan\LaporanAkhir\MahasiswaController');
+    Route::POST('validasilaporanakhir.mahasiswa/data/{id}','Pelaksanaan\LaporanAkhir\MahasiswaController@loadmahasiswa')->name('validasilaporanakhir.mahasiswa.list');
+    Route::POST('validasilaporanakhir.mahasiswa/peserta','Pelaksanaan\LaporanAkhir\MahasiswaController@reloadmahasiswa')->name('validasilaporanakhir.mahasiswa.data');
+    Route::POST('validasilaporanakhir.mahasiswa/rincian','Pelaksanaan\LaporanAkhir\MahasiswaController@rincimahasiswa')->name('validasilaporanakhir.mahasiswa.detail');
+
+
  
     Route::RESOURCE('luaranakhir', 'Pelaksanaan\LaporanAkhir\LuaranAkhirController');
    Route::GET('luaranakhir/showlainnya/{id}','Pelaksanaan\LaporanAkhir\LuaranAkhirController@showlainnya')->name('luaranakhir.showlainnya');

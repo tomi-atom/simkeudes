@@ -271,8 +271,8 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="text-center">G</td>
-                                    <td class="text-left" colspan="6">MAHASISWA KUKERTA</td>
+                                        <td class="text-center">E</td>
+                                    <td class="text-left" colspan="6">PENGGUNAAN ANGGARAN</td>
                                         @if($err5 > 0)
                                         <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                         <td class="text-center" colspan="2">
@@ -307,27 +307,27 @@
                                     <tr>
                                         <td colspan="12"></td>
                                     </tr>
-                                @if($proposal->jenis == 2)
+                                @if($proposal->jenis = 2)
                                     <tr>
                                         <td colspan="12"></td>
                                     </tr>
 
                                     <tr>
-                                        <td class="text-center">C</td>
-                                        <td class="text-left" colspan="6">LUARAN TAMBAHAN</td>
-                                        @if($err3 > 0)
+                                        <td class="text-center">G</td>
+                                        <td class="text-left" colspan="6">MAHASISWA KUKERTA</td>
+                                        @if($err6 > 0)
                                             <td class="text-center" colspan="2"><span class="label label-success">Lengkap</span></td>
                                             <td class="text-center" colspan="2">
-                                                <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-edit"></i> Perbaharui</a>
+                                                <a href="{{route('validasilaporanakhir.mahasiswa.index', base64_encode($proposal->id.'/'.mt_rand(10,99).(9 + $proposal->idskema)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                             </td>
 
                                         @else
                                             <td class="text-center" colspan="2"><span class="label label-danger">Belum Mengerjakan</span></td>
                                             <td class="text-center" colspan="2">
-                                                @if($err2 > 0)
-                                                    <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                                @if($err5 > 0)
+                                                    <a href="{{route('validasilaporanakhir.mahasiswa.index', base64_encode($proposal->id.'/'.mt_rand(10,99).(9 + $proposal->idskema)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
                                                 @else
-                                                    <a onclick="editLuaranTambahan({{mt_rand(10,99).($proposal->id)}})" class="btn btn-sm btn-default btn-flat center disabled"><i class="fa fa-pencil"></i> Lengkapi</a>
+                                                    <a href="{{route('validasilaporanakhir.mahasiswa.index', base64_encode($proposal->id.'/'.mt_rand(10,99).(9 + $proposal->idskema)))}}" class="btn btn-sm btn-default btn-flat center"><i class="fa fa-pencil"></i> Lengkapi</a>
 
                                                 @endif
                                             </td>
@@ -501,6 +501,9 @@
         window.location = "{{route('luaranakhir.showwajib','')}}/"+btoa(id) ;
     }
 
+    function editMahasiswa(id) {
+        window.location = "{{route('validasilaporanakhir.mahasiswa.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
+    }
 
     function editProposal(id) {
         window.location = "{{route('penelitianng.proposal.show', [base64_encode(mt_rand(10,999)),''])}}/"+btoa(id);
