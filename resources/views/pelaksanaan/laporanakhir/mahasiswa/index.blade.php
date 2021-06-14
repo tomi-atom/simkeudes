@@ -1,14 +1,12 @@
 @extends('layouts.app')
 
 @section('title')
-    Identitas Pengusul
+    Catatan Harian
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li><a >Pengabdian</a></li>
-    <li>Pengusul</li>
-    <li>Mahasiswa</li>
+    <li><a href="">Catatan Harian</a></li>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
@@ -17,273 +15,178 @@
 
 @section('content')
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><strong></strong> <div class="pull-right"><strong></strong></div></div>
-            
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                      <input type="button"  onclick="showLuaran()"  class="btn btn-success pull-right" id="tambah" name="tambah" value="Tambah"/>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading"> <div class="pull-right"><strong></strong></div></div>
 
-                 <p></p>
-                @if($errors->first('success'))
-                    <script type="text/javascript">
-                        "use strict";
-                        swal(
-                            'Selamat!',
-                            'Data Berhasil Disimpan',
-                            'success'
-                        );
-                    </script>
-                @elseif($errors->first('error'))
-                    <script type="text/javascript">
-
-                        "use strict";
-                        swal(
-                            'Terjadi Kesalahan!',
-                            'Data Gagal Disimpan',
-                            'error'
-                        );
-                    </script>
-                @endif
-                
-                <div class="panel panel-default" id="personel" style="display: none;">
-                    <div class="panel-body"><strong>Identitas Pengusul - Mahasiswa Pelaksana Pengabdian Baru</strong></div>
-            
-                    <div class="panel-footer">
-                    <form class="form form-horizontal form-anggota" method="POST" >
-                        {{ csrf_field() }}
-                        <input type="hidden" name="dosenid" id="dosenid" value="{{ $proposalid }}" readonly>
-                        <input type="hidden" name="propsid" id="propsid" value="{{ $idskemapro }}" readonly>
-
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="control-label col-sm-offset-1">NIM</label>
-                            </div>
-                            <div class="col-sm-6">
-                                <div  class=" col-sm-6 input-group input-group-sm">
-                                    <input type="text" class="form-control" name="nim" id="nim"required>
-
-                                </div>
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="control-label col-sm-offset-1">Nama</label>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="col-sm-6 input-group input-group-sm">
-                                    <input type="text" class="form-control" name="nama" id="nama"required>
-
-                                </div>
-                            </div>
-                        </div>
-                        <p></p>
-
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="control-label col-sm-offset-1 ">Fakultas</label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="col-sm-12 input-group input-group-sm">
-                                    <select id="fk" class="form-control" name="fk" required>
-                                        <option value=""> -- Pilih Fakultas --</option>
-                                        @foreach($fk as $list)
-                                            <option value="{{$list->id}}" {{$dosen->idfakultas == $list->id ? 'selected' : ''}}> {{$list->fakultas}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-
-                        </div> 
-                        <p></p>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="control-label col-sm-offset-1 ">Jenis KelamingFakultas</label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="col-sm-12 input-group input-group-sm">
-                                    <select id="fk" class="form-control" name="fk" required>
-                                        <option value=""> -- Pilih Jenis Kelamin --</option>
-                                        <option value="1">Laki-Laki</option>
-                                        <option value="2">Perempuan</option>
-
-                                    </select>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </form> 
+                <div class="panel-body">
                     <br>
-                        <div class="row">
-                            <div class="modal-footer">
-                                <button onclick="simpan()" type="submit" class=" btn btn-success pull-right" name="simpan" id="simpan"><span class="ion ion-android-exit" ></span> Simpan
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="btn btn-warning pull-right" id="batal"><i class="fa fa-arrow-circle-left"></i> Batal </button>
+                    @if($errors->first('success'))
+                        <script type="text/javascript">
+                            "use strict";
+                            swal(
+                                'Selamat!',
+                                'Data Berhasil Dihapus',
+                                'success'
+                            );
+                        </script>
+                    @elseif($errors->first('error'))
+                        <script type="text/javascript">
 
+                            "use strict";
+                            swal(
+                                'Terjadi Kesalahan!',
+                                'Data Gagal Dihapus',
+                                'error'
+                            );
+
+                        </script>
+                    @else
+                    @endif
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>Daftar Catatan Harian </strong><div class="pull-right"><strong></strong></div></div>
+                        <div class="panel-body">
+                            <div class="box-header with-border">
+                                <button class="btn btn-primary pull-right" onclick="tambah()" ><i class="glyphicon glyphicon-plus"></i> Tambah</button>
                             </div>
+                            <br>
+                            <input type="hidden" name="prosalid" value="{{$idtemp}}" class="id">
+                            <div class="table-responsive">
+                                <table id="mytable" class="table">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="text-left" width="4%">No.</th>
+                                        <th scope="col" class="text-center" width="20%">Tanggal</th>
+                                        <th scope="col" class="text-center" width="40%">Keterangan</th>
+
+                                        <th scope="col" class="text-left" width="10%">Aksi</th>
+                                    </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+
+                            </table>
                         </div>
-                        
-                    </div>
-                </div>  
 
-                <div class="panel panel-default" id="senarai">
-                    <div class="panel-heading"><strong>Identitas Pengusul - Mahasiswa Kukerta </strong><font size="1"><span class="label label-danger"></span></font></div>
-            
-                    <div class="panel-body">
-                        <table class="table table-condensed tabel-depan" id="tbdepan">
-                                                   
-                        </table> 
                     </div>
+
                 </div>
-                
-
             </div>
         </div>
-
-        
     </div>
-</div>
+    {{-- modal for add --}}
+    <div id="modalAdd" class="modal fade" role="dialog" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog ">
 
-@include ('pelaksanaan.laporanakhir.mahasiswa.formmahasiswa')
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <form id="store" data-toggle="validator" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="bidang">Bidang</label>
+                            <input type="text" class="form-control bidang" name="bidang" placeholder="Bidang" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aktif">Aktif</label>
+                            <select class="form-control" id="aktif" name="aktif" required>
+                                <option value="1"> Aktif</option>
+                                <option value="0"> Tidak Aktif </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-save"><i class="fa fa-floppy-o"></i> Simpan </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-arrow-circle-left"></i> Batal </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    {{-- modal for edit --}}
+    <div id="modalEdit" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <form id="update">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" class="id">
+                        <div class="form-group">
+                            <label for="bidang">Bidang</label>
+                            <input type="text" class="form-control bidang" name="bidang" placeholder="Bidang" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aktif">Aktif</label>
+                            <select class="form-control" id="aktif" name="aktif" required>
+                                <option value="1"> Aktif</option>
+                                <option value="0"> Tidak Aktif </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-save"><i class="fa fa-floppy-o"></i> Update </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-arrow-circle-left"></i> Batal </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@include('pelaksanaan.catatan.formcatatan')
+
 @endsection
 
 @section('script')
-<script type="text/javascript">
-    var tabel;
-
-    function loadanggota() {
-        var _token = $('input[name = "_token"]').val();
-        table = $('.tabel-anggota').DataTable({
-            "processing" : true,
-            "serverside" : true,
-            "ajax" : {
-                "url" : "{{ route('validasilaporanakhir.mahasiswa.list',$idx)}}",
-                "type" : "POST",
-                "data" : {"_token" : _token},
-
+    <script type="text/javascript">
+            function refresh() {
+                var table = $('#mytable').DataTable();
+                table.ajax.reload(null, false);
             }
-        });
-
-    }
-    function showLuaran() {
-
-        $('#modal-mahasiswa').find('.modal-title').text('Tambah Mahasiswa..');
-        $('#modal-mahasiswa').modal('show');
-    }
-
-    function tampildata() {
-        var select = $("#dosenid").val();
+        "use strict";
+        function tambah(id) {
            
-        var _token = $('input[name = "_token"]').val();
+            $('#tanggal').val("");
+            $('#keterangan').val("");
             
-        $.ajax({
-            url: "{{ route('validasilaporanakhir.mahasiswa.data') }}",
-            method: "POST",
-            data: {select: select, _token: _token},
-            success: function(result)
-            {
-                $('#tbdepan').html(result);
-            }
-        });
-    }
+            $('#upload').val("");
 
-    $(document).ready(function() {
-        tampildata();
-        loadanggota(); 
-
-        $("#batal").click(function() {
-            $('#tambah').show();
-            $('#lanjut').show();
-            $('#senarai').show();
-            $('#personel').hide();
-        });
-         
-        $("#tambah").click(function() {
-            $('#modal-mahasiswa').find('.modal-title').text('Tambah Mahasiswa..');
-            $('#modal-mahasiswa').modal('show');
-        });
-
-        $("#lanjut").click(function() {
-            var propos = $("#propsid").val();
-            var select = $("#dosenid").val();
-            var oRows  = document.getElementById('tbdepan').getElementsByTagName('tr');
-            var iRowCount = oRows.length;
-
-            var max=35;
-
-            if (iRowCount > max+1) {
-                swal(
-                    'Mahasiswa pengabdian !',
-                    'telah melebihi batas kuota maksimum!',
-                    'error'
-                );
-                $("#tambah").attr('disabled', true);
-            }
-            else
-                swal({
-                    title: 'Selamat!',
-                    text: "Data Berhasil Diperbaharui",
-                    type: 'success',
-                    confirmButtonText: 'OK',
-                }).then(function(isConfirm) {
-                        if (isConfirm) {
-                            window.location = "{{ route('validasilaporanakhir.mahasiswa.index', base64_encode($proposalid+127)) }}";
-
-                        }
-                    }
-                );
-
-        });
-    });
-
-    $('.form-anggota').on('submit',function() {
-        return false;
-    });
-
-    $("#jk").change(function() {
-        if (($("#nim").val()) && ($('#nama').val()))
-            $("#simpan").attr('disabled', false);
-        else
-            $("#simpan").attr('disabled', true);
-    });
-
-    $("#fakultas").keyup(function() {
-        if (($("#nim").val()) && ($('#nama').val()))
-            $("#simpan").attr('disabled', false);
-        else
-            $("#simpan").attr('disabled', true);
-    });
-
-    function showMahasiswa() {
-        $('#modal-anggota').modal('show');
-    }
-
-
-    $("#modal-mahasiswa form").validator().on('submit', function(e) {
+            $('#modal-luaran').modal('show');
+        }
+        $("#modal-luaran form").validator().on('submit', function(e) {
         if (!e.isDefaultPrevented()) {
             var id = $('#id').val();
-
-
+            var jenis = $('#kategori').val();
+            
             $.ajax ({
-                url : "{{ route('validasilaporanakhir.mahasiswa.store', $idskemapro) }}",
+                url: "{{ route('catatanharian.store', $idprop) }}",
                 type : "POST",
-                data : $('#modal-mahasiswa form').serialize(),
+                data:new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
                 success : function(data) {
+                    refresh()
                     swal(
                         'Selamat!',
                         'Data Berhasil Disimpan',
                         'success'
                     );
-                    $('#modal-mahasiswa form').hide()
+                    $('#modal-luaran').modal('hide');
+                   
+
                 },
                 error : function() {
                     swal(
@@ -296,80 +199,242 @@
             return false;
         }
     });
+       
 
-    function saveMahasiswa2($id) {
+        function hapus(id) {
+            swal({
+                title: 'Anda Yakin?',
+                text: "Anda Yakin Hapus Data ini?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#5bc0de',
+                cancelButtonColor: '#f0ad4e',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then(function(isConfirm) {
+                    if (isConfirm) {
 
-        var propid = $id;
+                        window.location = " {{ route('catatanharian.destroy','' )}}/"+id;
 
-        var _token = $('input[name = "_token"]').val();
-        var nim  = $("#nim").val();
-        var nama  = $("#nama").val();
-        var fakultas  = $("#fakultas").val();
-        var jk  = $("#jk").val();
-        $.ajax({
-            url: "{{ route('validasilaporanakhir.mahasiswa.store',".id.") }}",
-            method: "POST",
-            data: {propid: propid, select: select, _token: _token, nim: nim, nama: nama, fakultas : fakultas,jk:jk },
+                    }
+                }
+            );
+        }
+        function hapus2(id) {
+            swal({
+                title: 'Anda Yakin?',
+                text: "Anda Yakin Hapus Data ini?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#5bc0de',
+                cancelButtonColor: '#f0ad4e',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then(function(isConfirm) {
+                    if (isConfirm) {
 
-            success: function(result)
-            {
-                swal(
-                    'Selamat!',
-                    'Data Berhasil Disimpan',
-                    'success'
-                );
-                tampildata().load(); 
-            },
-            error : function() {
-                swal(
-                    'Terjadi Kesalahan!',
-                    'Data Gagal Disimpan',
-                    'error'
-                );
+                        window.location = " {{ route('catatanharian.destroy','' )}}/"+id;
+
+                    }
+                }
+            );
+        }
+        $(function () {
+            var prosalid =  $('#prosalid').val();
+            $('#mytable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: 'catatan/get_data',prosalid,
+                columns: [{
+                    data: 'rownum',
+                    orderable: false,
+                    searchable: false
+                },
+                    {
+                        data: 'tanggal'
+                    },
+                    {
+                        data: 'keterangan'
+                    },
+
+                    {
+                        data: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+
+            
+
+            function cleaner() {
+                $('.id').val('');
+                $('.bidang').val('');
+                $('.aktif').val('');
             }
-        });
-    }
 
-    function deleteData($id) {
-        swal({
-            title: 'Anda Yakin?',
-            text: "Apakah yakin keanggotaan peserta pengabdian akan dihapus?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#5bc0de',
-            cancelButtonColor: '#f0ad4e',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then(function(isConfirm) {
-                if (isConfirm) {
+            function token() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            }
 
-                    $.ajax({
-                        url  : "{{route('validasilaporanakhir.mahasiswa.destroy',[59,''])}}/"+$id,
-                        type : "POST",
-                        data : {'_method' : 'DELETE', '_token' : $('input[name = "_token"]').val()},
-                        success : function(data) {
-                            swal(
-                                'Selamat!',
-                                'Data Berhasil Dihapus',
-                                'success'
-                            );
-                            tampildata().load();
-                        },
-                        error : function() {
-                            swal(
-                                'Terjadi Kesalahan!',
-                                'Data Gagal Dihapus',
-                                'error'
-                            );
+            //create
+            $(document).on('click', '.create', function (e) {
+                e.preventDefault();
+
+                cleaner();
+                $('#modalAdd').modal('show');
+                $('.modal-title').text('Tambah Data');
+            });
+
+            //edit
+            $(document).on('click', '.edit', function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+
+                token();
+
+                $.ajax({
+                    url: 'catatan/' + id + '/edit',
+                    method: 'get',
+                    success: function (result) {
+
+                        if (result.success) {
+                            let json = jQuery.parseJSON(result.data);
+
+                            $('.id').val(json.id);
+                            $('.bidang').val(json.bidang);
+                            $('.aktif').val(json.aktif);
+
+
+                            $('#modalEdit').modal('show');
+                            $('.modal-title').text('Update Data');
                         }
 
-                    });
+                    }
+                });
 
 
-                }
-            }
-        );
+            });
 
-    }
-</script>
+            //store
+            $(document).on('submit', '#modalAdd', function (e) {
+                e.preventDefault();
+
+                var formData = $("form#store").serializeArray();
+
+                token();
+
+                var data = {
+                    '_token': $('input[name=_token]').val(),
+                    bidang: formData[0].value,
+                    aktif: formData[1].value,
+                };
+
+                $.ajax({
+                    url: "catatan",
+                    method: 'post',
+                    data: data,
+                    success: function (result) {
+                        if (result.success) {
+                            refresh();
+                            $('#modalAdd').modal('hide');
+                            swal(
+                                'Selamat!',
+                                'Data Berhasil Disimpan',
+                                'success'
+                            );
+                        }
+                    }
+                });
+            });
+
+            //update
+            $(document).on('submit', '#modalEdit', function (e) {
+                e.preventDefault();
+
+                var formData = $("form#update").serializeArray();
+
+                token();
+
+                var id = formData[0].value
+                var data = {
+                    '_token': $('input[name=_token]').val(),
+                    bidang: formData[1].value,
+                    aktif: formData[2].value,
+                };
+
+                $.ajax({
+                    url: "catatan/" + id,
+                    method: 'PUT',
+                    data: data,
+                    success: function (result) {
+                        if (result.success) {
+                            refresh();
+                            cleaner();
+                            $('#modalEdit').modal('hide');
+                            swal(
+                                'Selamat!',
+                                'Data Berhasil Diupdate',
+                                'success'
+                            );
+
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Gagal Update Data');
+                    }
+
+                });
+            });
+
+
+            //delete data
+            $(document).on('click', '.deledte', function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+
+                swal({
+                    title: 'Anda Yakin?',
+                    text: "Anda Yakin Hapus Data ini?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#5bc0de',
+                    cancelButtonColor: '#f0ad4e',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then(function(isConfirm) {
+                        if (isConfirm) {
+
+                            token();
+
+                            $.ajax({
+                                url: 'catatan/' + id,
+                                method: 'DELETE',
+                                dataType: 'json',
+                                data: {id:id,"_token": "{{ csrf_token() }}"},
+
+                                success: function (result) {
+                                    if (result.success) {
+                                        refresh();
+                                        cleaner();
+                                        swal(
+                                            'Dihapus!',
+                                            'Data berhasil dihapus.',
+                                            'success'
+                                        );
+                                    }
+                                }
+                            });
+                        }
+                    }
+                );
+
+            });
+        });
+    </script>
 @endsection

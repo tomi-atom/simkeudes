@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Pelaksanaan\LaporanAkhir;
 
-use App\Fakultas;
-use App\Keanggotaan;
+use App\CatatanHarian;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Proposal;
-use App\Mahasiswa;
-
-use App\Peneliti;
-use App\Periode;
+use App\Keanggotaan;
+use App\Bidangtkt;
 
 use Yajra\DataTables\Facades\DataTables;
+use DB;
+use App\Quotation;
+
 
 use Auth;
 use Redirect;
@@ -24,6 +24,20 @@ class MahasiswaController extends Controller
     {
         $this->middleware('auth');
     }
+    protected function countPersonil()
+    {
+
+        $personil = Keanggotaan::select('tb_proposal.id', 'anggotaid', 'jenis', 'nama', 'foto', 'tb_keanggota.created_at')
+            ->leftJoin('tb_penelitian', 'tb_keanggota.idpenelitian', 'tb_penelitian.prosalid')
+            ->leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
+            ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
+            ->where('tb_keanggota.anggotaid', Auth::user()->id)
+            ->where('tb_keanggota.setuju', 0)
+            ->where('tb_penelitian.status', '>', 0)
+            ->where('tb_proposal.aktif', '1')
+            ->get();
+        return $personil;
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,15 +46,16 @@ class MahasiswaController extends Controller
      */
     public function index($id)
     {
+        $person = MahasiswaController::countPersonil();
+        $temp = base64_decode($id) - 127;
 
-        $idx = $id;
-        $data = explode("/", base64_decode($id));
-        $proposalid = (Integer)$data[0];
-        $idskemapro = (Integer)substr($data[1], 2, strlen($data[1]))-9;
-        $fk = Fakultas::where('id', '!=', 0)->where('aktif', '1')->orderBy('id','asc')->get();
+        $idtemp = $temp;
+        $proposalid = base64_encode(mt_rand(1,9).($temp + Auth::user()->id));
+
+        return view('pelaksanaan.laporanakhir.mahasiswa.index', compact('person','proposalid','idtemp'));
+        $this->show($idtemp);
 
 
-        return view('pelaksanaan.laporanakhir.mahasiswa.index', compact( 'proposalid', 'idskemapro', 'idx','fk'));
     }
 
     /**
@@ -59,19 +74,50 @@ class MahasiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id, Request $request)
+    public function store(Request $request)
     {
-        $_token = $request->get('_token');
 
-        $mahasiswa = new Mahasiswa;
+        $idprop = $request['id'];
 
-        $mahasiswa->prosalid        = $request->get('propsid');
-        $mahasiswa->nim        = $request->get('nim');
-        $mahasiswa->nama        = $request->get('nama');
-        $mahasiswa->fakultas       = $request->get('fk');
-        $mahasiswa->jenis_kelamin = $request->get('jk');
+        $proposal = Proposal::find($idprop);
+        if ($proposal) {
 
-        $mahasiswa->save();
+            if ($request->hasFile('upload')) {
+
+                $file  = $request->file('upload');
+                if ($file->getClientMimeType() !== 'application/pdf' ) {
+
+                }
+                else {
+                    if ($file->getSize() < 5147152) {
+                        $nama_file = "docs-catatan".$request->get('tanggal').mt_rand(100,999).$proposal->id.mt_rand(10,99)."-".$proposal->idketua.".".$file->getClientOriginalExtension();
+
+                        $lokasi = public_path('docs/periode2/rancangan');
+
+                        $file->move($lokasi, $nama_file);
+                    }
+                    else {
+                        $message = 'Gagal mengunggah, ukuran dokumen melebihi aturan..';
+                        return Redirect::back()->withInput()->withErrors(array('kesalahan' => $message));
+                    }
+                }
+            }else{
+                $nama_file = "0";
+            }
+        }
+        $keterangan  = $request['keterangan'] ? $request['keteranngan'] : '';
+
+
+        $catatanharian = new CatatanHarian();
+
+        $catatanharian->prosalid    = $idprop;
+        $catatanharian->tanggal     = $request->get('tanggal');
+        $catatanharian->keterangan  =  $request->get('keterangan');
+        $catatanharian->status      = 4;
+        $catatanharian->upload      = $nama_file;
+
+        $catatanharian->save();
+
     }
 
     /**
@@ -80,26 +126,56 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($iddosen, $id)
+    public function getRowNum()
     {
+        return view('datatables.eloquent.rownum');
+    }
+    public function show($prosalid)
+    {
+        // return DataTables::eloquent(CatatanHarian::query())->make(true);
+        try
+        {
+            $id = base64_decode($prosalid)-127;
 
-        $temp = base64_decode($id);
-        $idprop = (Integer)substr($temp, 2, strlen($temp)) / 2;
+            DB::statement(DB::raw('set @rownum=0'));
+            $catatans = CatatanHarian::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id', 'prosalid','tanggal','keterangan', 'status','created_at'])
+                ->where('prosalid', $id);
 
-        $skema = Proposal::select('idskema')->find($idprop);
-        $fk = Fakultas::where('id', '!=', 0)->where('aktif', '1')->orderBy('id','asc')->get();
+            return DataTables::of($catatans)
+                ->addColumn('action', function ($catatans) {
 
-        if ($skema) {
-            $proposalid = $idprop;
-            $idskemapro = $skema->idskema;
-            $idx = base64_encode($proposalid."/".mt_rand(10,99).(9 + $idskemapro));
-
-            return view('pelaksanaan.laporanakhir.mahasiswa.show', compact('person', 'proposalid', 'idskemapro', 'idx','fk'));
+                    return ' 
+                    <a  href="'. route('catatanharian.resume',base64_encode(mt_rand(10,99).$catatans->id) ).'" class="btn btn-xs resume" title="File"><i class="glyphicon glyphicon-file"></i> </a>                                    
+                    <a onclick="hapus2('.$catatans->id.')" class="btn btn-xs  " ><i class="glyphicon glyphicon-trash"></i> </a>';
+                })
+                ->make(true);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
 
+    }
+    public function resume($id)
+    {
+        $temp = base64_decode($id);
+        $idprop = (Integer)substr($temp, 2, strlen($temp));
 
 
-
+        $penelitian = CatatanHarian::where('id', $idprop)->first();
+        $file_path = public_path('docs/periode2/rancangan/').$penelitian->upload;
+        if($penelitian){
+            $headers = array(
+                'Content-Type: pdf',
+                'Content-Disposition: attachment; filename='.$penelitian->upload,
+            );
+            if ( file_exists( $file_path ) ) {
+                // Show pdf
+                return response()->file( $file_path, $headers );
+            } else {
+                // Error
+                $message = 'Dokumen Tidak Ditemukan..';
+                return Redirect::back()->withInput()->withErrors(array('kesalahan' => $message));
+            }
+        }
     }
 
     /**
@@ -108,9 +184,15 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CatatanHarian $catatan)
     {
-        //
+        try
+        {
+            return response()->json(['success' => 'successfull retrieve data', 'data' => $catatan->toJson()], 200);
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
@@ -120,9 +202,20 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CatatanHarian $catatan)
     {
-        //
+        try
+        {
+
+            $catatan = CatatanHarian::findOrFail($catatan->id);
+            $catatan->bidang = $request->bidang;
+            $catatan->aktif = $request->aktif;
+            $catatan->update();
+
+            return response()->json(['success' => 'data is successfully updated'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
@@ -131,176 +224,34 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($iduser, $id)
+    public function destroy($id)
     {
-        $peneliti = Mahasiswa::find($id);
+        try
+        {
 
-        $peneliti->delete();
+            $temp = base64_decode($id);
+            //$prosalid = $temp - 127;
+            $penelitian = CatatanHarian::where('id',$id)->first();
+            if ($penelitian) {
+                // $penelitian = CatatanHarian::find($prosalid);
+
+                $penelitian->delete();
+                return Redirect::back()->withInput()->withErrors(array('success' => 'success'));
+
+
+            }else{
+                return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
+
+
+            }
+
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
-    public function loadmahasiswa($id)
-    {
-        $temp = explode("/", base64_decode($id));
-        $proposalid = (Integer)$temp[0];
-        $idskemapro = (Integer)substr($temp[1], 2, strlen($temp[1]))-9;
 
-        if ($idskemapro == 7) {
-            $peserta = Peneliti::select('id','nama','nidn','idpddk', 'fungsi')->whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                //->where('sinta', '!=', '')
-                ->where('idpddk', '>', 4)
-                ->where('fungsi', '<', 3)
-                ->where('id', '!=', Auth::user()->id)
-                ->orderBy('nama', 'asc')
-                ->get();
-        }
-        else if ($idskemapro == 3) {
-            $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                //->where('sinta', '!=', '')
-                ->where('idpddk', '>', 1)
-                ->where('id', '!=', Auth::user()->id)
-                ->orderBy('nama', 'asc')
-                ->get();
-        }
-        else if ($idskemapro == 2) {
-            $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                // ->where('sinta', '!=', '')
-                ->where('idpddk', '>', 1)
-                ->where('id', '!=', Auth::user()->id)
-                ->orderBy('nama', 'asc')
-                ->get();
-        }
-        else
-            $peserta = Peneliti::whereNotIn('id', Keanggotaan::select('anggotaid')->where('idpenelitian','=',$proposalid)->get())
-                //->where('sinta', '!=', '')
-                ->where('idpddk', '>', 4)
-                ->where('id', '!=', Auth::user()->id)
-                ->orderBy('nama', 'asc')
-                ->get();
 
-        $no = 0;
-        foreach($peserta as $list) {
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $list->nidn;
-            $row[] = $list->nama;
-            $row[] = $list->pendidikan->pendidikan;
-            $row[] = $list->fungsional->fungsional;
-            $row[] = '<a onclick="selectAnggota('.$list->id.','.$list->nidn.')" class="btn btn-primary"><i class="fa fa-check-circle"></i> Pilih</a>';
 
-            $data[] = $row;
-        }
-
-        $output = array("data" => $data);
-        return Datatables::of($data)->escapeColumns([])->make(true);
-    }
-
-    public function reloadmahasiswa(Request $request)
-    {
-        $select = $request->get('select');
-        $_token = $request->get('_token');
-
-        $peserta = Mahasiswa::where('prosalid', '=', $select)
-            ->orderBy('peran', 'asc')
-            ->get();
-        $output = '<tbody>';
-
-        foreach ($peserta as $data) {
-            $output .=
-                '<tr>
-                    <td align="center" style="width: 80px"><div class="pull-left image"><img src="'.asset("public/images/".$data->foto).'" class="img-thumbnail  img-circle" alt="User Image" style="width:90%"></div>
-                    </td>
-                    <td align="left"><strong>'.$data->nama.'</strong> ( '.$data->nidn.' ) <br/>
-                    '.$data->universitas->pt.' - '.$data->prodi->prodi.' <font size="2"> <span class="label label-primary"> Anggota Pengusul '.$data->peran.'</span>';
-            if ($data->setuju == 0)
-                $output .= ' <span class="label label-warning">Belum Disetujui</span>';
-            else if($data->setuju == 1)
-                $output .= ' <span class="label label-success">Disetujui</span>';
-            else
-                $output .= ' <span class="label label-danger">Tidak Setuju</span>';
-            $output .= '</font> 
-                    <br/>
-                    Tugas: '.$data->tugas.'
-                    </td>
-                    <td align="right" style="widows: 80px"><a onclick="deleteData('.$data->id.')" class="btn btn-app btn-sm" id="hapus"><i class="ion ion-ios-trash-outline text-red"></i> Hapus </a>
-                    </td>
-                </tr>';
-        }
-
-        if ($output == '<tbody>')
-            $output .= '<tr><td width="25"></td><td colspan="2"><b>ANGGOTA PELAKSANA BELUM ADA</b></td></tr>';
-
-        $output .= '<tr><td></td><td></td><td></td></tr>
-                </tbody>';
-
-        echo $output;
-
-    }
-
-    public function rincimahasiswa(Request $request)
-    {
-        $id = $request->get('idx');
-        $_token = $request->get('_token');
-
-        $peserta = Peneliti::find($id);
-
-        $output = '';
-        if($peserta) {
-            $output = ' <div class="col-sm-2">
-                            <label class="control-label"><div class="pull-right image">
-                                <img src="'.asset("public/images/".$peserta->foto).'" id="idimage" class="img-thumbnail" alt="User Image" style="width:98%"></div>
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        Nama
-                                    </div>
-                                <div class="col-sm-9">
-                                    : <strong>'.$peserta->nama.'</strong> 
-                                </div>
-                            </div>
-                            <p></p>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    Institusi
-                                </div>
-                                <div class="col-sm-9">
-                                    : <strong>'.$peserta->universitas->pt.'</strong> 
-                                </div>
-                            </div>
-                            <p></p>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    Program Studi
-                                </div>
-                                <div class="col-sm-9">
-                                    : <strong>'.$peserta->prodi->prodi.'</strong> 
-                                </div>
-                            </div>
-                            <p></p>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    Kualifikasi
-                                </div>
-                                <div class="col-sm-9">
-                                    : <strong>'.$peserta->pendidikan->pendidikan.'</strong> 
-                                </div>
-                            </div>
-                            <p></p>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    Alamat Surel
-                                </div>
-                                <div class="col-sm-9">
-                                    : <strong><i>'.$peserta->email.'</i></strong> 
-                                </div>
-                            </div>
-                        </div>
-                        ';
-        }
-
-        echo $output;
-
-    }
 }
