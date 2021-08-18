@@ -90,10 +90,6 @@ Route::group(['middleware' => ['web', 'cekuser:1']], function() {
    Route::POST('pengabdianng.anggota/peserta','Pengabdian\AnggotaController@reloadpeserta')->name('pengabdianng.data');
    Route::POST('pengabdianng.anggota/rincian','Pengabdian\AnggotaController@rincipeserta')->name('pengabdianng.detail');
 
-    Route::RESOURCE('pengabdianng.mahasiswa', 'Pengabdian\MahasiswaController');
-    Route::POST('pengabdianng.mahasiswa/data/{id}','Pengabdian\MahasiswaController@loadmahasiswa')->name('pengabdianng.listmahasiswa');
-    Route::POST('pengabdianng.mahasiswa/peserta','Pengabdian\Mahasiswa@reloadmahasiswa')->name('pengabdianng.datamahasiswa');
-    Route::POST('pengabdianng.mahasiswa/rincian','Pengabdian\AnggotaController@rincimahasiswa')->name('pengabdianng.detailmahasiswa');
 
 
     Route::RESOURCE('pengabdianng.subtansi', 'Pengabdian\SubtansiController');
