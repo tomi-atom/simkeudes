@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Simlitabmas UNRI</title>
+  <title>SIMKEUDES </title>
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="csrf-token" content="'{{ csrf_token() }}">
@@ -92,7 +92,7 @@ desired effect
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>S</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Simlitabmas</b> UNRI</span>
+      <span class="logo-lg"><b>SIMKEUDES</b> </span>
     </a>
 
     <!-- Header Navbar -->
@@ -104,137 +104,10 @@ desired effect
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-        @if(Auth::user()->level == 1 )
-          <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-users"></i>
-              <span class="label label-success"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">Ganti Peran</li>
-              <li>
 
-
-                  <ul class="menu">
-                    <li><!-- start notification -->
-                      <a href="{{route('gantiperan',Auth::user()->id)}}">
-                        <i class="fa fa-user text-aqua"></i> Peran sebagai reviewer
-                      </a>
-                    </li>
-                    <!-- end notification -->
-                  </ul>
-
-                <!-- Inner Menu: contains the notifications -->
-
-
-              </li>
-            </ul>
-          </li>
-          <!-- Messages: style can be found in dropdown.less-->
-          @if(Auth::user()->level == 1)
-          <li class="dropdown messages-menu">
-            <!-- Menu notifikasi persetujuan anggota -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-user-plus"></i>
-              @if (count($person))
-              <span class="label label-danger">{{count($person)}}</span>
-              @endif
-            </a>
-            @endif
-            <ul class="dropdown-menu">
-              @if(Auth::user()->level == 1)
-              <li class="header">{{count($person)}} Persetujuan keanggotaan baru</li>
-              <li>
-                <!-- inner menu: contains the messages -->
-                <ul class="menu">
-                @foreach($person as $data )
-                  <li><!-- start message -->
-                    @if ($data->jenis == 1)
-                    <a href="{{route('penelitianng.setuju', base64_encode(mt_rand(1,9).($data->id+$data->anggotaid*3)))}}">
-                    @else
-                    <a href="{{route('pengabdianng.setuju', base64_encode(mt_rand(1,9).($data->id+$data->anggotaid*3)))}}">
-                    @endif
-                      <!-- User Image -->
-                      <div class="pull-left">
-                        <img src="{{ asset('public/images/'.$data->foto) }}" class="img-circle" alt="User Image">
-                      </div>
-                      <!-- Message title and timestamp -->
-                      <h4>
-                        {{$data->nama}}
-                      </h4>
-                      <!-- The message -->
-                      <p>Setujui keanggotan {{$data->jenis == 1 ? 'penelitian' : 'pengabdian'}}</p>
-                      <h4>
-                        <small><i class="fa fa-calendar-plus-o"></i> {{tanggal_indonesia($data->created_at,false)}}
-                        </small>
-                      </h4>
-
-                    </a>
-                  </li>
-                @endforeach
-                  <!-- end message -->
-                </ul>
-                <!-- /.menu -->
-              </li>
-              <li class="footer"><a href="#">Tampilkan semua</a></li>
-            </ul>
-          </li>
-          @endif
-
-        @elseif(Auth::user()->level == 2)
-          <!-- Notifications Menu -->
-            <li class="dropdown notifications-menu">
-              <!-- Menu toggle button -->
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-users"></i>
-                <span class="label label-success"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">Ganti Peran</li>
-                <li>
-                  <ul class="menu">
-
-                    <li><!-- start notification -->
-                      <a href="{{route('gantiperan',Auth::user()->id)}}">
-                        <i class="fa fa-user text-aqua"></i> Peran sebagai dosen
-                      </a>
-                    </li>
-                    <!-- end notification -->
-                  </ul>
-
-                  <!-- Inner Menu: contains the notifications -->
-                </li>
-              </ul>
-            </li>
-        @endif
           
           <!-- /.messages-menu -->
 
-          <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">10 Pesan baru</li>
-              <li>
-                <!-- Inner Menu: contains the notifications -->
-                <ul class="menu">
-                  <li><!-- start notification -->
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <!-- end notification -->
-                </ul>
-              </li>
-              <li class="footer"><a href="#">Tampilkan semua</a></li>
-            </ul>
-          </li>
 
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
@@ -251,7 +124,7 @@ desired effect
                 <img src="{{ asset('public/images/'.Auth::user()->foto) }}" class="img-circle" alt="User Image">
                 <p>
                   {{ Auth::user()->name }}
-                  <small>Universitas Riau</small>
+                  <small></small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -291,13 +164,7 @@ desired effect
         <div class="pull-left info">
           <p>{{ Auth::user()->name }}</p>
           <!-- Status -->
-          @if(Auth::user()->level == 1)
-            <a><i class="fa fa-circle text-success"></i> Dosen</a>
-          @elseif(Auth::user()->level == 2)
-            <a><i class="fa fa-circle text-success"></i> Reviewer</a>
-          @elseif(Auth::user()->level == 3)
-            <a><i class="fa fa-circle text-success"></i> Administrator</a>
-          @endif
+
         </div>
       </div>
 
@@ -307,64 +174,27 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
-        <!-- Menu Dosen -->
-        @if(Auth::user()->level == 1)
+        <!-- Menu User -->
+
+          <li><a href="{{ route('user.index') }}"><i class="fa fa-database"></i>Anggota</a></li>
+          <li><a href="#"><i class="fa fa-database"></i>Simpanan</a></li>
+          <li><a href="#"><i class="fa fa-database"></i>Pinjaman</a></li>
+          <li><a href="#"><i class="fa fa-database"></i>Penarikan</a></li>
 
         <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan Baru</span>
+          <a href="#"><i class="fa fa-book"></i> <span>Laporan</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('penelitianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
-            <li><a href="{{ route('pengabdianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
-          </ul>
-        </li>
-      <!--  <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan Lanjutan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="# "><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
-          </ul>
-        </li> -->
-        <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Perbaikan Proposal</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('perbaikanpenelitianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
-            <li><a href="{{ route('perbaikanpengabdianng.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-book"></i> <span>Pelaksanaan Kegiatan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-           <!-- <li><a href="{{ route('rancangan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>-->
-            <li><a href="{{ route('catatanharian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Catatan Harian</a></li>
-            <li><a href="{{ route('laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
-            <li><a href="{{ route('luarankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Kemajuan</a></li>
+            <li><a href="{{ route('laporan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Simpanan</a></li>
+            <li><a href="{{ route('laporan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Penarikan</a></li>
+            <li><a href="{{ route('laporan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Pinjaman</a></li>
 
-            <li><a href="{{ route('laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
-           <!-- <li><a href="{{ route('penggunaananggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
-            <li><a href="{{ route('tanggungjawab.index') }}"><i class="fa fa-circle-thin text-blue"></i>Tanggungjawab Belanja</a></li>
-            <li><a href="{{ route('berkasseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>Berkas Seminar Hasil</a></li>
-            <li><a href="{{ route('hasilpenilaian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian</a></li>
-            <li><a href="{{ route('skseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>SK Seminar Hasil</a></li>
-            <li><a href="{{ route('pengembaliandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>-->
+
           </ul>
         </li>
-        <li><a href="#"><i class="fa fa-database"></i>Riwayat Usulan</a></li>
         <li><a href="{{route('profile.show', base64_encode(mt_rand(10,99).Auth::user()->id))}}"><i class="fa fa-user"></i>Profil</a></li>
         <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit(); "><i class="fa fa-power-off text-red"></i>Sign out</a>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -372,238 +202,8 @@ desired effect
           </form>
         </li>
 
-        <!-- Menu Reviewer -->
-        @elseif(Auth::user()->level == 2)
-
-        <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Tahap Seleksi</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('penelitianr.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penelitian</a></li>
-            <li><a href="{{ route('pengabdianr.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengabdian</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Tahap Pelaksanaan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            
-            <li><a href="{{ route('r_catatan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Catatan Harian</a></li>
-            <li><a href="{{ route('r_laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
-           
-            <li><a href="{{ route('r_anggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
-             <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tanggungjawab Belanja</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Berkas Seminar Hasil</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>SK Seminar Hasil</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Monitoring dan Evaluasi</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Seminar Hasil</a></li>
-          </ul>
-
-        </li>
-        
-        
-        <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Penilaian Pelaksanaan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('rn_laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
-            <li><a href="{{ route('rn_laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
-            <li><a href="{{ route('rn_luaranlainnya.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Lainnya</a></li>
-         
-         
-          </ul>
-
-        </li>
-        <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit(); "><i class="fa fa-power-off text-red"></i>Sign out</a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-          </form>
-        </li>
-
-        <!-- Menu Administrator -->
-        @elseif(Auth::user()->level == 3)
-
-        <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('usulan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan</a></li>
-            <li><a href="{{ route('usulandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan Didanai</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-book"></i> <span>Penilaian</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>SK Rektor Reviewer</a></li>
-            <li><a href="{{ route('p_reviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Reviewer</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Penugasan Reviewer</a></li>
-            <li><a href="{{ route('plotingreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Plotting Reviewer</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Penetapan Tahapan</a></li>
-           <li><a href="{{ route('hasilreviewer.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian  Proposal</a></li>
-            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Kemajuan</a></li>
-            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Seminar Hasil</a></li>
-            <li><a href="{{ route('hasilakhirluaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Luaran Lainnya</a></li>
 
 
-           <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-eye"></i> <span>Pemantauan Kegiatan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('p_rancangan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>
-            <li><a href="{{ route('p_catatan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Catatan Harian</a></li>
-            <li><a href="{{ route('p_luarankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Kemajuan</a></li>
-
-            <li><a href="{{ route('p_laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
-            <li><a href="{{ route('p_laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
-            <li><a href="{{ route('p_anggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
-            <li><a href="{{ route('p_tanggungjawab.index') }}"><i class="fa fa-circle-thin text-blue"></i>Tanggungjawab Belanja</a></li>
-            <li><a href="{{ route('p_berkasseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>Berkas Seminar Hasil</a></li>
-            <li><a href="{{ route('p_hasilpenilaian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian</a></li>
-            <li><a href="{{ route('p_skseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>SK Seminar Hasil</a></li>
-            <li><a href="{{ route('p_pengembaliandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-archive"></i> <span>Data Pendukung</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('dp_dokumenrenstra.index') }}"><i class="fa fa-circle-thin text-blue"></i>Unggah Dokumen Renstra</a></li>
-            <li><a href="{{ route('dp_bidangunggulan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Bidang Unggulan PT</a></li>
-            <li><a href="{{ route('dp_topikunggulan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Topik Unggulan PT</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Pencarian User Password</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Sinkronisasi Dosen</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-cogs"></i> <span>Pengaturan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>TKT</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Lainnya</a></li>
-          </ul>
-        </li>
-          <li class="treeview">
-            <a href="#"><i class="fa fa-archive"></i> <span>Master</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-             <li><a href="{{ route('datapenelitian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Data Penelitian Pengabdian</a></li>
-
-              <li><a href="{{ route('dosen.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Dosen</a></li>
-              <li><a href="{{ route('mataanggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Anggaran</a></li>
-              <li><a href="{{ route('bidangtkt.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Bidang TKT</a></li>
-              <li><a href="{{ route('fakultas.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Fakultas</a></li>
-              <li><a href="{{ route('fokus.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Fokus</a></li>
-              <li><a href="{{ route('indikatortkt.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Indikator TKT</a></li>
-              <li><a href="{{ route('keluaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Luaran </a></li>
-              <li><a href="{{ route('pendidikan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Pendidikan</a></li>
-              <li><a href="{{ route('periode.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Periode</a></li>
-              <!--<li><a href="{{ route('prodi.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Prodi</a></li>-->
-              <li><a href="{{ route('program.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Program</a></li>
-              <li><a href="{{ route('rumpun.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Rumpun Ilmu</a></li>
-              <li><a href="{{ route('skema.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Skema</a></li>
-              <li><a href="{{ route('struktural.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Struktural</a></li>
-              <li><a href="{{ route('tema.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Tema</a></li>
-              <li><a href="{{ route('topik.index') }}"><i class="fa fa-circle-thin text-blue"></i>Aministrasi Topik</a></li>
-
-            </ul>
-          </li>
-        <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit(); "><i class="fa fa-power-off text-red"></i>Sign out</a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-          </form>
-        </li>
-        @elseif(Auth::user()->level == 4)
-        
-        <li class="treeview">
-          <a href="#"><i class="fa fa-list-ol"></i> <span>Daftar Usulan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('usulandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Daftar Usulan Didanai</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-book"></i> <span>Penilaian</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
- 
-         
-            <li><a href="{{ route('hasilmonev.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Monev Kemajuan</a></li>
-            <li><a href="{{ route('hasilakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian Seminar Hasil</a></li>
-
-           <!-- <li><a href="#"><i class="fa fa-circle-thin text-blue"></i>Tahapan Penilaian</a></li>-->
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-eye"></i> <span>Pemantauan Kegiatan</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('p_rancangan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Rancangan Pelaksanaan</a></li>
-            <li><a href="{{ route('p_catatan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Catatan Harian</a></li>
-            <li><a href="{{ route('p_luarankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Luaran Kemajuan</a></li>
-
-            <li><a href="{{ route('p_laporankemajuan.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Kemajuan</a></li>
-            <li><a href="{{ route('p_laporanakhir.index') }}"><i class="fa fa-circle-thin text-blue"></i>Laporan Akhir</a></li>
-            <li><a href="{{ route('p_anggaran.index') }}"><i class="fa fa-circle-thin text-blue"></i>Penggunaan Anggaran</a></li>
-            <li><a href="{{ route('p_tanggungjawab.index') }}"><i class="fa fa-circle-thin text-blue"></i>Tanggungjawab Belanja</a></li>
-            <li><a href="{{ route('p_berkasseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>Berkas Seminar Hasil</a></li>
-            <li><a href="{{ route('p_hasilpenilaian.index') }}"><i class="fa fa-circle-thin text-blue"></i>Hasil Penilaian</a></li>
-            <li><a href="{{ route('p_skseminar.index') }}"><i class="fa fa-circle-thin text-blue"></i>SK Seminar Hasil</a></li>
-            <li><a href="{{ route('p_pengembaliandana.index') }}"><i class="fa fa-circle-thin text-blue"></i>Pengembalian Dana</a></li>
-          </ul>
-        </li>
-     
-      
-        <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit(); "><i class="fa fa-power-off text-red"></i>Sign out</a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-          </form>
-        </li>
-
-        @endif
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -639,10 +239,10 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      <small> LPPM - Universitas Riau</small>
+      <small> SIMKEUDES - </small>
     </div>
     <!-- Default to the left -->
-    <small><strong>Copyright &copy; 2018 <a href="{{ route('home') }}">Simlitabmas UNRI</a>.</strong> <small>All rights reserved.</small></small>
+    <small><strong>Copyright &copy; 2021 <a href="{{ route('home') }}">SIMKEUDES </a>.</strong> <small>All rights reserved.</small></small>
   </footer>
 
   <div class="control-sidebar-bg"></div>
@@ -683,12 +283,7 @@ desired effect
 
     "use strict";
 
-    function tambahDosen() {
-      window.location = "{{route('p_reviewer.create', '')}}";
-    }
 
-    function gantiPeran(id) {
-      window.location = "{{route('home.destroy',Auth::user()->level)}}";
-    }  </script>
+
 
 @endsection

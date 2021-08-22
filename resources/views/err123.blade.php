@@ -1,34 +1,29 @@
 @extends('layouts.app')
 
 @section('title')
-    666 Error Conditions
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li>Pengabdian</li>
-    <li>Pengusul</li>
-    <li>Proposal</li>
-    <li>666 Error</li>
+    <li>Underconstruction</li>
 @endsection
 
 @section('content')
 
-<!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+ <div class="content-wrapper">
 
     <!-- Main content -->
     <section class="content">
 
       <div class="error-page">
-        <h2 class="headline text-red">666</h2>
+        <h2 class="headline text-red">3R</h2>
 
         <div class="error-content">
-          <h3><i class="fa fa-warning text-red"></i> Oops! Kesalahan pada proposal..</h3>
+          <h2><i class="fa fa-warning text-red"></i> Oops! Website at under Construction</h2>
 
           <p>
-            Kuota kegiatan telah penuh, judul kegiatan yang sama atau terkena pembatasan dari LPPM - Universitas Riau adalah punca halaman kesalahan ini muncul. Anda dapat menggunakan <a href="{{route('home')}}"> tautan ini</a> untuk kembali kehalaman depan..
+            We will work on fixing that right away.
+            Meanwhile, you may <a href="{{ route('home') }}">return to dashboard</a>.
           </p>
 
           
@@ -39,5 +34,5 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
+
 @endsection

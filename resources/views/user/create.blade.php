@@ -1,17 +1,13 @@
 @extends('layouts.app')
 
 @section('title')
-    Profil Umum Peneliti
+    Tambah Data Anggota
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('home') }}">Profil</a></li>
+    <li><a href="{{ route('home') }}"></a></li>
     <li>Perubahan</li>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/0.4.5/sweetalert2.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/1.3.3/sweetalert2.min.js"></script>
-
 @endsection
 
 @section('content')
@@ -22,57 +18,65 @@
         <div class="panel panel-primary">
             <div class="panel-heading"><strong></strong> <div class="pull-right"><strong></strong></div>
             </div>
-            @if($errors->first('success'))
-                <script type="text/javascript">
-                    "use strict";
-                    swal(
-                        'Selamat!',
-                        'Data Berhasil Diperbaharui',
-                        'success'
-                    );
-                </script>
-            @elseif($errors->first('error'))
-                <script type="text/javascript">
-
-                    "use strict";
-                    swal(
-                        'Terjadi Kesalahan!',
-                        'Data Gagal Diperbaharui',
-                        'error'
-                    );
-                </script>
-            @else
-            @endif
+            
             <div class="panel-body">
-                <form role="form" method="POST" enctype="multipart/form-data" action="{{route('profile.destroy',base64_encode(mt_rand(10,99).$user->id))}}">
-                {{ csrf_field() }} {{ method_field('DELETE') }}
+                <form role="form" method="POST" enctype="multipart/form-data" action="{{route('user.store')}}">
+                {{ csrf_field() }} {{ method_field('POST') }}
                 
                 <div class="panel panel-default">
-                    <div class="panel-body"><strong>Profil User - Biodata Pribadi</strong></div>
+                    <div class="panel-body"><strong> Biodata Anggota</strong></div>
             
                     <div class="panel-footer">
-                     
-                        <div class="col col-md-5">
-                            <div class="pull-right image"><img src="{{asset('public/images/'.$user->foto)}}" class="img-thumbnail  img-circle" alt="User Image" style="width:250px; height: 250px;"></div>
-                            
-                        </div>
-                        
-                        <div class="col col-md-7">
-                        <br>
+
                         <div class="form-group">
                             <label class="col-md-3 control-label">Nama</label>
 
                             <div class="col-md-9 input-group input-group-sm">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{$user->nama}}" readonly>
+
+                                <input id="nama" type="text" class="form-control" name="nama" placeholder="Nama" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">NIDN/NIDK</label>
-
+                            <label class="col-md-3 control-label">KTP</label>
                             <div class="col-md-9 input-group input-group-sm">
-                                <input id="nidn" type="text" class="form-control" name="nidn" value="{{$user->nidn}}" readonly>
+                                <input id="ktp" type="text" class="form-control" name="ktp"placeholder="KTP" required>
+
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">KK</label>
+                            <div class="col-md-9 input-group input-group-sm">
+                                <input id="kk" type="text" class="form-control" name="kk"placeholder="KK" required>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Email</label>
+                            <div class="col-md-9 input-group input-group-sm">
+                                <input id="email" type="text" class="form-control" name="email"placeholder="Email" required>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Alamat</label>
+                            <div class="col-md-9 input-group input-group-sm">
+                                <input id="alamat" type="text" class="form-control" name="alamat"placeholder="Alamat" required>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">NIDN/NIDK</label>
+                            <div class="col-md-9 input-group input-group-sm">
+                                <select id="pt" class="form-control" name="pt" required>
+                                    <option value=""> -- Pilih Institusi --</option>
+                                    @foreach($pt as $list)
+                                        <option value="{{$list->id}}" {{$user->idpt == $list->id ? 'selected' : ''}}> {{$list->pt}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
                             <label for="nip" class="col-md-3 control-label">No. Pegawai</label>
@@ -136,34 +140,9 @@
                         <hr>
                         </div>
 
-                        <div class="form-group{{ $errors->has('profil') ? ' has-error' : '' }}">
-                            <label for="profil" class="col-md-2 control-label">Gambar Profil <br><small class="text-red">Max. 512 KB</small></label>
 
-                            <div class="col-md-3 input-group-sm">
-                                 <input type="file" accept="image/png" name="profil" id="profil" class="form-control" style="margin-left: -15px; width: 240px">
 
-                                @if ($errors->has('profil'))
-                                <span class="help-block">
-                                    <code>{{ $errors->first('profil') }}</code>
-                                </span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-11 input-group-sm">
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="pt" class="col-md-2 control-label">Institusi</label>
-
-                            <div class="col-md-10 input-group input-group-sm">
-                                <select id="pt" class="form-control" name="pt" required>
-                                <option value=""> -- Pilih Institusi --</option>
-                                @foreach($pt as $list)
-                                <option value="{{$list->id}}" {{$user->idpt == $list->id ? 'selected' : ''}}> {{$list->pt}}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label for="fk" class="col-md-2 control-label">Fakultas</label>
@@ -327,7 +306,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit">
-                        <span class="fa fa-floppy-o"></span> Update Profil
+                        <span class="fa fa-floppy-o"></span> Simpan Profil
                         </button>
                     </div>
                 </div> 
@@ -335,27 +314,11 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading"><strong>Profil Penelit - Riwayat Penelitian</strong></div>
-            
-            <div class="panel-body">
-
-              -
-            </div> 
-        </div>
-
-         <div class="panel panel-default">
-            <div class="panel-heading"><strong>Profil Peneliti - Riwayat Pengabdian</strong></div>
-            
-            <div class="panel-body">
-
-              -
-            </div> 
-        </div>
+       
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('home')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
+                <a href="{{route('user.index')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a>
             </div>
         </div> 
         

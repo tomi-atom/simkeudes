@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
 @section('title')
-    Identitas Pengusul
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li><a href="{{ route('penelitian.index') }}">Penelitian</a></li>
     <li>Underconstruction</li>
 @endsection
 

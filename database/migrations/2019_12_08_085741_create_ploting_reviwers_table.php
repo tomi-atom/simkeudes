@@ -16,7 +16,7 @@ class CreatePlotingReviwersTable extends Migration
         Schema::create('tb_ploting_reviewer', function (Blueprint $table) {
             $table->increments('id');
             $table->string('prosalid');
-            $table->string('iddosen');
+            $table->string('iduser');
             $table->timestamps();
         });
     }

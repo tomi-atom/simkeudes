@@ -5,19 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-use App\Keanggotaan;
 
-use App\Peneliti;
-use App\Profil;
 use App\User;
 
-use App\Universitas;
-use App\Fakultas;
-use App\Prodi;
-use App\Fungsional;
-use App\Struktural;
-use App\Pendidikan;
-use App\Rumpun;
 
 use Hash;
 use Auth;
@@ -28,20 +18,6 @@ class ProfilController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-    protected function countPersonil()
-    {
-        
-       $personil = Keanggotaan::select('tb_proposal.id', 'anggotaid', 'jenis', 'nama', 'foto', 'tb_keanggota.created_at')
-                        ->leftJoin('tb_penelitian', 'tb_keanggota.idpenelitian', 'tb_penelitian.prosalid')
-                        ->leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                        ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
-                        ->where('tb_keanggota.anggotaid', Auth::user()->id)
-                        ->where('tb_keanggota.setuju', 0)
-                        ->where('tb_penelitian.status', '>', 0)
-                        ->where('tb_proposal.aktif', '1')
-                        ->get();
-        return $personil;
     }
 
     /**
@@ -83,35 +59,13 @@ class ProfilController extends Controller
      */
     public function show($id)
     {
-        $person = ProfilController::countPersonil();
         $temp = base64_decode($id);
-        $iddosen = (Integer)substr($temp, 2, strlen($temp));
+        $iduser = (Integer)substr($temp, 2, strlen($temp));
 
 
-        $dosen = Peneliti::find($iddosen);
-        $profil = Profil::where('iddosen', $iddosen)->where('status', '1')->first();
+        $user = user::find($iduser);
 
-        $pt = Universitas::where('id', '!=', 0)->where('aktif', '1')->orderBy('id','asc')->get();
-        $fk = Fakultas::where('id', '!=', 0)->where('aktif', '1')->orderBy('id','asc')->get();
-        $pd = Prodi::where('id', '!=', 0)->where('aktif', '1')->orderBy('id','asc')->get();
-
-        $fungsi = Fungsional::orderBy('id','asc')->get();
-        $struktur = Struktural::orderBy('id','asc')->get();
-        $pddk = Pendidikan::where('aktif', '1')->orderBy('id','asc')->get();
-
-        $ilmu  = Rumpun::select('ilmu1')->groupBy('ilmu1')->orderBy('id')->get();
-        $ilmu2 = Rumpun::select('ilmu2')
-                            ->groupBy('ilmu2')
-                            //->where('ilmu1',$dosen->rumpun->ilmu1)
-                            ->orderBy('id')
-                            ->get();
-        $ilmu3 = Rumpun::select('id', 'ilmu3')
-                            ->groupBy('ilmu3')
-                           // ->where('ilmu2',$dosen->rumpun->ilmu2)
-                            ->orderBy('id')
-                            ->get();
-
-        return view('profile.show', compact('person', 'dosen', 'profil', 'pt', 'fk', 'pd', 'fungsi', 'struktur', 'pddk', 'ilmu', 'ilmu2', 'ilmu3' ));
+        return view('profile.show', compact('person', 'user', 'profil', 'pt', 'fk', 'pd', 'fungsi', 'struktur', 'pddk', 'ilmu', 'ilmu2', 'ilmu3' ));
     }
 
     /**
@@ -125,12 +79,12 @@ class ProfilController extends Controller
         $person = ProfilController::countPersonil();
 
         $temp = base64_decode($id);
-        $iddosen = (Integer)substr($temp, 2, strlen($temp));
+        $iduser = (Integer)substr($temp, 2, strlen($temp));
 
 
-        $dosen = User::find($iddosen);
+        $user = User::find($iduser);
 
-        return view('profile.edit', compact('person','dosen'));
+        return view('profile.edit', compact('person','user'));
     }
 
     /**
@@ -143,8 +97,8 @@ class ProfilController extends Controller
     public function update(Request $request, $id)
     {
         //$temp = base64_decode($id);
-        //$iddosen = (Integer)substr($temp, 2, strlen($temp));
-        $iddosen = $id;
+        //$iduser = (Integer)substr($temp, 2, strlen($temp));
+        $iduser = $id;
 
         $data = $request->all();
 
@@ -154,13 +108,12 @@ class ProfilController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('profile.edit',$iddosen)
+            return redirect()->route('profile.edit',$iduser)
                         ->withErrors($validator)
                         ->withInput();
         }
 
-        $dosen = User::find($iddosen);
-        $peneliti = Peneliti::select('id','nidn','super')->where('nidn', $dosen->email)->first();
+        $user = User::find($iduser);
 
         if ($request['newpass'] != $request['confirm'])
         {   
@@ -169,24 +122,13 @@ class ProfilController extends Controller
         }
         else if(!empty($request['newpass'])) 
         {
-            //$dosen = User::where('email', $peneliti->nidn)->first();
-            if(Hash::check($request['oldpass'], $dosen->password)) {
-                
-                if ($dosen->email === $peneliti->nidn) {
+            //$user = User::where('email', $user->nidn)->first();
+            if(Hash::check($request['oldpass'], $user->password)) {
 
-                    $dosen->password = bcrypt($request['newpass']);
-                    $dosen->update();
+                $user->password = bcrypt($request['newpass']);
+                $user->update();
 
-                
-                    $peneliti->super = $request['newpass'];
-                    $peneliti->update();
 
-                    return Redirect::route('home')->withInput()->withErrors(array('success' => 'success'));
-                }
-                else
-                {
-                    return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
-                }
             }
             else {
                 $message = 'The old password didn\'t recognize';
@@ -209,7 +151,7 @@ class ProfilController extends Controller
     public function destroy(Request $request, $id)
     {
         $temp = base64_decode($id);
-        $iddosen = (Integer)substr($temp, 2, strlen($temp));
+        $iduser = (Integer)substr($temp, 2, strlen($temp));
 
         $data = $request->all();
 
@@ -223,69 +165,42 @@ class ProfilController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('profile.show', base64_encode(mt_rand(10,99).$iddosen))
+            return redirect()->route('profile.show', base64_encode(mt_rand(10,99).$iduser))
                         ->withErrors($validator)
                         ->withInput();
         }
 
-        $peneliti = Peneliti::find($iddosen);
-        if ($peneliti) 
-        {
-            $user = User::where('email', $peneliti->nidn)->first();
+        if ($request->hasFile('profil')) {
 
-            if($peneliti->nidn === Auth::user()->email) {
-                if ($request->hasFile('profil')) {
+            $file  = $request->file('profil');
+            if ($file->getClientMimeType() !== 'image/png' ) {
+                $message = 'The profil must be a png image';
+                return Redirect::back()->withInput()->withErrors(array('profil' => $message));
+            }
+            else {
+                if ($file->getSize() < 614400) {
+                    $nama_file = "prf-".mt_rand(100,999)."-".$user->id.mt_rand(10,99).".".$file->getClientOriginalExtension();
 
-                    $file  = $request->file('profil');
-                    if ($file->getClientMimeType() !== 'image/png' ) {
-                        $message = 'The profil must be a png image';
-                        return Redirect::back()->withInput()->withErrors(array('profil' => $message));
-                    }
-                    else {
-                        if ($file->getSize() < 614400) {
-                            $nama_file = "prf-".mt_rand(100,999)."-".$peneliti->id.mt_rand(10,99).".".$file->getClientOriginalExtension();
+                    $lokasi = public_path('images');
 
-                            $lokasi = public_path('images');
+                    $file->move($lokasi, $nama_file);
 
-                            $file->move($lokasi, $nama_file);
+                    $user->foto = $nama_file;
 
-                            $peneliti->foto = $nama_file;
-
-                            $user->foto = $nama_file;
-                            $user->update();
-                        }
-                        else {
-                            $message = 'The image may not be greater than 512 kilobytes.';
-                            return Redirect::back()->withInput()->withErrors(array('profil' => $message));
-                        }
-                    }
-
+                    $user->update();
                 }
-
-                
-                $peneliti->idpt = $request['pt'];
-                $peneliti->nip = $request['nip'];
-                $peneliti->hindex = $request['hindex'];
-                $peneliti->idfakultas = $request['fk'];
-                $peneliti->idprodi    = $request['prodi'];
-                $peneliti->pakar      = $request['pakar'];
-                $peneliti->rumpunilmu = $request['ilmu3'];
-                $peneliti->email      = $request['email'];
-                $peneliti->struktur = $request['struktur'];
-                $peneliti->fungsi = $request['fungsi'];
-                $peneliti->idpddk = $request['pddk'];
-
-                $peneliti->update();
-                return Redirect::back()->withInput()->withErrors(array('success' => 'success'));
+                else {
+                    $message = 'The image may not be greater than 512 kilobytes.';
+                    return Redirect::back()->withInput()->withErrors(array('profil' => $message));
+                }
             }
-            else
-            {
-                return Redirect::back()->withInput()->withErrors(array('error' => 'error'));
-            }
-        }
-        else
-        {
 
         }
+
+
+        $user->email      = $request['email'];
+
+        $user->update();
+        return Redirect::back()->withInput()->withErrors(array('success' => 'success'));
     }
 }

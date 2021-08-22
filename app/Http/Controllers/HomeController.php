@@ -21,19 +21,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
-    protected function countPersonil()
-    {
-        $personil = Keanggotaan::select('tb_proposal.id', 'anggotaid', 'jenis', 'nama', 'foto', 'tb_keanggota.created_at')
-                        ->leftJoin('tb_penelitian', 'tb_keanggota.idpenelitian', 'tb_penelitian.prosalid')
-                        ->leftJoin('tb_proposal', 'tb_penelitian.prosalid', 'tb_proposal.id')
-                        ->leftJoin('tb_peneliti', 'tb_penelitian.ketuaid', 'tb_peneliti.id')
-                        ->where('tb_keanggota.anggotaid', Auth::user()->id)
-                        ->where('tb_keanggota.setuju', 0)
-                        ->where('tb_penelitian.status', '>', 0)
-                        //->where('tb_proposal.aktif', '1')
-                        ->get();
-        return $personil;
-    }
+
     /**
      * Create a new controller instance.
      *
@@ -51,32 +39,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $person = HomeController::countPersonil();
-        
-        if (Auth::user()->level == 1)
-            return view('home.dosen', compact('person'));
-        elseif (Auth::user()->level == 2)
-            return view('home.reviewer');
-        elseif (Auth::user()->level == 3)
-            return view('home.admin');
-        elseif (Auth::user()->level == 4)
-            return view('home.operator');
 
-        //return view('home');
+        return view('home.admin');
+
     }
 
     public function show($id)
     {
-        $person = HomeController::countPersonil();
 
-        if (Auth::user()->level == 1)
-            return view('home.dosen', compact('person'));
-        elseif (Auth::user()->level == 2)
-            return view('home.reviewer');
-        elseif (Auth::user()->level == 3)
-            return view('home.admin');
-        elseif (Auth::user()->level == 4)
-            return view('home.operator');
+        return view('home.admin');
 
     }
     public function error() 

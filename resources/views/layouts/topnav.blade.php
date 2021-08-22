@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SIMPPM UNRI</title>
+  <title>SIMKEUDES </title>
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="csrf-token" content="'{{ csrf_token() }}">
@@ -88,7 +88,7 @@ desired effect
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="{{ route('home') }}"class="navbar-brand"><b>SIMPPM</b>UNRI</a>
+          <a href="{{ route('home') }}"class="navbar-brand"><b>SIMKEUDES</b></a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -254,10 +254,10 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      <small> LPPM - Universitas Riau</small>
+      <small> SIMKEUDES - </small>
     </div>
     <!-- Default to the left -->
-    <small><strong>Copyright &copy; 2021 <a href="{{ route('home') }}">SIMPPM UNRI</a>.</strong> <small>All rights reserved.</small></small>
+    <small><strong>Copyright &copy; 2021 <a href="{{ route('home') }}">SIMKEUDES </a>.</strong> <small>All rights reserved.</small></small>
   </footer>
 </div>
 <!-- ./wrapper -->

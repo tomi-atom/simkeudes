@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>SIMPPM-UNRI | Log in</title>
+  <title>SIMKEUDES- | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -41,7 +41,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>SIMPPM</b>UNRI</a>
+    <a href="#"><b>SIMKEUDES</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -51,7 +51,7 @@
     {{ csrf_field() }}
 
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="NIDN / NIDK" name="email" value="{{ old('email') }}" required autofocus>
+        <input type="text" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -61,9 +61,7 @@
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
-            <label>
-              <input type="checkbox" {{ old('remember') ? 'checked' : '' }}> Remember Me
-            </label>
+          
           </div>
         </div>
         <!-- /.col -->
@@ -73,9 +71,6 @@
         <!-- /.col -->
       </div>
     </form>
-
-   <!-- <a href="#">I forgot my password</a><br> -->
-    <a href="{{ route('grafik') }}" class="text-center">Grafik Penelitian dan Pengabdian</a>
 
   </div>
   <!-- /.login-box-body -->

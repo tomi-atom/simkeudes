@@ -15,7 +15,7 @@ class CreateReviewersTable extends Migration
     {
         Schema::create('tb_reviewer', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('iddosen');
+            $table->string('iduser');
             $table->string('nidn');
             $table->string('periode');
             $table->string('jenis');

@@ -20,16 +20,16 @@
             </div>
             
             <div class="panel-body">
-                <form role="form" method="POST" action="{{route('profile.update',$user->id)}}">
-                {{ csrf_field() }} {{ method_field('PATCH') }}
+                <form role="form" method="POST" action="{{route('dosen.reset',base64_encode(mt_rand(10,99).$dosen->id))}}">
+                {{ csrf_field() }} {{ method_field('GET') }}
                 
                 <div class="panel panel-default">
-                    <div class="panel-body"><strong>Profil User - Autentikasi Akun</strong></div>
+                    <div class="panel-body"><strong>Profil Dosen - Autentikasi Akun</strong></div>
             
                     <div class="panel-footer">
                      
                         <div class="col col-md-4">
-                            <div class="pull-right image"><img src="{{asset('public/images/'.$user->foto)}}" class="img-thumbnail  img-circle" alt="User Image" style="width:250px; height: 250px;"></div>
+                            <div class="pull-right image"><img src="{{asset('public/images/'.$dosen->foto)}}" class="img-thumbnail  img-circle" alt="User Image" style="width:250px; height: 250px;"></div>
                             
                         </div>
                         <br>
@@ -39,7 +39,7 @@
                             <label class="col-md-3 control-label">Nama</label>
 
                             <div class="col-md-7 input-group input-group-sm">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{$user->name}}" readonly>
+                                <input id="nama" type="text" class="form-control" name="nama" value="{{$dosen->name}}" readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -47,30 +47,14 @@
                             <label class="col-md-3 control-label">Username</label>
 
                             <div class="col-md-7 input-group input-group-sm">
-                                <input id="nidn" type="text" class="form-control" name="nidn" value="{{$user->email}}" readonly>
+                                <input id="nidn" type="text" class="form-control" name="nidn" value="{{$dosen->email}}" readonly>
                             </div>
                         </div>
                         <hr>
-                        <div class="form-group{{ $errors->has('oldpass') ? ' has-error' : '' }}">
-                            <label class="col-md-1"></label>
-                            <label for="oldpass" class="col-md-3 control-label">Password Lama</label>
-
-                            <div class="form-group">
-                                <div class="col-md-7 input-group input-group-sm">
-                                    <input type="password" class="form-control" placeholder="Tulis password lama" name="oldpass" id="oldpass"  required autofocus>
-                                    
-                                    @if ($errors->has('oldpass'))
-                                    <span class="help-block">
-                                        <code>{{ $errors->first('oldpass') }}</code>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
+                       
                         <div class="form-group{{ $errors->has('newpass') ? ' has-error' : '' }}">
                             <label class="col-md-1"></label>
-                            <label for="newpass" class="col-md-3 control-label">Password Baru</label>
+                            <label for="newpass" class="col-md-3 control-label">Password </label>
 
                             <div class="form-group">
                                 <div class="col-md-7 input-group input-group-sm">
@@ -110,7 +94,7 @@
                 </div> 
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{route('home')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a> 
+                        <a href="{{route('dosen.index')}}" class="btn btn-default pull-left" name="awal" id="awal"><span class="fa fa-reply fa-fw"></span> Kembali</a> 
                         <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit">
                         <span class="fa fa-floppy-o"></span> Update Password
                         </button>
